@@ -1,0 +1,56 @@
+import { CollectionConfig } from 'payload'
+
+export const Tours: CollectionConfig = {
+  slug: 'tours',
+  admin: { useAsTitle: 'name' },
+  fields: [
+    { name: 'name', type: 'text', required: true, label: 'Назва туру' },
+    {
+      name: 'category',
+      type: 'select',
+      options: [
+        { label: 'Холодні країни', value: 'Холодні країни' },
+        { label: 'Острови', value: 'Острови' },
+        { label: 'Спекотні країни', value: 'Спекотні країни' },
+        { label: 'Екстремальні тури', value: 'Екстремальні тури' },
+        { label: 'Нейтральний клімат', value: 'Нейтральний клімат' },
+        { label: 'Трейлери', value: 'Трейлери' },
+        { label: 'Дика природа', value: 'Дика природа' },
+        { label: 'Круїз', value: 'Круїз' },
+      ],
+      label: 'Категорія',
+      required: true,
+    },
+    { name: 'location', type: 'text', required: true, label: 'Напрямок (Країна/Регіон)' },
+    {
+      name: 'month',
+      type: 'select',
+      options: [
+        { label: 'Січень', value: 'Січ' },
+        { label: 'Лютий', value: 'Лют' },
+        { label: 'Березень', value: 'Бер' },
+        { label: 'Квітень', value: 'Кві' },
+        { label: 'Травень', value: 'Тра' },
+        { label: 'Червень', value: 'Чер' },
+        { label: 'Липень', value: 'Лип' },
+        { label: 'Серпень', value: 'Сер' },
+        { label: 'Вересень', value: 'Вер' },
+        { label: 'Жовтень', value: 'Жов' },
+        { label: 'Листопад', value: 'Лис' },
+        { label: 'Грудень', value: 'Гру' },
+      ],
+      label: 'Місяць',
+    },
+    { name: 'price', type: 'number', required: true, label: 'Ціна (€)' },
+    { name: 'duration', type: 'text', label: 'Тривалість' },
+    { name: 'groupSize', type: 'text', label: 'Розмір групи' },
+    { name: 'description', type: 'textarea', label: 'Опис' },
+    {
+      name: 'mainImage',
+      type: 'upload',
+      relationTo: 'media',
+      required: true,
+      label: 'Головне фото',
+    },
+  ],
+}

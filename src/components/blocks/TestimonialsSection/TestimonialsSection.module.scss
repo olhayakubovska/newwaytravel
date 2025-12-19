@@ -1,0 +1,155 @@
+.section {
+  background-color: #ffffff;
+  padding: 5rem 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: #6b7280;
+  }
+}
+
+.sliderWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.sliderTrack {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  flex-shrink: 0;
+  width: 100%;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  background-color: #f3f4f6;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 36rem;
+  width: 100%;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  img {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  p {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+}
+
+.rating {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+
+  .star {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #f97316;
+  }
+}
+
+.text {
+  font-size: 1rem;
+  line-height: 1.75rem;
+  color: #1f2937;
+}
+
+.readMore {
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #3b82f6;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  z-index: 10;
+
+  &:hover {
+    background-color: #e5e7eb;
+  }
+
+  &.prev {
+    left: 0.5rem;
+  }
+
+  &.next {
+    right: 0.5rem;
+  }
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: #1e3a8a;
+  transition: all 0.3s;
+
+  &.active {
+    width: 2rem;
+  }
+}

@@ -1,0 +1,108 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); // Темна підкладка
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px); // Розмиття заднього фону
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  padding: 40px 60px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(200, 210, 220, 0.9) 100%);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: #1a2b3c; // Темно-синій текст
+}
+
+.closeBtn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #3a75a9;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: none;
+}
+
+.tourName {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  line-height: 1.4;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  input {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    color: #555;
+    outline: none;
+
+    &::placeholder {
+      color: #999;
+    }
+
+    &:focus {
+      border-color: #3a75a9;
+    }
+  }
+}
+
+.submitBtn {
+  margin-top: 10px;
+  padding: 16px;
+  background: #051d33; // Дуже темний синій
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background: #0a2d4d;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.success {
+  padding: 40px 0;
+  h2 { color: #051d33; }
+}

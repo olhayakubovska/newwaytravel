@@ -1,0 +1,131 @@
+
+.section {
+  background-color: #f3f4f6; // secondary
+  padding: 5rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-size: 2.25rem; // 4xl
+  font-weight: 700;
+  color: #1f2937; // navy
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+
+  @media(min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  cursor: pointer;
+
+  &:hover .thumbnail {
+    transform: scale(1.1);
+  }
+
+  &:hover .overlay {
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  &:hover .playButton {
+    transform: scale(1.1);
+  }
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
+  transition: transform 0.5s ease;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0,0,0,0.4);
+  transition: background-color 0.3s ease;
+}
+
+.playWrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.playButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.9);
+  transition: transform 0.3s ease;
+}
+
+.playIcon {
+  width: 2rem;
+  height: 2rem;
+  color: #1f2937; // navy
+}
+
+
+.modal {
+  position: fixed;
+  inset: 0; // top:0 right:0 bottom:0 left:0
+  background-color: rgba(0, 0, 0, 0.85);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 10000;
+}
+
+.videoPlayer {
+  width: 100%;
+  max-width: 480px;
+  max-height: 70vh;
+
+  border-radius: 16px;
+  background: black;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.closeIcon {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+
+  cursor: pointer;
+  z-index: 10001;
+
+  transition: transform 0.2s ease, opacity 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
