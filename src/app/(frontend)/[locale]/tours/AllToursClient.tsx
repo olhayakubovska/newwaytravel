@@ -6,53 +6,43 @@
 // import { TourCard } from '@/components/blocks/TourCard/TourCard'
 // import styles from './AllToursPage.module.scss'
 
+// const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4000'
+
 // interface Tour {
 //   id: string
-//   name: string
-//   location: string
+//   name: any
+//   location: any
 //   month: string
-//   category: string
-//   duration: string
-//   groupSize: string
-//   price: string
-//   description: string
+//   category: any // Изменено на any, так как это может быть локализованная строка
+//   duration: any
+//   groupSize: any
+//   price: number
+//   description: any
 //   mainImage?: { url: string } | null
 // }
 
-// // Словари для перевода технических значений Select-полей, так как они localized: false
-// const CATEGORY_LABELS: Record<string, string> = {
-//   'cold-countries': 'Холодні країни',
-//   islands: 'Острови',
-//   'hot-countries': 'Спекотні країни',
-//   extreme: 'Екстремальні тури',
-//   neutral: 'Нейтральний клімат',
-//   trailers: 'Трейлери',
-//   wildlife: 'Дика природа',
-//   cruise: 'Круїз',
+// interface FilterOption {
+//   label: string
+//   value: string
 // }
 
-// const MONTH_LABELS: Record<string, string> = {
-//   jan: 'Січень',
-//   feb: 'Лютий',
-//   mar: 'Березень',
-//   apr: 'Квітень',
-//   may: 'Травень',
-//   jun: 'Червень',
-//   jul: 'Липень',
-//   aug: 'Серпень',
-//   sep: 'Вересень',
-//   oct: 'Жовтень',
-//   nov: 'Листопад',
-//   dec: 'Грудень',
+// interface AllToursContentProps {
+//   initialTours: Tour[]
+//   adminCategories?: FilterOption[]
+//   adminMonths?: FilterOption[]
 // }
 
-// function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
+// function AllToursContent({
+//   initialTours = [],
+//   adminCategories = [],
+//   adminMonths = [],
+// }: AllToursContentProps) {
 //   const [filteredTours, setFilteredTours] = useState<Tour[]>(initialTours)
 //   const searchParams = useSearchParams()
 //   const params = useParams()
-//   const locale = (params?.locale as string) || 'uk'
+//   const locale = (params?.locale as 'uk' | 'en') || 'uk'
 
-//   // Хелпер для извлечения строки из локализованных полей (Name, Location)
+//   // Универсальная функция для получения текста на нужном языке
 //   const resolveField = (field: any) => {
 //     if (field && typeof field === 'object') {
 //       return field[locale] || field['uk'] || field['en'] || ''
@@ -60,39 +50,41 @@
 //     return String(field || '')
 //   }
 
-//   // 1. ДИНАМИЧЕСКИЕ ОПЦИИ (Берем только те, что есть в текущих турах)
+//   // 1. КАТЕГОРИИ: Собираем уникальные значения прямо из туров
 //   const categories = useMemo(() => {
-//     return Array.from(new Set(initialTours.map((t) => t.category)))
-//       .filter(Boolean)
-//       .map((val) => ({
-//         label: CATEGORY_LABELS[val] || val, // Берем из словаря или оставляем как есть
-//         value: val,
-//       }))
-//   }, [initialTours])
-
-//   console.log(categories, 'categories')
-
-//   const destinations = useMemo(() => {
-//     return Array.from(new Set(initialTours.map((t) => resolveField(t.location))))
-//       .filter(Boolean)
-//       .map((d) => ({ label: d, value: d }))
+//     const uniqueCats = new Set<string>()
+//     initialTours.forEach((t) => {
+//       const catText = resolveField(t.category)
+//       if (catText) uniqueCats.add(catText)
+//     })
+//     return Array.from(uniqueCats).map((cat) => ({
+//       label: cat,
+//       value: cat,
+//     }))
 //   }, [initialTours, locale])
 
-//   const months = useMemo(() => {
-//     return Array.from(new Set(initialTours.map((t) => t.month)))
-//       .filter(Boolean)
-//       .map((val) => ({
-//         label: MONTH_LABELS[val] || val,
-//         value: val,
-//       }))
-//   }, [initialTours])
+//   // 2. НАПРАВЛЕНИЯ: Собираем уникальные значения прямо из локаций туров
+//   const destinations = useMemo(() => {
+//     const uniqueLocs = new Set<string>()
+//     initialTours.forEach((t) => {
+//       const locText = resolveField(t.location)
+//       if (locText) uniqueLocs.add(locText)
+//     })
+//     return Array.from(uniqueLocs).map((loc) => ({
+//       label: loc,
+//       value: loc,
+//     }))
+//   }, [initialTours, locale])
 
-//   // 2. ФУНКЦИЯ ФИЛЬТРАЦИИ
+//   // 3. МЕСЯЦЫ: Берем из админки (SearchBarConfig), так как они обычно статичны
+//   const months = useMemo(() => adminMonths, [adminMonths])
+
+//   // Логика фильтрации
 //   const handleFilterChange = (filters: TourFilters) => {
 //     let result = [...initialTours]
 
 //     if (filters.category) {
-//       result = result.filter((t) => t.category === filters.category)
+//       result = result.filter((t) => resolveField(t.category) === filters.category)
 //     }
 //     if (filters.destination) {
 //       result = result.filter((t) => resolveField(t.location) === filters.destination)
@@ -104,7 +96,7 @@
 //     setFilteredTours(result)
 //   }
 
-//   // 3. СИНХРОНИЗАЦИЯ С URL (например, при переходе с главной)
+//   // Синхронизация с URL (если перешли с главной)
 //   useEffect(() => {
 //     const category = searchParams.get('category')
 //     const destination = searchParams.get('destination')
@@ -124,27 +116,34 @@
 //   return (
 //     <div className={styles.pageContainer}>
 //       <SearchBar
-//         categories={categories}
-//         destinations={destinations}
-//         months={months}
+//         searchData={{
+//           categories,
+//           destinations,
+//           months,
+//         }}
 //         onChange={handleFilterChange}
 //       />
 
-//       <div className={styles.tourList}>
+//       <div className={styles.tourGrid}>
 //         {filteredTours.length > 0 ? (
-//           filteredTours.map((tour) => (
-//             <TourCard
-//               key={tour.id}
-//               id={tour.id}
-//               image={tour.mainImage?.url || ''}
-//               title={resolveField(tour.name)}
-//               destination={resolveField(tour.location)}
-//               duration={resolveField(tour.duration)}
-//               groupSize={resolveField(tour.groupSize)}
-//               price={tour.price ? `${tour.price}€` : 'Ціна за запитом'}
-//               alt={resolveField(tour.name)}
-//             />
-//           ))
+//           filteredTours.map((tour) => {
+//             const imageUrl = tour.mainImage?.url
+//               ? `${SERVER_URL}${tour.mainImage.url}`
+//               : '/placeholder-tour.jpg'
+//             return (
+//               <TourCard
+//                 key={tour.id}
+//                 id={tour.id}
+//                 image={imageUrl}
+//                 title={resolveField(tour.name)}
+//                 destination={resolveField(tour.location)}
+//                 duration={resolveField(tour.duration)}
+//                 groupSize={resolveField(tour.groupSize)}
+//                 price={tour.price ? `${tour.price}€` : 'Ціна за запитом'}
+//                 alt={resolveField(tour.name)}
+//               />
+//             )
+//           })
 //         ) : (
 //           <div className={styles.noResults}>
 //             <h3>Турів не знайдено</h3>
@@ -156,10 +155,20 @@
 //   )
 // }
 
-// export default function AllToursClient({ initialTours }: { initialTours: Tour[] }) {
+// export default function AllToursClient({
+//   initialTours,
+//   searchConfig,
+// }: {
+//   initialTours: Tour[]
+//   searchConfig?: any
+// }) {
 //   return (
-//     <Suspense fallback={<div>Завантаження...</div>}>
-//       <AllToursContent initialTours={initialTours} />
+//     <Suspense fallback={<div className={styles.loader}>Завантаження...</div>}>
+//       <AllToursContent
+//         initialTours={initialTours}
+//         adminCategories={searchConfig?.categories}
+//         adminMonths={searchConfig?.months}
+//       />
 //     </Suspense>
 //   )
 // }
@@ -171,44 +180,51 @@ import { SearchBar, TourFilters } from '@/components/blocks/SearchBar/SearchBar'
 import { TourCard } from '@/components/blocks/TourCard/TourCard'
 import styles from './AllToursPage.module.scss'
 
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4000'
+
+// --- КОНСТАНТА МЕСЯЦЕВ ---
+const HARDCODED_MONTHS = {
+  uk: [
+    { label: 'Січень', value: '01' },
+    { label: 'Лютий', value: '02' },
+    { label: 'Березень', value: '03' },
+    { label: 'Квітень', value: '04' },
+    { label: 'Травень', value: '05' },
+    { label: 'Червень', value: '06' },
+    { label: 'Липень', value: '07' },
+    { label: 'Серпень', value: '08' },
+    { label: 'Вересень', value: '09' },
+    { label: 'Жовтень', value: '10' },
+    { label: 'Листопад', value: '11' },
+    { label: 'Грудень', value: '12' },
+  ],
+  en: [
+    { label: 'January', value: '01' },
+    { label: 'February', value: '02' },
+    { label: 'March', value: '03' },
+    { label: 'April', value: '04' },
+    { label: 'May', value: '05' },
+    { label: 'June', value: '06' },
+    { label: 'July', value: '07' },
+    { label: 'August', value: '08' },
+    { label: 'September', value: '09' },
+    { label: 'October', value: '10' },
+    { label: 'November', value: '11' },
+    { label: 'December', value: '12' },
+  ],
+}
+
 interface Tour {
   id: string
-  name: string
-  location: string
+  name: any
+  location: any
   month: string
-  category: string
-  duration: string
-  groupSize: string
-  price: string
-  description: string
+  category: any
+  duration: any
+  groupSize: any
+  price: number
+  description: any
   mainImage?: { url: string } | null
-}
-
-// 1. Копируем словари с поддержкой языков (как на главной)
-const CATEGORY_LABELS: Record<string, { uk: string; en: string }> = {
-  coldСountries: { uk: 'Холодні країни', en: 'Cold countries' },
-  islands: { uk: 'Острови', en: 'Islands' },
-  hotСountries: { uk: 'Спекотні країни', en: 'Hot countries' },
-  extreme: { uk: 'Екстремальні тури', en: 'Extreme tours' },
-  neutral: { uk: 'Нейтральний клімат', en: 'Neutral climate' },
-  trailers: { uk: 'Трейлери', en: 'Trailers' },
-  wildlife: { uk: 'Дика природа', en: 'Wildlife' },
-  cruise: { uk: 'Круїз', en: 'Cruise' },
-}
-
-const MONTH_LABELS: Record<string, { uk: string; en: string }> = {
-  jan: { uk: 'Січень', en: 'January' },
-  feb: { uk: 'Лютий', en: 'February' },
-  mar: { uk: 'Березень', en: 'March' },
-  apr: { uk: 'Квітень', en: 'April' },
-  may: { uk: 'Травень', en: 'May' },
-  jun: { uk: 'Червень', en: 'June' },
-  jul: { uk: 'Липень', en: 'July' },
-  aug: { uk: 'Серпень', en: 'August' },
-  sep: { uk: 'Вересень', en: 'September' },
-  oct: { uk: 'Жовтень', en: 'October' },
-  nov: { uk: 'Листопад', en: 'November' },
-  dec: { uk: 'Грудень', en: 'December' },
 }
 
 function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
@@ -224,38 +240,46 @@ function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
     return String(field || '')
   }
 
-  // 2. Генерируем ВСЕ категории из словаря (независимо от наличия туров)
-  const categories = useMemo(() => {
-    return Object.entries(CATEGORY_LABELS).map(([value, labels]) => ({
-      label: labels[locale] || labels.uk,
-      value: value,
-    }))
-  }, [locale])
+  console.log(initialTours, 'initialTours')
 
-  // 3. Направления оставляем динамическими (только те, где реально есть туры)
-  const destinations = useMemo(() => {
-    return Array.from(new Set(initialTours.map((t) => resolveField(t.location))))
-      .filter(Boolean)
-      .map((d) => ({ label: d, value: d }))
+  // 1. КАТЕГОРИИ (Динамика из туров)
+  const categories = useMemo(() => {
+    const uniqueCats = new Set<string>()
+    initialTours.forEach((t) => {
+      // resolveField выберет нужный язык (UA или EN) из объекта, который прислал Payload
+      const catText = resolveField(t.category)
+      if (catText) uniqueCats.add(catText)
+    })
+
+    return Array.from(uniqueCats).map((cat) => ({
+      label: cat, // Отобразится "Спекотні країни" или "Hot countries"
+      value: cat,
+    }))
   }, [initialTours, locale])
 
-  // 4. Генерируем ВСЕ 12 месяцев из словаря
-  const months = useMemo(() => {
-    return Object.entries(MONTH_LABELS).map(([value, labels]) => ({
-      label: labels[locale] || labels.uk,
-      value: value,
-    }))
-  }, [locale])
+  // 2. НАПРАВЛЕНИЯ (Динамика из туров)
+  const destinations = useMemo(() => {
+    const uniqueLocs = new Set<string>()
+    initialTours.forEach((t) => {
+      const locText = resolveField(t.location)
+      if (locText) uniqueLocs.add(locText)
+    })
+    return Array.from(uniqueLocs).map((loc) => ({ label: loc, value: loc }))
+  }, [initialTours, locale])
+
+  // 3. МЕСЯЦЫ (Хардкод)
+  const months = useMemo(() => HARDCODED_MONTHS[locale], [locale])
 
   const handleFilterChange = (filters: TourFilters) => {
     let result = [...initialTours]
     if (filters.category) {
-      result = result.filter((t) => t.category === filters.category)
+      result = result.filter((t) => resolveField(t.category) === filters.category)
     }
     if (filters.destination) {
       result = result.filter((t) => resolveField(t.location) === filters.destination)
     }
     if (filters.month) {
+      // Предполагаем, что в туре месяц хранится как значение '01', '02' и т.д.
       result = result.filter((t) => t.month === filters.month)
     }
     setFilteredTours(result)
@@ -265,7 +289,6 @@ function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
     const category = searchParams.get('category')
     const destination = searchParams.get('destination')
     const month = searchParams.get('month')
-
     if (category || destination || month) {
       handleFilterChange({
         category: category || undefined,
@@ -279,32 +302,30 @@ function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
 
   return (
     <div className={styles.pageContainer}>
-      <SearchBar
-        categories={categories}
-        destinations={destinations}
-        months={months}
-        onChange={handleFilterChange}
-      />
-
-      <div className={styles.tourList}>
+      <SearchBar searchData={{ categories, destinations, months }} onChange={handleFilterChange} />
+      <div className={styles.tourGrid}>
         {filteredTours.length > 0 ? (
-          filteredTours.map((tour) => (
-            <TourCard
-              key={tour.id}
-              id={tour.id}
-              image={tour.mainImage?.url || ''}
-              title={resolveField(tour.name)}
-              destination={resolveField(tour.location)}
-              duration={resolveField(tour.duration)}
-              groupSize={resolveField(tour.groupSize)}
-              price={tour.price ? `${tour.price}€` : 'Ціна за запитом'}
-              alt={resolveField(tour.name)}
-            />
-          ))
+          filteredTours.map((tour) => {
+            const imageUrl = tour.mainImage?.url
+              ? `${SERVER_URL}${tour.mainImage.url}`
+              : '/placeholder-tour.jpg'
+            return (
+              <TourCard
+                key={tour.id}
+                id={tour.id}
+                image={imageUrl}
+                title={resolveField(tour.name)}
+                destination={resolveField(tour.location)}
+                duration={resolveField(tour.duration)}
+                groupSize={resolveField(tour.groupSize)}
+                price={tour.price ? `${tour.price}€` : 'Ціна за запитом'}
+                alt={resolveField(tour.name)}
+              />
+            )
+          })
         ) : (
           <div className={styles.noResults}>
             <h3>Турів не знайдено</h3>
-            <p>Спробуйте змінити параметри пошуку</p>
           </div>
         )}
       </div>

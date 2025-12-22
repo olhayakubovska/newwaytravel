@@ -96,11 +96,13 @@ export interface Config {
     footer: Footer;
     header: Header;
     searchBar: SearchBar;
+    about: About;
   };
   globalsSelect: {
     footer: FooterSelect<false> | FooterSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
     searchBar: SearchBarSelect<false> | SearchBarSelect<true>;
+    about: AboutSelect<false> | AboutSelect<true>;
   };
   locale: 'uk' | 'en';
   user: User & {
@@ -258,12 +260,12 @@ export interface Tour {
    * Технічне имя для URL (наприклад: carpathian-tour)
    */
   slug: string;
-  category: 'cold-countries' | 'islands' | 'hot-countries' | 'extreme' | 'neutral' | 'trailers' | 'wildlife' | 'cruise';
+  /**
+   * Введіть назву категорії (наприклад: Експедиція, Релакс і т.д.)
+   */
+  category: string;
   location: string;
   month?: ('jan' | 'feb' | 'mar' | 'apr' | 'may' | 'jun' | 'jul' | 'aug' | 'sep' | 'oct' | 'nov' | 'dec') | null;
-  /**
-   * Вкажіть числове значение ціни
-   */
   price: number;
   duration?: string | null;
   groupSize?: string | null;
@@ -631,6 +633,45 @@ export interface SearchBar {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about".
+ */
+export interface About {
+  id: string;
+  title: string;
+  historyTitle?: string | null;
+  historyContent?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  features?:
+    | {
+        label?: string | null;
+        value?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  mainImages?:
+    | {
+        image?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
@@ -691,6 +732,31 @@ export interface SearchBarSelect<T extends boolean = true> {
     | {
         label?: T;
         value?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about_select".
+ */
+export interface AboutSelect<T extends boolean = true> {
+  title?: T;
+  historyTitle?: T;
+  historyContent?: T;
+  features?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  mainImages?:
+    | T
+    | {
+        image?: T;
         id?: T;
       };
   updatedAt?: T;

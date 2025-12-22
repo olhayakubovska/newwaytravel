@@ -4,7 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import styles from './Header.module.scss'
-import { Globe, MessageCircle, Facebook, Youtube, Instagram } from 'lucide-react'
+import { Globe, MessageCircle, Facebook, Youtube, Instagram, Send } from 'lucide-react' // Добавил Send для иконки Telegram
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,10 +28,8 @@ export const Header = ({ logoText, navItems, locale }: HeaderProps) => {
   const router = useRouter()
   const pathname = usePathname()
 
-  // Универсальная функция для извлечения строки из данных Payload
   const getText = (field: any): string => {
     if (typeof field === 'object' && field !== null) {
-      // Если пришел объект локализации { uk: '...', en: '...' }
       return field[locale] || field['uk'] || field['en'] || ''
     }
     return typeof field === 'string' ? field : ''
@@ -39,28 +37,51 @@ export const Header = ({ logoText, navItems, locale }: HeaderProps) => {
 
   const changeLanguage = (newLocale: string) => {
     if (newLocale === locale) return
-
-    // Заменяем сегмент локали в URL
     const segments = pathname.split('/')
     segments[1] = newLocale
     router.push(segments.join('/'))
   }
 
-  const navigation = navItems || []
+  // 1. Создаем стандартные пункты меню с поддержкой перевода
+  const defaultNavItems = [
+    {
+      label: { uk: 'ГОЛОВНА', en: 'HOME' },
+      link: '/',
+    },
+    {
+      label: { uk: 'КАЛЕНДАР ТУРІВ', en: 'TOUR CALENDAR' },
+      link: '/tours',
+    },
+    {
+      label: { uk: 'ПРО НАС', en: 'ABOUT US' },
+      link: '/about',
+    },
+  ]
+
+  // 2. Объединяем стандартные пункты с теми, что приходят из пропсов (если они есть)
+  const navigation = navItems && navItems.length > 0 ? navItems : defaultNavItems
 
   return (
     <header className={styles.header}>
       <div className={styles.container}>
+        {/* Соцсети слева как на скриншоте */}
+        <div className={styles.socialsLeft}>
+          <Facebook className={styles.icon} />
+          <Youtube className={styles.icon} />
+          <Send className={styles.icon} /> {/* Иконка Telegram */}
+          <Instagram className={styles.icon} />
+        </div>
+
         {/* Логотип */}
         <Link href={`/${locale}`} className={styles.logo}>
           {getText(logoText) || 'NEW WAY'}
         </Link>
 
-        {/* Навигация */}
+        {/* Навигация центральная */}
         <nav className={styles.nav}>
-          {navigation.map((item: any) => (
+          {navigation.map((item: any, idx: number) => (
             <Link
-              key={item.id || item.link}
+              key={item.id || `nav-${idx}`}
               href={`/${locale}${item.link.startsWith('/') ? item.link : '/' + item.link}`}
               className={styles.navLink}
             >
@@ -69,57 +90,40 @@ export const Header = ({ logoText, navItems, locale }: HeaderProps) => {
           ))}
         </nav>
 
-        {/* Блок действий */}
+        {/* Блок действий справа */}
         <div className={styles.actions}>
-          {/* Выбор языка */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className={styles.localeButton}>
-                <Globe className={styles.icon} />
-                <span className={styles.localeText}>{locale.toUpperCase()}</span>
-              </button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent
-              className={styles.dropdownContent}
-              align="end"
-              style={{
-                background: 'white',
-                padding: '8px',
-                borderRadius: '8px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                zIndex: 100,
-              }}
-            >
-              <DropdownMenuItem
-                style={{ cursor: 'pointer', padding: '8px', outline: 'none' }}
-                onClick={() => changeLanguage('uk')}
-              >
-                Українська
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                style={{ cursor: 'pointer', padding: '8px', outline: 'none' }}
-                onClick={() => changeLanguage('en')}
-              >
-                English
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
           {/* Кнопка чата */}
           <button className={styles.chatButton}>
             <MessageCircle className={styles.icon} />
             <span className={styles.chatText}>
-              {locale === 'en' ? 'Online Chat' : 'Онлайн чат'}
+              {locale === 'en' ? 'ONLINE CHAT' : 'ОНЛАЙН ЧАТ'}
             </span>
           </button>
 
-          {/* Соцсети */}
-          <div className={styles.socials}>
-            <Facebook className={styles.icon} />
-            <Youtube className={styles.icon} />
-            <Instagram className={styles.icon} />
-          </div>
+          {/* Выбор языка */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className={styles.localeButton}>
+                <span className={styles.localeText}>{locale === 'uk' ? 'Ua' : 'En'}</span>
+                <Globe className={styles.iconSmall} />
+              </button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent className={styles.dropdownContent} align="end">
+              <DropdownMenuItem
+                className={styles.dropdownItem}
+                onClick={() => changeLanguage('uk')}
+              >
+                Ua
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className={styles.dropdownItem}
+                onClick={() => changeLanguage('en')}
+              >
+                En
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

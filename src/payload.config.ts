@@ -13,6 +13,7 @@ import { FooterConfig } from './blocks/Footer'
 import { HeaderConfig } from './blocks/Header'
 import { SearchBarConfig } from './collections/SearchBarConfig'
 import { Orders } from './collections/Orders'
+import { AboutConfig } from './collections/About'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -31,7 +32,7 @@ export default buildConfig({
   },
 
   collections: [Users, Media, Pages, Tours, Orders], // ----------------------->
-  globals: [FooterConfig, HeaderConfig, SearchBarConfig],
+  globals: [FooterConfig, HeaderConfig, SearchBarConfig, AboutConfig],
 
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

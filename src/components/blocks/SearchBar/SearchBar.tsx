@@ -11,39 +11,41 @@ export interface TourFilters {
 }
 
 interface SearchBarProps {
+  // Прямые пропсы (используются на странице /tours)
   categories?: { label: any; value: string }[]
   destinations?: { label: any; value: string }[]
   months?: { label: any; value: string }[]
+  // Пропсы из Payload блоков (используются на главной)
+  searchData?: {
+    categories?: { label: any; value: string }[]
+    destinations?: { label: any; value: string }[]
+    months?: { label: any; value: string }[]
+  }
   onChange?: (filters: TourFilters) => void
 }
 
-export function SearchBar({
-  categories = [],
-  destinations = [],
-  months = [],
-  onChange,
-}: SearchBarProps) {
+export function SearchBar(props: SearchBarProps) {
   const router = useRouter()
   const pathname = usePathname()
   const params = useParams()
-
-  // 1. Определяем текущий язык (по умолчанию uk)
   const locale = (params?.locale as string) || 'uk'
 
-  // 2. ВСТАВЛЕННЫЙ ФРАГМЕНТ: Логика перевода меток
+  // 1. УНИВЕРСАЛЬНОЕ ПОЛУЧЕНИЕ ДАННЫХ
+  // Берем данные либо из searchData (блоки), либо из прямых пропсов (страница туров)
+  const categories = props.searchData?.categories || props.categories || []
+  const destinations = props.searchData?.destinations || props.destinations || []
+  const months = props.searchData?.months || props.months || []
+  const { onChange } = props
+
+  // 2. ЛОГИКА ПЕРЕВОДА (чтобы корректно отображать и объекты и строки)
   const getTranslatedLabel = (label: any) => {
     if (!label) return ''
-
-    // Если Payload вернул объект (локализацию), выбираем текущий язык
     if (typeof label === 'object' && label !== null) {
       return label[locale] || label['uk'] || label['en'] || ''
     }
-
-    // Если Payload вернул просто строку (уже отфильтрованную на сервере)
     return label
   }
 
-  // Тексты интерфейса зависят от локали
   const i18n = {
     categoryPlaceholder: locale === 'en' ? 'Category' : 'Категорія',
     destinationPlaceholder: locale === 'en' ? 'Destination' : 'Напрямок',
@@ -63,19 +65,17 @@ export function SearchBar({
       month: selectedMonth,
     }
 
-    // Путь к странице всех туров с учетом языка
     const baseToursPath = `/${locale}/tours`
 
     if (!pathname.includes('/tours')) {
-      // Если мы на главной, формируем URL и перенаправляем
+      // На главной: переходим на страницу туров с параметрами
       const searchParams = new URLSearchParams()
       if (selectedCategory) searchParams.set('category', selectedCategory)
       if (selectedDestination) searchParams.set('destination', selectedDestination)
       if (selectedMonth) searchParams.set('month', selectedMonth)
-
       router.push(`${baseToursPath}?${searchParams.toString()}`)
     } else {
-      // Если мы уже на странице туров, просто вызываем фильтрацию
+      // На странице туров: просто вызываем фильтрацию
       if (onChange) onChange(filters)
     }
   }
@@ -91,7 +91,7 @@ export function SearchBar({
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
-        {/* Селект Категории */}
+        {/* Категории */}
         <select
           className={styles.select}
           value={selectedCategory}
@@ -105,7 +105,7 @@ export function SearchBar({
           ))}
         </select>
 
-        {/* Селект Направления */}
+        {/* Направления */}
         <select
           className={styles.select}
           value={selectedDestination}
@@ -119,7 +119,7 @@ export function SearchBar({
           ))}
         </select>
 
-        {/* Селект Месяца */}
+        {/* Месяцы */}
         <select
           className={styles.select}
           value={selectedMonth}

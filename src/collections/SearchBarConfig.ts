@@ -12,13 +12,12 @@ export const SearchBarConfig: GlobalConfig = {
       name: 'categories',
       label: 'Категорії',
       type: 'array',
-      // localized: true — УДАЛЯЕМ ТУТ, чтобы структура массива была одинаковой для всех языков
       fields: [
         {
           name: 'label',
           type: 'text',
           required: true,
-          localized: true, // Оставляем локализацию только здесь
+          localized: true,
         },
         {
           name: 'value',

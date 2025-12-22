@@ -48,7 +48,7 @@
 // }
 // src/components/RenderBlocks.tsx
 import { Header } from './blocks/Header/Header'
-import { Tours } from './blocks/FeatureTours/Tours'
+import { FeaturedTours } from './blocks/FeatureTours/FeaturedTours'
 import { HeroSection } from './blocks/HeroSection/HeroSection'
 import { SearchBar } from './blocks/SearchBar/SearchBar'
 import { ConsultationSection } from './blocks/ConsultationSection/ConsultationSection'
@@ -57,7 +57,7 @@ import { TestimonialsSection } from './blocks/TestimonialsSection/TestimonialsSe
 
 const components = {
   header: Header,
-  tours: Tours,
+  tours: FeaturedTours,
   heroSection: HeroSection,
   searchBar: SearchBar,
   consultation: ConsultationSection,
@@ -102,7 +102,7 @@ export const RenderBlocks = ({ blocks, searchData }: RenderBlocksProps) => {
 
         return (
           <div key={index} className="p-4 bg-red-100 text-red-600">
-            Блок "{block.blockType}" ще не створений.
+            {/* Блок "{block.blockType}" ще не створений. */}
           </div>
         )
       })}
