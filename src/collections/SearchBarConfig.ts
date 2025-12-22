@@ -1,4 +1,3 @@
-// src/globals/SearchBarConfig.ts
 import { autoTranslate } from '@/hooks/autoTranslate'
 import { GlobalConfig } from 'payload'
 
@@ -6,7 +5,6 @@ export const SearchBarConfig: GlobalConfig = {
   slug: 'searchBar',
   label: 'Налаштування пошуку',
   hooks: {
-    // Используем afterChange для надежности
     afterChange: [autoTranslate(['categories', 'destinations', 'months'])],
   },
   fields: [
@@ -14,19 +12,18 @@ export const SearchBarConfig: GlobalConfig = {
       name: 'categories',
       label: 'Категорії',
       type: 'array',
-      localized: true,
+      // localized: true — УДАЛЯЕМ ТУТ, чтобы структура массива была одинаковой для всех языков
       fields: [
         {
           name: 'label',
           type: 'text',
           required: true,
-          localized: true,
+          localized: true, // Оставляем локализацию только здесь
         },
         {
           name: 'value',
           type: 'text',
           required: true,
-          // value НЕ локализуем
         },
       ],
     },
@@ -34,7 +31,6 @@ export const SearchBarConfig: GlobalConfig = {
       name: 'destinations',
       label: 'Напрямки',
       type: 'array',
-      localized: true,
       fields: [
         {
           name: 'label',
@@ -49,7 +45,6 @@ export const SearchBarConfig: GlobalConfig = {
       name: 'months',
       label: 'Місяці',
       type: 'array',
-      localized: true,
       fields: [
         {
           name: 'label',

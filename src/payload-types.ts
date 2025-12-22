@@ -254,10 +254,16 @@ export interface Page {
 export interface Tour {
   id: string;
   name: string;
+  /**
+   * Технічне имя для URL (наприклад: carpathian-tour)
+   */
   slug: string;
   category: 'cold-countries' | 'islands' | 'hot-countries' | 'extreme' | 'neutral' | 'trailers' | 'wildlife' | 'cruise';
   location: string;
   month?: ('jan' | 'feb' | 'mar' | 'apr' | 'may' | 'jun' | 'jul' | 'aug' | 'sep' | 'oct' | 'nov' | 'dec') | null;
+  /**
+   * Вкажіть числове значение ціни
+   */
   price: number;
   duration?: string | null;
   groupSize?: string | null;

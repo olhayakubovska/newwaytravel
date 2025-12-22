@@ -5,20 +5,13 @@ export const Tours: CollectionConfig = {
   slug: 'tours',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'category', 'location'],
+    defaultColumns: ['name', 'category', 'location', 'price'],
+  },
+  access: {
+    read: () => true,
   },
   hooks: {
-    afterChange: [
-      autoTranslate([
-        'name',
-        'description',
-        'location',
-        'duration',
-        'groupSize',
-        // 'category' и 'month' ИСКЛЮЧЕНЫ из автоперевода,
-        // так как они управляются через предопределенные опции ниже
-      ]),
-    ],
+    afterChange: [autoTranslate(['name', 'description', 'location', 'duration', 'groupSize'])],
   },
   fields: [
     {
@@ -33,26 +26,27 @@ export const Tours: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
-      localized: true,
+      localized: false,
       admin: {
         position: 'sidebar',
+        description: 'Технічне имя для URL (наприклад: carpathian-tour)',
       },
     },
     {
       name: 'category',
       type: 'select',
       required: true,
-      localized: true,
+      localized: false,
       label: 'Категорія',
       options: [
-        { label: { en: 'Cold countries', uk: 'Холодні країни' }, value: 'cold-countries' },
-        { label: { en: 'Islands', uk: 'Острови' }, value: 'islands' },
-        { label: { en: 'Hot countries', uk: 'Спекотні країни' }, value: 'hot-countries' },
-        { label: { en: 'Extreme tours', uk: 'Екстремальні тури' }, value: 'extreme' },
-        { label: { en: 'Neutral climate', uk: 'Нейтральний клімат' }, value: 'neutral' },
-        { label: { en: 'Trailers', uk: 'Трейлери' }, value: 'trailers' },
-        { label: { en: 'Wildlife', uk: 'Дика природа' }, value: 'wildlife' },
-        { label: { en: 'Cruise', uk: 'Круїз' }, value: 'cruise' },
+        { label: 'Холодні країни', value: 'cold-countries' },
+        { label: 'Острови', value: 'islands' },
+        { label: 'Спекотні країни', value: 'hot-countries' },
+        { label: 'Екстремальні тури', value: 'extreme' },
+        { label: 'Нейтральний клімат', value: 'neutral' },
+        { label: 'Трейлери', value: 'trailers' },
+        { label: 'Дика природа', value: 'wildlife' },
+        { label: 'Круїз', value: 'cruise' },
       ],
     },
     {
@@ -65,21 +59,21 @@ export const Tours: CollectionConfig = {
     {
       name: 'month',
       type: 'select',
-      localized: true,
+      localized: false,
       label: 'Місяць',
       options: [
-        { label: { en: 'January', uk: 'Січень' }, value: 'jan' },
-        { label: { en: 'February', uk: 'Лютий' }, value: 'feb' },
-        { label: { en: 'March', uk: 'Березень' }, value: 'mar' },
-        { label: { en: 'April', uk: 'Квітень' }, value: 'apr' },
-        { label: { en: 'May', uk: 'Травень' }, value: 'may' },
-        { label: { en: 'June', uk: 'Червень' }, value: 'jun' },
-        { label: { en: 'July', uk: 'Липень' }, value: 'jul' },
-        { label: { en: 'August', uk: 'Серпень' }, value: 'aug' },
-        { label: { en: 'September', uk: 'Вересень' }, value: 'sep' },
-        { label: { en: 'October', uk: 'Жовтень' }, value: 'oct' },
-        { label: { en: 'November', uk: 'Листопад' }, value: 'nov' },
-        { label: { en: 'December', uk: 'Грудень' }, value: 'dec' },
+        { label: 'Січень', value: 'jan' },
+        { label: 'Лютий', value: 'feb' },
+        { label: 'Березень', value: 'mar' },
+        { label: 'Квітень', value: 'apr' },
+        { label: 'Травень', value: 'may' },
+        { label: 'Червень', value: 'jun' },
+        { label: 'Липень', value: 'jul' },
+        { label: 'Серпень', value: 'aug' },
+        { label: 'Вересень', value: 'sep' },
+        { label: 'Жовтень', value: 'oct' },
+        { label: 'Листопад', value: 'nov' },
+        { label: 'Грудень', value: 'dec' },
       ],
     },
     {
@@ -87,6 +81,9 @@ export const Tours: CollectionConfig = {
       type: 'number',
       required: true,
       label: 'Ціна (€)',
+      admin: {
+        description: 'Вкажіть числове значение ціни',
+      },
     },
     {
       name: 'duration',
