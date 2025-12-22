@@ -102,7 +102,7 @@ export interface Config {
     header: HeaderSelect<false> | HeaderSelect<true>;
     searchBar: SearchBarSelect<false> | SearchBarSelect<true>;
   };
-  locale: null;
+  locale: 'uk' | 'en';
   user: User & {
     collection: 'users';
   };
@@ -254,17 +254,16 @@ export interface Page {
 export interface Tour {
   id: string;
   name: string;
-  category:
-    | 'Холодні країни'
-    | 'Острови'
-    | 'Спекотні країни'
-    | 'Екстремальні тури'
-    | 'Нейтральний клімат'
-    | 'Трейлери'
-    | 'Дика природа'
-    | 'Круїз';
+  /**
+   * Технічне имя для URL (наприклад: carpathian-tour)
+   */
+  slug: string;
+  category: 'cold-countries' | 'islands' | 'hot-countries' | 'extreme' | 'neutral' | 'trailers' | 'wildlife' | 'cruise';
   location: string;
-  month?: ('Січ' | 'Лют' | 'Бер' | 'Кві' | 'Тра' | 'Чер' | 'Лип' | 'Сер' | 'Вер' | 'Жов' | 'Лис' | 'Гру') | null;
+  month?: ('jan' | 'feb' | 'mar' | 'apr' | 'may' | 'jun' | 'jul' | 'aug' | 'sep' | 'oct' | 'nov' | 'dec') | null;
+  /**
+   * Вкажіть числове значение ціни
+   */
   price: number;
   duration?: string | null;
   groupSize?: string | null;
@@ -499,6 +498,7 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface ToursSelect<T extends boolean = true> {
   name?: T;
+  slug?: T;
   category?: T;
   location?: T;
   month?: T;

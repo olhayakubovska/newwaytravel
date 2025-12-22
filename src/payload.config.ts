@@ -24,6 +24,11 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  localization: {
+    locales: ['uk', 'en'],
+    defaultLocale: 'uk',
+    fallback: true,
+  },
 
   collections: [Users, Media, Pages, Tours, Orders], // ----------------------->
   globals: [FooterConfig, HeaderConfig, SearchBarConfig],

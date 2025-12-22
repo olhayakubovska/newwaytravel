@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname, useParams } from 'next/navigation'
 import styles from './SearchBar.module.scss'
 
 export interface TourFilters {
@@ -11,10 +11,9 @@ export interface TourFilters {
 }
 
 interface SearchBarProps {
-  categories?: { label: string; value: string }[]
-  destinations?: { label: string; value: string }[]
-  months?: { label: string; value: string }[]
-  placeholderText?: string // Пропс из блока Payload
+  categories?: { label: any; value: string }[]
+  destinations?: { label: any; value: string }[]
+  months?: { label: any; value: string }[]
   onChange?: (filters: TourFilters) => void
 }
 
@@ -26,8 +25,33 @@ export function SearchBar({
 }: SearchBarProps) {
   const router = useRouter()
   const pathname = usePathname()
+  const params = useParams()
 
-  // Состояние для фильтров
+  // 1. Определяем текущий язык (по умолчанию uk)
+  const locale = (params?.locale as string) || 'uk'
+
+  // 2. ВСТАВЛЕННЫЙ ФРАГМЕНТ: Логика перевода меток
+  const getTranslatedLabel = (label: any) => {
+    if (!label) return ''
+
+    // Если Payload вернул объект (локализацию), выбираем текущий язык
+    if (typeof label === 'object' && label !== null) {
+      return label[locale] || label['uk'] || label['en'] || ''
+    }
+
+    // Если Payload вернул просто строку (уже отфильтрованную на сервере)
+    return label
+  }
+
+  // Тексты интерфейса зависят от локали
+  const i18n = {
+    categoryPlaceholder: locale === 'en' ? 'Category' : 'Категорія',
+    destinationPlaceholder: locale === 'en' ? 'Destination' : 'Напрямок',
+    monthPlaceholder: locale === 'en' ? 'Month' : 'Місяць',
+    searchBtn: locale === 'en' ? 'SEARCH TOUR' : 'ШУКАТИ ТУР',
+    resetBtn: locale === 'en' ? 'Reset' : 'Скинути',
+  }
+
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedDestination, setSelectedDestination] = useState('')
   const [selectedMonth, setSelectedMonth] = useState('')
@@ -39,16 +63,19 @@ export function SearchBar({
       month: selectedMonth,
     }
 
-    // Если мы на главной, уходим на /tours с параметрами
-    if (pathname !== '/tours') {
-      const params = new URLSearchParams()
-      if (selectedCategory) params.set('category', selectedCategory)
-      if (selectedDestination) params.set('destination', selectedDestination)
-      if (selectedMonth) params.set('month', selectedMonth)
+    // Путь к странице всех туров с учетом языка
+    const baseToursPath = `/${locale}/tours`
 
-      router.push(`/tours?${params.toString()}`)
+    if (!pathname.includes('/tours')) {
+      // Если мы на главной, формируем URL и перенаправляем
+      const searchParams = new URLSearchParams()
+      if (selectedCategory) searchParams.set('category', selectedCategory)
+      if (selectedDestination) searchParams.set('destination', selectedDestination)
+      if (selectedMonth) searchParams.set('month', selectedMonth)
+
+      router.push(`${baseToursPath}?${searchParams.toString()}`)
     } else {
-      // Если на странице /tours, вызываем функцию фильтрации
+      // Если мы уже на странице туров, просто вызываем фильтрацию
       if (onChange) onChange(filters)
     }
   }
@@ -58,60 +85,60 @@ export function SearchBar({
     setSelectedDestination('')
     setSelectedMonth('')
     if (onChange) onChange({})
-    if (pathname === '/tours') router.push('/tours')
+    if (pathname.includes('/tours')) router.push(`/${locale}/tours`)
   }
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
-        {/* Селект Категорий */}
+        {/* Селект Категории */}
         <select
           className={styles.select}
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
-          <option value="">Категорія</option>
+          <option value="">{i18n.categoryPlaceholder}</option>
           {categories.map((c, i) => (
             <option key={i} value={c.value}>
-              {c.label}
+              {getTranslatedLabel(c.label)}
             </option>
           ))}
         </select>
 
-        {/* Селект Направлений */}
+        {/* Селект Направления */}
         <select
           className={styles.select}
           value={selectedDestination}
           onChange={(e) => setSelectedDestination(e.target.value)}
         >
-          <option value="">Напрямок</option>
+          <option value="">{i18n.destinationPlaceholder}</option>
           {destinations.map((d, i) => (
             <option key={i} value={d.value}>
-              {d.label}
+              {getTranslatedLabel(d.label)}
             </option>
           ))}
         </select>
 
-        {/* Селект Месяцев */}
+        {/* Селект Месяца */}
         <select
           className={styles.select}
           value={selectedMonth}
           onChange={(e) => setSelectedMonth(e.target.value)}
         >
-          <option value="">Місяць</option>
+          <option value="">{i18n.monthPlaceholder}</option>
           {months.map((m, i) => (
             <option key={i} value={m.value}>
-              {m.label}
+              {getTranslatedLabel(m.label)}
             </option>
           ))}
         </select>
 
         <button className={styles.searchButton} onClick={handleSearch}>
-          ШУКАТИ ТУР
+          {i18n.searchBtn}
         </button>
 
         <button className={styles.clearButton} onClick={handleClear}>
-          Скинути
+          {i18n.resetBtn}
         </button>
       </div>
     </div>
