@@ -58,26 +58,15 @@ export const Header = ({ logoText, navItems, locale }: HeaderProps) => {
     },
   ]
 
-  // 2. Объединяем стандартные пункты с теми, что приходят из пропсов (если они есть)
   const navigation = navItems && navItems.length > 0 ? navItems : defaultNavItems
 
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        {/* Соцсети слева как на скриншоте */}
-        <div className={styles.socialsLeft}>
-          <Facebook className={styles.icon} />
-          <Youtube className={styles.icon} />
-          <Send className={styles.icon} /> {/* Иконка Telegram */}
-          <Instagram className={styles.icon} />
-        </div>
-
-        {/* Логотип */}
         <Link href={`/${locale}`} className={styles.logo}>
           {getText(logoText) || 'NEW WAY'}
         </Link>
 
-        {/* Навигация центральная */}
         <nav className={styles.nav}>
           {navigation.map((item: any, idx: number) => (
             <Link
@@ -90,9 +79,7 @@ export const Header = ({ logoText, navItems, locale }: HeaderProps) => {
           ))}
         </nav>
 
-        {/* Блок действий справа */}
         <div className={styles.actions}>
-          {/* Кнопка чата */}
           <button className={styles.chatButton}>
             <MessageCircle className={styles.icon} />
             <span className={styles.chatText}>
@@ -100,7 +87,6 @@ export const Header = ({ logoText, navItems, locale }: HeaderProps) => {
             </span>
           </button>
 
-          {/* Выбор языка */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className={styles.localeButton}>
@@ -124,6 +110,12 @@ export const Header = ({ logoText, navItems, locale }: HeaderProps) => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+        </div>
+        <div className={styles.socialsLeft}>
+          <Facebook className={styles.icon} />
+          <Youtube className={styles.icon} />
+          <Send className={styles.icon} />
+          <Instagram className={styles.icon} />
         </div>
       </div>
     </header>

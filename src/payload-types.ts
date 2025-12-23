@@ -72,6 +72,7 @@ export interface Config {
     pages: Page;
     tours: Tour;
     orders: Order;
+    consultations: Consultation;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +85,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     tours: ToursSelect<false> | ToursSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
+    consultations: ConsultationsSelect<false> | ConsultationsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -256,21 +258,64 @@ export interface Page {
 export interface Tour {
   id: string;
   name: string;
-  /**
-   * Технічне имя для URL (наприклад: carpathian-tour)
-   */
   slug: string;
-  /**
-   * Введіть назву категорії (наприклад: Експедиція, Релакс і т.д.)
-   */
-  category: string;
-  location: string;
-  month?: ('jan' | 'feb' | 'mar' | 'apr' | 'may' | 'jun' | 'jul' | 'aug' | 'sep' | 'oct' | 'nov' | 'dec') | null;
   price: number;
+  category?: string | null;
+  location?: string | null;
   duration?: string | null;
   groupSize?: string | null;
-  description?: string | null;
-  mainImage: string | Media;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  mainImage?: (string | null) | Media;
+  itinerary?:
+    | {
+        dayTitle?: string | null;
+        content?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        images?:
+          | {
+              image?: (string | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  leaders?:
+    | {
+        name: string;
+        role?: string | null;
+        photo: string | Media;
+        bio?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -285,6 +330,20 @@ export interface Order {
   phone: string;
   tourName?: string | null;
   guests?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "consultations".
+ */
+export interface Consultation {
+  id: string;
+  name?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  message?: string | null;
+  status?: ('new' | 'processing' | 'completed') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -331,6 +390,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'orders';
         value: string | Order;
+      } | null)
+    | ({
+        relationTo: 'consultations';
+        value: string | Consultation;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -501,14 +564,35 @@ export interface PagesSelect<T extends boolean = true> {
 export interface ToursSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  price?: T;
   category?: T;
   location?: T;
-  month?: T;
-  price?: T;
   duration?: T;
   groupSize?: T;
   description?: T;
   mainImage?: T;
+  itinerary?:
+    | T
+    | {
+        dayTitle?: T;
+        content?: T;
+        images?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  leaders?:
+    | T
+    | {
+        name?: T;
+        role?: T;
+        photo?: T;
+        bio?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -522,6 +606,19 @@ export interface OrdersSelect<T extends boolean = true> {
   phone?: T;
   tourName?: T;
   guests?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "consultations_select".
+ */
+export interface ConsultationsSelect<T extends boolean = true> {
+  name?: T;
+  phone?: T;
+  email?: T;
+  message?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }

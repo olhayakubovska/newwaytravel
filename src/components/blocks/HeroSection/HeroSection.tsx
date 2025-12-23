@@ -26,14 +26,12 @@ export function HeroSection({
 
       <div className={styles.content}>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className={styles.textWrapper}
+          transition={{ duration: 1, ease: 'easeOut' }}
         >
-          {/* Используем данные из пропсов */}
-          {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
-          <h1 className={styles.title}>{title}</h1>
+          {subtitle && <div className={styles.subtitle}>{subtitle}</div>}
+          <div className={styles.title}>{title}</div>
           {description && <p className={styles.description}>{description}</p>}
         </motion.div>
       </div>

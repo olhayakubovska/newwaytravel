@@ -3,15 +3,15 @@
 import React from 'react'
 import { Send } from 'lucide-react'
 import styles from './About.module.scss'
+import { RichText } from '../ui/RichText'
+// В Payload 3.0 обычно создается общий компонент RichText для обработки Lexical JSON
 
-// Описываем тип данных для безопасности
 interface AboutPageClientProps {
   data: any
   locale: string
 }
 
 export default function AboutPageClient({ data, locale }: AboutPageClientProps) {
-  // Хелпер для получения текста (используем данные из пропса data)
   const i18n = {
     title: data.title || (locale === 'en' ? 'ABOUT US' : 'ПРО НАС'),
     historyTitle:
@@ -20,7 +20,6 @@ export default function AboutPageClient({ data, locale }: AboutPageClientProps) 
       locale === 'en' ? 'Specifics of New Way Travel tours' : 'Специфіка турів New Way Travel',
   }
 
-  // Получаем изображения из Payload (если они загружены в массив mainImages)
   const img1 = data.mainImages?.[0]?.image?.url || '/images/about-1.jpg'
   const img2 = data.mainImages?.[1]?.image?.url || '/images/about-2.jpg'
 
@@ -38,10 +37,11 @@ export default function AboutPageClient({ data, locale }: AboutPageClientProps) 
         <section className={styles.whiteCard}>
           <h2 className={styles.sectionTitle}>{i18n.historyTitle}</h2>
           <div className={styles.textContent}>
-            {/* Если historyContent — это richText, для него нужен сериализатор. 
-                 Для простоты выведем заглушку или описание, если оно есть */}
+            {/* Используем компонент RichText для рендеринга данных Lexical.
+               Он автоматически превратит JSON в <p>, <strong>, <a> и т.д.
+            */}
             {data.historyContent ? (
-              <p>Данные из RichText (используйте RichText компонент Payload)</p>
+              <RichText content={data.historyContent} />
             ) : (
               <p>{locale === 'en' ? 'Loading history...' : 'Завантаження історії...'}</p>
             )}
@@ -58,10 +58,10 @@ export default function AboutPageClient({ data, locale }: AboutPageClientProps) 
           <div className={styles.detailsColumn}>
             <h2 className={styles.sectionTitle}>{i18n.specsTitle}</h2>
             <ul className={styles.specsList}>
-              {/* Рендерим массив features из админки Payload */}
               {data.features?.map((item: any, idx: number) => (
                 <li key={idx}>
                   <strong>{item.label}</strong>
+                  {/* Описания в фичах обычно простые, поэтому оставляем как есть или тоже в RichText */}
                   <p>{item.value}</p>
                 </li>
               ))}

@@ -34,7 +34,7 @@ export const Pages: CollectionConfig = {
       name: 'layout',
       label: 'Конструктор сторінки',
       type: 'blocks',
-      localized: true, // Это правильно, теперь Payload готов принимать данные
+      localized: true,
       blocks: [
         ToursBlock,
         HeroSectionBlock,
