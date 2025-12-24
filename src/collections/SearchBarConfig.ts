@@ -3,7 +3,7 @@ import { GlobalConfig } from 'payload'
 
 export const SearchBarConfig: GlobalConfig = {
   slug: 'searchBar',
-  label: 'Налаштування пошуку',
+  label: 'SearchBar setting',
   hooks: {
     afterChange: [autoTranslate(['categories', 'destinations', 'months'])],
   },

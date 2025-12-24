@@ -1,4 +1,3 @@
-// src/components/blocks/Footer/Footer.tsx
 'use client'
 import React from 'react'
 import Link from 'next/link'
@@ -16,10 +15,9 @@ interface FooterProps {
     youtube?: string | null
     instagram?: string | null
   } | null
-  locale: string // Добавляем обязательный пропс locale
+  locale: string
 }
 
-// Используем деструктуризацию: ({ description, phone, ... })
 export function Footer({
   description,
   phone,
@@ -33,7 +31,6 @@ export function Footer({
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.grid}>
-          {/* Logo and Description */}
           <div>
             <div className={styles.logoBlock}>
               <div className={styles.logoText}>NEW WAY</div>
@@ -42,11 +39,9 @@ export function Footer({
             <p className={styles.description}>{description || ''}</p>
           </div>
 
-          {/* Menu */}
           <div>
             <h3 className={styles.heading}>{locale === 'en' ? 'Menu' : 'Меню'}</h3>
             <nav className={styles.nav}>
-              {/* Добавляем префикс локали к ссылкам */}
               <Link href={`/${locale}`} className={styles.navLink}>
                 {locale === 'en' ? 'Home' : 'Головна'}
               </Link>
@@ -59,7 +54,6 @@ export function Footer({
             </nav>
           </div>
 
-          {/* Contact */}
           <div>
             <h3 className={styles.heading}>
               {locale === 'en' ? 'Contact Us' : "Зворотній зв'язок"}
@@ -86,7 +80,6 @@ export function Footer({
             </div>
           </div>
 
-          {/* Social Media */}
           <div>
             <h3 className={styles.heading}>
               {locale === 'en' ? 'Social Media' : 'Соціальні мережі'}

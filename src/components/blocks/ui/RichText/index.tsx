@@ -8,15 +8,11 @@ interface RichTextProps {
 export const RichText: React.FC<RichTextProps> = ({ content, className }) => {
   if (!content || !content.root) return null
 
-  // Рекурсивная функция для превращения JSON в HTML
   const serialize = (nodes: any[]): JSX.Element[] => {
     return nodes.map((node, index) => {
-      // 1. Обработка обычного текста
       if (node.type === 'text') {
         let text: React.ReactNode = node.text
 
-        // Форматирование Lexical использует битовые маски:
-        // 1 = Bold, 2 = Italic, 8 = Underline
         if (node.format & 1) text = <strong key={index}>{text}</strong>
         if (node.format & 2) text = <em key={index}>{text}</em>
         if (node.format & 8) text = <u key={index}>{text}</u>
@@ -26,7 +22,6 @@ export const RichText: React.FC<RichTextProps> = ({ content, className }) => {
 
       if (!node) return <React.Fragment key={index} />
 
-      // 2. Обработка блоков
       switch (node.type) {
         case 'root':
           return <div key={index}>{serialize(node.children)}</div>
@@ -59,7 +54,6 @@ export const RichText: React.FC<RichTextProps> = ({ content, className }) => {
             </a>
           )
 
-        // Если тип узла неизвестен, просто рендерим его детей
         default:
           return <div key={index}>{node.children ? serialize(node.children) : null}</div>
       }

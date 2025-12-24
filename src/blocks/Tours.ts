@@ -1,4 +1,3 @@
-// src/blocks/Tours.ts
 import { Block } from 'payload'
 
 export const ToursBlock: Block = {
@@ -10,10 +9,10 @@ export const ToursBlock: Block = {
       label: 'Заголовок секции (например: Популярные направления)',
     },
     {
-      name: 'selectedTours', // Список выбранных туров
+      name: 'selectedTours',
       type: 'relationship',
-      relationTo: 'tours', // Указываем на нашу новую коллекцию
-      hasMany: true, // Позволяет выбрать несколько туров
+      relationTo: 'tours',
+      hasMany: true,
       label: 'Выберите туры для показа',
     },
   ],

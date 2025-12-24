@@ -1,9 +1,8 @@
-// src/globals/About.ts
 import { GlobalConfig } from 'payload'
 
 export const AboutConfig: GlobalConfig = {
   slug: 'about',
-  label: 'Про нас',
+  label: 'About',
   access: { read: () => true },
   fields: [
     { name: 'title', type: 'text', localized: true, required: true },

@@ -1,6 +1,5 @@
-// Переменные для консистентности
 $primary-dark: #002347;
-$accent-orange: #ff6b35; // Цвет кнопки "Шукати тур" с вашего макета
+$accent-orange: #ff6b35; 
 $text-gray: #4a5568;
 $bg-light: #f8fafc;
 $white: #ffffff;
@@ -10,7 +9,7 @@ $shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.0
   background-color: $bg-light;
   min-height: 100vh;
   padding-bottom: 100px;
-  font-family: 'Inter', sans-serif; // Рекомендую подключить этот шрифт
+  font-family: 'Inter', sans-serif;
 }
 
 .hero {
@@ -35,7 +34,7 @@ $shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.0
 
 .container {
   max-width: 1140px;
-  margin: -100px auto 0; // Глубокий наезд на Hero для эффекта многослойности
+  margin: -100px auto 0;
   position: relative;
   padding: 0 20px;
 }
@@ -85,7 +84,7 @@ $shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.0
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
-  align-items: start;
+align-items: flex-start;
 
   @media (max-width: 992px) {
     grid-template-columns: 1fr;

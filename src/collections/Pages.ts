@@ -13,7 +13,6 @@ export const Pages: CollectionConfig = {
     useAsTitle: 'title',
   },
   hooks: {
-    // ЗАМЕНИ beforeChange на afterChange
     afterChange: [autoTranslate(['title', 'layout'])],
   },
   fields: [

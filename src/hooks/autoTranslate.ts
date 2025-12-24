@@ -34,11 +34,8 @@ export const autoTranslate =
     if (req.locale === 'uk' && !req.context?.internal) {
       const translations: any = {}
 
-      // 1. Обязательно копируем slug
       if (doc.slug) translations.slug = doc.slug
 
-      // 2. ВАЖНО: Копируем значения селектов, чтобы не было ValidationError
-      // Это решит проблему с "Категорія" и "Місяць"
       if (doc.category) translations.category = doc.category
       if (doc.month) translations.month = doc.month
 
@@ -73,7 +70,7 @@ export const autoTranslate =
           } catch (err) {
             console.error('❌ Ошибка записи:', err)
           }
-        }, 300) // Увеличил до 300мс для стабильности
+        }, 300)
       }
     }
     return doc

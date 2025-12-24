@@ -1,177 +1,3 @@
-// 'use client'
-
-// import { useState, useMemo, useEffect, Suspense } from 'react'
-// import { useParams, useSearchParams } from 'next/navigation'
-// import { SearchBar, TourFilters } from '@/components/blocks/SearchBar/SearchBar'
-// import { TourCard } from '@/components/blocks/TourCard/TourCard'
-// import styles from './AllToursPage.module.scss'
-
-// const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4000'
-
-// interface Tour {
-//   id: string
-//   name: any
-//   location: any
-//   month: string
-//   category: any // Изменено на any, так как это может быть локализованная строка
-//   duration: any
-//   groupSize: any
-//   price: number
-//   description: any
-//   mainImage?: { url: string } | null
-// }
-
-// interface FilterOption {
-//   label: string
-//   value: string
-// }
-
-// interface AllToursContentProps {
-//   initialTours: Tour[]
-//   adminCategories?: FilterOption[]
-//   adminMonths?: FilterOption[]
-// }
-
-// function AllToursContent({
-//   initialTours = [],
-//   adminCategories = [],
-//   adminMonths = [],
-// }: AllToursContentProps) {
-//   const [filteredTours, setFilteredTours] = useState<Tour[]>(initialTours)
-//   const searchParams = useSearchParams()
-//   const params = useParams()
-//   const locale = (params?.locale as 'uk' | 'en') || 'uk'
-
-//   // Универсальная функция для получения текста на нужном языке
-//   const resolveField = (field: any) => {
-//     if (field && typeof field === 'object') {
-//       return field[locale] || field['uk'] || field['en'] || ''
-//     }
-//     return String(field || '')
-//   }
-
-//   // 1. КАТЕГОРИИ: Собираем уникальные значения прямо из туров
-//   const categories = useMemo(() => {
-//     const uniqueCats = new Set<string>()
-//     initialTours.forEach((t) => {
-//       const catText = resolveField(t.category)
-//       if (catText) uniqueCats.add(catText)
-//     })
-//     return Array.from(uniqueCats).map((cat) => ({
-//       label: cat,
-//       value: cat,
-//     }))
-//   }, [initialTours, locale])
-
-//   // 2. НАПРАВЛЕНИЯ: Собираем уникальные значения прямо из локаций туров
-//   const destinations = useMemo(() => {
-//     const uniqueLocs = new Set<string>()
-//     initialTours.forEach((t) => {
-//       const locText = resolveField(t.location)
-//       if (locText) uniqueLocs.add(locText)
-//     })
-//     return Array.from(uniqueLocs).map((loc) => ({
-//       label: loc,
-//       value: loc,
-//     }))
-//   }, [initialTours, locale])
-
-//   // 3. МЕСЯЦЫ: Берем из админки (SearchBarConfig), так как они обычно статичны
-//   const months = useMemo(() => adminMonths, [adminMonths])
-
-//   // Логика фильтрации
-//   const handleFilterChange = (filters: TourFilters) => {
-//     let result = [...initialTours]
-
-//     if (filters.category) {
-//       result = result.filter((t) => resolveField(t.category) === filters.category)
-//     }
-//     if (filters.destination) {
-//       result = result.filter((t) => resolveField(t.location) === filters.destination)
-//     }
-//     if (filters.month) {
-//       result = result.filter((t) => t.month === filters.month)
-//     }
-
-//     setFilteredTours(result)
-//   }
-
-//   // Синхронизация с URL (если перешли с главной)
-//   useEffect(() => {
-//     const category = searchParams.get('category')
-//     const destination = searchParams.get('destination')
-//     const month = searchParams.get('month')
-
-//     if (category || destination || month) {
-//       handleFilterChange({
-//         category: category || undefined,
-//         destination: destination || undefined,
-//         month: month || undefined,
-//       })
-//     } else {
-//       setFilteredTours(initialTours)
-//     }
-//   }, [searchParams, initialTours])
-
-//   return (
-//     <div className={styles.pageContainer}>
-//       <SearchBar
-//         searchData={{
-//           categories,
-//           destinations,
-//           months,
-//         }}
-//         onChange={handleFilterChange}
-//       />
-
-//       <div className={styles.tourGrid}>
-//         {filteredTours.length > 0 ? (
-//           filteredTours.map((tour) => {
-//             const imageUrl = tour.mainImage?.url
-//               ? `${SERVER_URL}${tour.mainImage.url}`
-//               : '/placeholder-tour.jpg'
-//             return (
-//               <TourCard
-//                 key={tour.id}
-//                 id={tour.id}
-//                 image={imageUrl}
-//                 title={resolveField(tour.name)}
-//                 destination={resolveField(tour.location)}
-//                 duration={resolveField(tour.duration)}
-//                 groupSize={resolveField(tour.groupSize)}
-//                 price={tour.price ? `${tour.price}€` : 'Ціна за запитом'}
-//                 alt={resolveField(tour.name)}
-//               />
-//             )
-//           })
-//         ) : (
-//           <div className={styles.noResults}>
-//             <h3>Турів не знайдено</h3>
-//             <p>Спробуйте змінити параметри пошуку</p>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default function AllToursClient({
-//   initialTours,
-//   searchConfig,
-// }: {
-//   initialTours: Tour[]
-//   searchConfig?: any
-// }) {
-//   return (
-//     <Suspense fallback={<div className={styles.loader}>Завантаження...</div>}>
-//       <AllToursContent
-//         initialTours={initialTours}
-//         adminCategories={searchConfig?.categories}
-//         adminMonths={searchConfig?.months}
-//       />
-//     </Suspense>
-//   )
-// }
 'use client'
 
 import { useState, useMemo, useEffect, Suspense } from 'react'
@@ -182,7 +8,6 @@ import styles from './AllToursPage.module.scss'
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4000'
 
-// --- КОНСТАНТА МЕСЯЦЕВ ---
 const HARDCODED_MONTHS = {
   uk: [
     { label: 'Січень', value: '01' },
@@ -240,24 +65,19 @@ function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
     return String(field || '')
   }
 
-  console.log(initialTours, 'initialTours')
-
-  // 1. КАТЕГОРИИ (Динамика из туров)
   const categories = useMemo(() => {
     const uniqueCats = new Set<string>()
     initialTours.forEach((t) => {
-      // resolveField выберет нужный язык (UA или EN) из объекта, который прислал Payload
       const catText = resolveField(t.category)
       if (catText) uniqueCats.add(catText)
     })
 
     return Array.from(uniqueCats).map((cat) => ({
-      label: cat, // Отобразится "Спекотні країни" или "Hot countries"
+      label: cat,
       value: cat,
     }))
   }, [initialTours, locale])
 
-  // 2. НАПРАВЛЕНИЯ (Динамика из туров)
   const destinations = useMemo(() => {
     const uniqueLocs = new Set<string>()
     initialTours.forEach((t) => {
@@ -267,7 +87,6 @@ function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
     return Array.from(uniqueLocs).map((loc) => ({ label: loc, value: loc }))
   }, [initialTours, locale])
 
-  // 3. МЕСЯЦЫ (Хардкод)
   const months = useMemo(() => HARDCODED_MONTHS[locale], [locale])
 
   const handleFilterChange = (filters: TourFilters) => {
@@ -279,7 +98,6 @@ function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
       result = result.filter((t) => resolveField(t.location) === filters.destination)
     }
     if (filters.month) {
-      // Предполагаем, что в туре месяц хранится как значение '01', '02' и т.д.
       result = result.filter((t) => t.month === filters.month)
     }
     setFilteredTours(result)

@@ -1,7 +1,6 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { HeroSection } from '@/components/blocks/HeroSection/HeroSection'
-import { SearchBar } from '@/components/blocks/SearchBar/SearchBar'
 import AllToursClient from './AllToursClient'
 
 export default async function HomePage() {
@@ -12,8 +11,6 @@ export default async function HomePage() {
     limit: 100,
   })
 
-  // 1. Преобразуем данные из базы в чистый массив объектов (сериализация)
-  // Это гарантирует, что TypeScript не будет ругаться на сложные объекты Payload
   const tours = toursData.docs.map((doc: any) => ({
     id: doc.id,
     name: doc.name || '',

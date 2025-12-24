@@ -2,9 +2,9 @@ import { GlobalConfig } from 'payload'
 
 export const FooterConfig: GlobalConfig = {
   slug: 'footer',
-  label: 'Подвал сайта',
+  label: 'Footer',
   access: {
-    read: () => true, // Разрешаем чтение всем
+    read: () => true,
   },
   fields: [
     {

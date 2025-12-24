@@ -16,13 +16,12 @@ export function BookingModal({ tourName, onClose }: BookingModalProps) {
 
     const formData = new FormData(e.currentTarget)
 
-    // Собираем данные. tourName берется из пропсов, которые пришли из TourDetailClient
     const data = {
       name: formData.get('name'),
       email: formData.get('email'),
       phone: formData.get('phone'),
       guests: Number(formData.get('guests')),
-      tourName: tourName, // Это значение уйдет в колонку tourName в Payload
+      tourName: tourName,
     }
 
     try {

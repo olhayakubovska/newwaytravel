@@ -1,6 +1,6 @@
 
 .section {
-  background-color: #f3f4f6; // secondary
+  background-color: #f3f4f6; 
   padding: 5rem 0;
 }
 
@@ -16,9 +16,9 @@
 }
 
 .title {
-  font-size: 2.25rem; // 4xl
+  font-size: 2.25rem; 
   font-weight: 700;
-  color: #1f2937; // navy
+  color: #1f2937; 
 }
 
 .grid {
@@ -93,7 +93,7 @@
 
 .modal {
   position: fixed;
-  inset: 0; // top:0 right:0 bottom:0 left:0
+  inset: 0; 
   background-color: rgba(0, 0, 0, 0.85);
 
   display: flex;

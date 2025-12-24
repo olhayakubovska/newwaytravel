@@ -4,7 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import styles from './Header.module.scss'
-import { Globe, MessageCircle, Facebook, Youtube, Instagram, Send } from 'lucide-react' // Добавил Send для иконки Telegram
+import { Globe, MessageCircle, Facebook, Youtube, Instagram, Send } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,7 +42,6 @@ export const Header = ({ logoText, navItems, locale }: HeaderProps) => {
     router.push(segments.join('/'))
   }
 
-  // 1. Создаем стандартные пункты меню с поддержкой перевода
   const defaultNavItems = [
     {
       label: { uk: 'ГОЛОВНА', en: 'HOME' },

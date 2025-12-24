@@ -1,7 +1,7 @@
 import { Block } from 'payload'
 
 export const HeroSectionBlock: Block = {
-  slug: 'heroSection', // Этот слаг должен совпадать с ключом в RenderBlocks
+  slug: 'heroSection',
   fields: [
     {
       name: 'subtitle',

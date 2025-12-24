@@ -18,7 +18,7 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(7, 20, 43, 0.8); // navy/80
+  background: rgba(7, 20, 43, 0.8); 
 }
 
 .content {
@@ -58,7 +58,7 @@
   font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
-  background-color: #07142b; // navy
+  background-color: #07142b; 
   color: #fff;
 
   &:hover {

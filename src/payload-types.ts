@@ -280,6 +280,12 @@ export interface Tour {
     [k: string]: unknown;
   } | null;
   mainImage?: (string | null) | Media;
+  gallery?:
+    | {
+        image?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
   itinerary?:
     | {
         dayTitle?: string | null;
@@ -571,6 +577,12 @@ export interface ToursSelect<T extends boolean = true> {
   groupSize?: T;
   description?: T;
   mainImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
   itinerary?:
     | T
     | {

@@ -32,7 +32,7 @@ export default buildConfig({
     fallback: true,
   },
 
-  collections: [Users, Media, Pages, Tours, Orders,Consultations], // ----------------------->
+  collections: [Users, Media, Pages, Tours, Orders, Consultations],
   globals: [FooterConfig, HeaderConfig, SearchBarConfig, AboutConfig],
 
   editor: lexicalEditor(),

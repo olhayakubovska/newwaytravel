@@ -1,0 +1,93 @@
+.wrapper {
+  width: 100%;
+}
+
+.title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  margin-bottom: 32px;
+}
+
+/* Accordion layout */
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Card */
+.card {
+  background: var(--card, #fff);
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.open {
+  border-color: var(--accent, #f97316);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
+.trigger {
+  width: 100%;
+  padding: 20px 24px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.trigger:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.dayTitle {
+  line-height: 1.4;
+}
+
+/* Icon */
+.icon {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+/* Content */
+.content {
+  overflow: hidden;
+  transition: max-height 0.45s ease, opacity 0.3s ease;
+}
+
+.inner {
+  padding: 0 24px 24px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* RichText safety */
+.inner :global(p) {
+  margin-bottom: 12px;
+}
+
+.inner :global(ul) {
+  padding-left: 18px;
+  margin: 12px 0;
+}
+
+.inner :global(li) {
+  margin-bottom: 6px;
+}

@@ -5,10 +5,10 @@ export const Consultations: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'phone', 'createdAt'],
-    group: 'Заявки', // Группируем в админке вместе с заказами
+    group: 'Заявки',
   },
   access: {
-    create: () => true, // Разрешаем отправку с сайта всем
+    create: () => true,
     read: () => true,
   },
   fields: [
@@ -43,5 +43,5 @@ export const Consultations: CollectionConfig = {
       ],
     },
   ],
-  timestamps: true, // Добавит поле createdAt автоматически
+  timestamps: true,
 }

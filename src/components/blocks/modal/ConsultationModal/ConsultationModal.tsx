@@ -50,7 +50,6 @@ export function ConsultationModal({ onClose, locale }: ConsultationModalProps) {
 
       if (res.ok) {
         setStatus('success')
-        // Автоматически закрываем через 5 секунд при успехе
         setTimeout(() => onClose(), 5000)
       } else {
         setStatus('error')

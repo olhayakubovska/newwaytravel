@@ -7,7 +7,6 @@ export async function POST(req: Request) {
     const payload = await getPayload({ config: configPromise })
     const data = await req.json()
 
-    // Создаем запись в коллекции 'consultations'
     const result = await payload.create({
       collection: 'consultations',
       data: {
@@ -15,7 +14,7 @@ export async function POST(req: Request) {
         phone: data.phone,
         email: data.email,
         message: data.message,
-        status: 'new', // Начальный статус из вашей конфигурации
+        status: 'new',
       },
     })
 
