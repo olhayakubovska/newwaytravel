@@ -20,6 +20,8 @@ export const Tours: CollectionConfig = {
         'groupSize',
         'category',
         'itinerary',
+        // Добавляем новые поля в автоперевод
+        'tripDetails',
       ]),
     ],
   },
@@ -62,11 +64,44 @@ export const Tours: CollectionConfig = {
               localized: true,
               label: 'Напрямок',
             },
+            /* Группа полей для плитки TripDetails */
+            {
+              name: 'tripDetails',
+              type: 'group',
+              label: 'Деталі картки (плитка)',
+              fields: [
+                {
+                  name: 'dates',
+                  type: 'text',
+                  label: 'Дати (напр: 18.10 - 25.10.2025)',
+                  localized: true,
+                },
+                {
+                  name: 'priceLabel',
+                  type: 'text',
+                  label: 'Текст на бейджі ціни (напр: 50€ для ЗСУ)',
+                  localized: true,
+                },
+                // Внутри группы tripDetails в Tours.ts
+                {
+                  name: 'bookingConditions',
+                  type: 'richText', // Меняем с 'text' на 'richText'
+                  label: 'Умови бронювання (RichText)',
+                  localized: true,
+                },
+                {
+                  name: 'bookingNote',
+                  type: 'text',
+                  label: 'Примітка до бронювання',
+                  localized: true,
+                },
+              ],
+            },
             {
               name: 'duration',
               type: 'text',
               localized: true,
-              label: 'Тривалість',
+              label: 'Тривалість (текст)',
             },
             {
               name: 'groupSize',
@@ -123,7 +158,7 @@ export const Tours: CollectionConfig = {
                 {
                   name: 'images',
                   type: 'array',
-                  label: 'Фотографії цього дня',
+                  label: 'Фотографії этого дня',
                   fields: [
                     {
                       name: 'image',

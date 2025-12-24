@@ -5,12 +5,21 @@ import { TestimonialsBlock } from '@/blocks/Testimonials'
 import { ToursBlock } from '@/blocks/Tours'
 import { VideoBlock } from '@/blocks/Video'
 import { CollectionConfig } from 'payload'
-import { autoTranslate } from '../hooks/autoTranslate' // <--- 1. ДОБАВЬ ИМПОРТ
+import { autoTranslate } from '../hooks/autoTranslate'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
     useAsTitle: 'title',
+    // --- ДОБАВЬТЕ ЭТОТ БЛОК ---
+    livePreview: {
+      url: ({ data, locale }) => {
+        const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+        const slug = data.slug === 'home' ? '' : data.slug
+        return `${baseUrl}/${locale.code}/${slug}`
+      },
+    },
+    // -------------------------
   },
   hooks: {
     afterChange: [autoTranslate(['title', 'layout'])],

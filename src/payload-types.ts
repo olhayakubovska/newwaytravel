@@ -262,6 +262,26 @@ export interface Tour {
   price: number;
   category?: string | null;
   location?: string | null;
+  tripDetails?: {
+    dates?: string | null;
+    priceLabel?: string | null;
+    bookingConditions?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    bookingNote?: string | null;
+  };
   duration?: string | null;
   groupSize?: string | null;
   description?: {
@@ -573,6 +593,14 @@ export interface ToursSelect<T extends boolean = true> {
   price?: T;
   category?: T;
   location?: T;
+  tripDetails?:
+    | T
+    | {
+        dates?: T;
+        priceLabel?: T;
+        bookingConditions?: T;
+        bookingNote?: T;
+      };
   duration?: T;
   groupSize?: T;
   description?: T;

@@ -343,6 +343,12 @@ export interface Tour {
   itinerary?: ItineraryDay[]
   leaders?: Leader[]
   gallery?: GalleryItem[]
+  tripDetails?: {
+    dates?: string | any
+    priceLabel?: string | any
+    bookingConditions?: any // Это поле для RichText
+    bookingNote?: string | any
+  }
 }
 
 interface Props {
@@ -350,104 +356,6 @@ interface Props {
   locale: 'uk' | 'en'
 }
 
-interface Props {
-  tour: Tour
-  locale: 'uk' | 'en'
-}
-
-// export default function TourDetailClient({ tour, locale }: Props) {
-//   const [bookingOpen, setBookingOpen] = useState(false)
-//   const [consultationOpen, setConsultationOpen] = useState(false)
-
-//   /** безопасный перевод */
-//   const t = (field: any) => {
-//     if (typeof field === 'object' && field !== null) {
-//       return field[locale] || field.uk || field.en || ''
-//     }
-//     return field || ''
-//   }
-
-//   console.log(tour, 'tour')
-//   return (
-//     <main className={styles.wrapper}>
-//       {/* HERO */}
-//       <section
-//         className={styles.hero}
-//         style={{ backgroundImage: `url(${tour.mainImage?.url || ''})` }}
-//       >
-//         <div className={styles.heroContent}>
-//           <h1>{t(tour.name)}</h1>
-
-//           <div className={styles.actions}>
-//             <button className={styles.primaryBtn} onClick={() => setBookingOpen(true)}>
-//               {locale === 'en' ? 'Book now' : 'Забронювати'}
-//             </button>
-//             <button className={styles.secondaryBtn} onClick={() => setConsultationOpen(true)}>
-//               {locale === 'en' ? 'Consultation' : 'Консультація'}
-//             </button>
-//           </div>
-//         </div>
-//       </section>
-//       {/* INFO */}
-//       <section className={styles.section}>
-//         <h2 className={styles.sectionTitle}>
-//           {locale === 'en' ? 'Tour information' : 'Інформація про тур'}
-//         </h2>
-
-//         {tour.description && <RichText content={tour.description} />}
-//       </section>
-//       {/* DETAILS */}
-//       <section className={styles.section}>
-//         <TripDetails tour={tour} locale={locale} />
-//       </section>
-//       {/* ITINERARY */}
-//       <section className={styles.section}>
-//         <TripItinerary tour={tour} locale={locale} />
-//       </section>
-//       {tour.leaders && tour.leaders.length > 0 && (
-//         <section className={styles.section}>
-//           <h2 className={styles.sectionTitle}>
-//             {locale === 'en' ? 'Tour leader(s)' : 'Турлідер(и)'}
-//           </h2>
-
-//           <div className={styles.leadersWrapper}>
-//             {tour.leaders.map((leader, index) => (
-//               <div key={index} className={styles.leaderCard}>
-//                 {leader.photo?.url && (
-//                   <img src={leader.photo.url} alt={leader.name} className={styles.leaderImg} />
-//                 )}
-//                 <h3 className={styles.leaderName}>{leader.name}</h3>
-//                 {leader.role && <strong>{t(leader.role)}</strong>}
-//                 {leader.bio && <RichText content={leader.bio} />}
-//               </div>
-//             ))}
-//           </div>
-//         </section>
-//       )}
-
-//       {/* GALLERY */}
-//       {tour.gallery && tour.gallery.length > 0 && (
-//         <section className={styles.section}>
-//           <h2 className={styles.sectionTitle}>{locale === 'en' ? 'Gallery' : 'Галерея'}</h2>
-//           <div className={styles.galleryWrapper}>
-//             {tour.gallery.map((item) => (
-//               <div key={item.id} className={styles.galleryCard}>
-//                 <img src={item.image.url} alt={item.image.alt || 'Gallery image'} />
-//               </div>
-//             ))}
-//           </div>
-//         </section>
-//       )}
-
-//       {bookingOpen && (
-//         <BookingModal tourName={t(tour.name)} onClose={() => setBookingOpen(false)} />
-//       )}
-//       {consultationOpen && (
-//         <ConsultationModal locale={locale} onClose={() => setConsultationOpen(false)} />
-//       )}
-//     </main>
-//   )
-// }
 export default function TourDetailClient({ tour, locale }: Props) {
   const [bookingOpen, setBookingOpen] = useState(false)
   const [consultationOpen, setConsultationOpen] = useState(false)
@@ -462,17 +370,7 @@ export default function TourDetailClient({ tour, locale }: Props) {
   return (
     <main className={styles.wrapper}>
       {/* HERO */}
-      {/* <section>
-        <HeroSection subtitle={'subtitle'} title={'title'} description={'description'} />
-        <div className={styles.actions}>
-          <button className={styles.primaryBtn} onClick={() => setBookingOpen(true)}>
-            {locale === 'en' ? 'Book now' : 'Забронювати'}
-          </button>
-          <button className={styles.secondaryBtn} onClick={() => setConsultationOpen(true)}>
-            {locale === 'en' ? 'Consultation' : 'Консультація'}
-          </button>
-        </div>
-      </section> */}
+
       <section className={styles.hero}>
         <HeroSection
           title={t(tour.name)}
@@ -494,6 +392,7 @@ export default function TourDetailClient({ tour, locale }: Props) {
       <section className={styles.section}>
         {/* <h2 className={styles.title}>{locale === 'en' ? 'Trip Details' : 'ТРІП ДЕТАЛІ'}</h2> */}
         <div className={styles.cardWrapper}>
+          <TripDetails tour={tour} locale={locale} />
           <TripDetails tour={tour} locale={locale} />
           <TripDetails tour={tour} locale={locale} />
         </div>
@@ -557,7 +456,7 @@ export default function TourDetailClient({ tour, locale }: Props) {
       </section>
 
       {/* LEADERS */}
-      {tour.leaders && tour.leaders.length > 0 && (
+      {/* {tour.leaders && tour.leaders.length > 0 && (
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>{locale === 'en' ? 'Tour leaders' : 'Турлідери'}</h2>
 
@@ -573,6 +472,66 @@ export default function TourDetailClient({ tour, locale }: Props) {
               </div>
             ))}
           </div>
+        </section>
+      )} */}
+
+      {/* LEADERS */}
+      {tour.leaders && tour.leaders.length > 0 && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>{locale === 'en' ? 'Tour leader' : 'Турлідер'}</h2>
+
+          {tour.leaders.length === 1 ? (
+            /* ОДИН ЛИДЕР: Слева галерея, справа карточка */
+            <div className={`${styles.infoGrid} ${styles.leaderGridVariant}`}>
+              {/* ГАЛЕРЕЯ СЛЕВА */}
+              {tour.gallery && (
+                <div className={styles.galleryWrapper}>
+                  {/* Берем 3 фото: одно большое и два маленьких справа */}
+                  {tour.gallery.slice(0, 3).map((item) => (
+                    <div key={item.id} className={styles.galleryCard}>
+                      <img src={item.image.url} alt={item.image.alt || ''} />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* КАРТОЧКА ЛИДЕРА СПРАВА */}
+              <div className={`${styles.infoCard} ${styles.leaderCardVariant}`}>
+                <div className={styles.leaderSingleContent}>
+                  {tour.leaders[0].photo?.url && (
+                    <img
+                      className={styles.leaderImgCircle}
+                      src={tour.leaders[0].photo.url}
+                      alt={tour.leaders[0].name}
+                    />
+                  )}
+                  <h3 className={styles.leaderName}>{tour.leaders[0].name}</h3>
+
+                  {tour.leaders[0].role && (
+                    <strong className={styles.leaderRole}>{t(tour.leaders[0].role)}</strong>
+                  )}
+
+                  <div className={styles.leaderBio}>
+                    <RichText content={tour.leaders[0].bio} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* НЕСКОЛЬКО ЛИДЕРОВ: Сетка */
+            <div className={styles.leadersWrapper}>
+              {tour.leaders.map((leader) => (
+                <div key={leader.id} className={styles.leaderCard}>
+                  <img src={leader.photo?.url} className={styles.leaderImg} alt={leader.name} />
+                  <h3 className={styles.leaderName}>{leader.name}</h3>
+                  <strong>{t(leader.role)}</strong>
+                  <div className={styles.leaderBio}>
+                    <RichText content={leader.bio} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
       )}
 
