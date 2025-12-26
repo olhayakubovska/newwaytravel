@@ -1,0 +1,31 @@
+.wrapper {
+  // background: linear-gradient(135deg, #FFD54F, #FFB300);
+  border-radius: 1.2rem;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #000000;
+}
+
+.content {
+  font-size: 1rem;
+  color: #000000;
+  line-height: 1.5;
+
+  p {
+    margin-bottom: 0.75rem;
+  }
+
+  ul, ol {
+    padding-left: 1.2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+}

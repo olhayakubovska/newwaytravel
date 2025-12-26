@@ -9,21 +9,29 @@ import { autoTranslate } from '../hooks/autoTranslate'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
+
   admin: {
     useAsTitle: 'title',
-    // --- ДОБАВЬТЕ ЭТОТ БЛОК ---
+
     livePreview: {
       url: ({ data, locale }) => {
         const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+
         const slug = data.slug === 'home' ? '' : data.slug
+
         return `${baseUrl}/${locale.code}/${slug}`
       },
     },
-    // -------------------------
   },
+
+  // versions: {
+  //   drafts: true,
+  // },
+
   hooks: {
     afterChange: [autoTranslate(['title', 'layout'])],
   },
+
   fields: [
     {
       name: 'title',
@@ -34,8 +42,8 @@ export const Pages: CollectionConfig = {
     {
       name: 'slug',
       type: 'text',
-      required: true,
-      unique: true,
+      // required: true,
+      // unique: true,
       localized: true,
     },
     {

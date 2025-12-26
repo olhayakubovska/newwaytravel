@@ -6,11 +6,32 @@ export const Tours: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'location', 'price'],
+    livePreview: {
+      url: ({ data, locale }) => {
+        const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+        // Динамическая ссылка: учитывает язык и слаг тура
+        return `${baseUrl}/${locale.code}/tours/${data?.slug || ''}`
+      },
+    },
   },
-  access: {
-    read: () => true,
-  },
+  access: { read: () => true },
   hooks: {
+    beforeValidate: [
+      ({ data }) => {
+        // Авто-генерация слага, чтобы избежать undefined в URL
+        if (data?.name && !data?.slug) {
+          return {
+            ...data,
+            slug: data.name
+              .toLowerCase()
+              .trim()
+              .replace(/[^\w\s-]/g, '')
+              .replace(/[\s_-]+/g, '-'),
+          }
+        }
+        return data
+      },
+    ],
     afterChange: [
       autoTranslate([
         'name',
@@ -20,192 +41,112 @@ export const Tours: CollectionConfig = {
         'groupSize',
         'category',
         'itinerary',
-        // Добавляем новые поля в автоперевод
         'tripDetails',
+        'leaders',
+        'uiTexts',
       ]),
     ],
   },
   fields: [
-    {
-      name: 'name',
-      type: 'text',
-      required: true,
-      label: 'Назва туру',
-      localized: true,
-    },
+    { name: 'name', type: 'text', required: true, localized: true },
     {
       name: 'slug',
       type: 'text',
       required: true,
       unique: true,
       admin: { position: 'sidebar' },
+      label: 'URL Slug',
     },
-    {
-      name: 'price',
-      type: 'number',
-      required: true,
-      label: 'Ціна (€)',
-    },
+    { name: 'price', type: 'number', required: true, label: 'Ціна (€)' },
     {
       type: 'tabs',
       tabs: [
         {
-          label: 'Основна інформація',
+          label: 'Контент туру',
           fields: [
             {
-              name: 'category',
-              type: 'text',
-              localized: true,
-              label: 'Категорія',
+              name: 'uiTexts',
+              type: 'group',
+              label: 'Тексти кнопок та заголовків',
+              fields: [
+                { name: 'bookButton', type: 'text', localized: true, defaultValue: 'Забронювати' },
+                {
+                  name: 'consultButton',
+                  type: 'text',
+                  localized: true,
+                  defaultValue: 'Консультація',
+                },
+                {
+                  name: 'programTitle',
+                  type: 'text',
+                  localized: true,
+                  defaultValue: 'Програма туру',
+                },
+                { name: 'leaderTitle', type: 'text', localized: true, defaultValue: 'Турлідер' },
+                {
+                  name: 'consultCardTitle',
+                  type: 'text',
+                  localized: true,
+                  defaultValue: 'Тільки найяскравіші враження!',
+                },
+                {
+                  name: 'consultCardText',
+                  type: 'text',
+                  localized: true,
+                  defaultValue: 'Ми відкриті до пропозицій.',
+                },
+              ],
             },
-            {
-              name: 'location',
-              type: 'text',
-              localized: true,
-              label: 'Напрямок',
-            },
-            /* Группа полей для плитки TripDetails */
             {
               name: 'tripDetails',
               type: 'group',
-              label: 'Деталі картки (плитка)',
               fields: [
-                {
-                  name: 'dates',
-                  type: 'text',
-                  label: 'Дати (напр: 18.10 - 25.10.2025)',
-                  localized: true,
-                },
-                {
-                  name: 'priceLabel',
-                  type: 'text',
-                  label: 'Текст на бейджі ціни (напр: 50€ для ЗСУ)',
-                  localized: true,
-                },
-                // Внутри группы tripDetails в Tours.ts
-                {
-                  name: 'bookingConditions',
-                  type: 'richText', // Меняем с 'text' на 'richText'
-                  label: 'Умови бронювання (RichText)',
-                  localized: true,
-                },
-                {
-                  name: 'bookingNote',
-                  type: 'text',
-                  label: 'Примітка до бронювання',
-                  localized: true,
-                },
+                { name: 'dates', type: 'text', localized: true },
+                { name: 'priceLabel', type: 'text', localized: true },
+                { name: 'bookingConditions', type: 'richText', localized: true },
+                { name: 'bookingNote', type: 'text', localized: true },
+                { name: 'additionalInfo', type: 'richText', localized: true },
               ],
             },
-            {
-              name: 'duration',
-              type: 'text',
-              localized: true,
-              label: 'Тривалість (текст)',
-            },
-            {
-              name: 'groupSize',
-              type: 'text',
-              localized: true,
-              label: 'Розмір групи',
-            },
-            {
-              name: 'description',
-              type: 'richText',
-              label: 'Детальний опис туру',
-              localized: true,
-            },
-            {
-              name: 'mainImage',
-              type: 'upload',
-              relationTo: 'media',
-              label: 'Головне фото',
-            },
+            { name: 'location', type: 'text', localized: true },
+            { name: 'duration', type: 'text', localized: true },
+            { name: 'category', type: 'text', localized: true },
+            { name: 'description', type: 'richText', localized: true },
+            { name: 'mainImage', type: 'upload', relationTo: 'media' },
             {
               name: 'gallery',
               type: 'array',
-              label: 'Галерея туру',
-              fields: [
-                {
-                  name: 'image',
-                  type: 'upload',
-                  relationTo: 'media',
-                  required: false,
-                },
-              ],
+              fields: [{ name: 'image', type: 'upload', relationTo: 'media' }],
             },
           ],
         },
         {
-          label: 'Програма туру',
+          label: 'Програма',
           fields: [
             {
               name: 'itinerary',
               type: 'array',
-              label: 'Дні програми',
-              localized: true,
               fields: [
-                {
-                  name: 'dayTitle',
-                  type: 'text',
-                  label: 'Заголовок дня (напр: День 1: Приліт)',
-                },
-                {
-                  name: 'content',
-                  type: 'richText',
-                  label: 'Опис подій дня',
-                },
+                { name: 'dayTitle', type: 'text', localized: true },
+                { name: 'content', type: 'richText', localized: true },
                 {
                   name: 'images',
                   type: 'array',
-                  label: 'Фотографії этого дня',
-                  fields: [
-                    {
-                      name: 'image',
-                      type: 'upload',
-                      relationTo: 'media',
-                    },
-                  ],
+                  fields: [{ name: 'image', type: 'upload', relationTo: 'media' }],
                 },
               ],
             },
           ],
         },
         {
-          label: 'Команда (Турлідери)',
+          name: 'leader',
+
+          label: 'Турлідер',
           fields: [
-            {
-              name: 'leaders',
-              type: 'array',
-              label: 'Наші спеціалісти',
-              fields: [
-                {
-                  name: 'name',
-                  type: 'text',
-                  label: 'Ім’я та Прізвище',
-                  required: true,
-                },
-                {
-                  name: 'role',
-                  type: 'text',
-                  label: 'Посада/Роль (напр: Співзасновник)',
-                  localized: true,
-                },
-                {
-                  name: 'photo',
-                  type: 'upload',
-                  relationTo: 'media',
-                  label: 'Фото',
-                  required: true,
-                },
-                {
-                  name: 'bio',
-                  type: 'textarea',
-                  label: 'Коротка біографія',
-                  localized: true,
-                },
-              ],
-            },
+            { name: 'name', type: 'text', localized: true },
+            { name: 'role', type: 'text', localized: true },
+            { name: 'photo', type: 'upload', relationTo: 'media' },
+            { name: 'bio', type: 'textarea', localized: true },
           ],
         },
       ],

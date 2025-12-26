@@ -183,7 +183,7 @@ export interface Media {
 export interface Page {
   id: string;
   title: string;
-  slug: string;
+  slug?: string | null;
   layout?:
     | (
         | {
@@ -260,8 +260,14 @@ export interface Tour {
   name: string;
   slug: string;
   price: number;
-  category?: string | null;
-  location?: string | null;
+  uiTexts?: {
+    bookButton?: string | null;
+    consultButton?: string | null;
+    programTitle?: string | null;
+    leaderTitle?: string | null;
+    consultCardTitle?: string | null;
+    consultCardText?: string | null;
+  };
   tripDetails?: {
     dates?: string | null;
     priceLabel?: string | null;
@@ -281,9 +287,25 @@ export interface Tour {
       [k: string]: unknown;
     } | null;
     bookingNote?: string | null;
+    additionalInfo?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
   };
+  location?: string | null;
   duration?: string | null;
-  groupSize?: string | null;
+  category?: string | null;
   description?: {
     root: {
       type: string;
@@ -333,15 +355,12 @@ export interface Tour {
         id?: string | null;
       }[]
     | null;
-  leaders?:
-    | {
-        name: string;
-        role?: string | null;
-        photo: string | Media;
-        bio?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  leader?: {
+    name?: string | null;
+    role?: string | null;
+    photo?: (string | null) | Media;
+    bio?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -591,8 +610,16 @@ export interface ToursSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   price?: T;
-  category?: T;
-  location?: T;
+  uiTexts?:
+    | T
+    | {
+        bookButton?: T;
+        consultButton?: T;
+        programTitle?: T;
+        leaderTitle?: T;
+        consultCardTitle?: T;
+        consultCardText?: T;
+      };
   tripDetails?:
     | T
     | {
@@ -600,9 +627,11 @@ export interface ToursSelect<T extends boolean = true> {
         priceLabel?: T;
         bookingConditions?: T;
         bookingNote?: T;
+        additionalInfo?: T;
       };
+  location?: T;
   duration?: T;
-  groupSize?: T;
+  category?: T;
   description?: T;
   mainImage?: T;
   gallery?:
@@ -624,14 +653,13 @@ export interface ToursSelect<T extends boolean = true> {
             };
         id?: T;
       };
-  leaders?:
+  leader?:
     | T
     | {
         name?: T;
         role?: T;
         photo?: T;
         bio?: T;
-        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -728,13 +756,14 @@ export interface Footer {
 export interface Header {
   id: string;
   logoText?: string | null;
-  navItems?:
-    | {
-        label: string;
-        link: string;
-        id?: string | null;
-      }[]
-    | null;
+  chatText?: string | null;
+  telegramChatLink?: string | null;
+  socialLinks?: {
+    facebook?: string | null;
+    youtube?: string | null;
+    instagram?: string | null;
+    telegram?: string | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -834,12 +863,15 @@ export interface FooterSelect<T extends boolean = true> {
  */
 export interface HeaderSelect<T extends boolean = true> {
   logoText?: T;
-  navItems?:
+  chatText?: T;
+  telegramChatLink?: T;
+  socialLinks?:
     | T
     | {
-        label?: T;
-        link?: T;
-        id?: T;
+        facebook?: T;
+        youtube?: T;
+        instagram?: T;
+        telegram?: T;
       };
   updatedAt?: T;
   createdAt?: T;

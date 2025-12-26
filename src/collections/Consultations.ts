@@ -5,7 +5,7 @@ export const Consultations: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'phone', 'createdAt'],
-    group: 'Заявки',
+    // group: 'Заявки',
   },
   access: {
     create: () => true,

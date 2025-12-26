@@ -5,7 +5,7 @@
   padding: 40px;
   // width: 100%;
   // max-width: 1100px;
-  margin: 0 auto;
+  // margin: 0 auto;
   border: 1px solid #f0f0f0;
 
 }
@@ -108,13 +108,13 @@
   }
 }
 
-.infoCard {
-  background: #fff;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  height: 100%; // Чтобы карточка лидера тянулась под высоту галереи
-}
+// .infoCard {
+//   background: #fff;
+//   padding: 30px;
+//   border-radius: 16px;
+//   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+//   height: 100%; // Чтобы карточка лидера тянулась под высоту галереи
+// }
 
 .leaderSingleContent {
   display: flex;

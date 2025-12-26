@@ -13,26 +13,21 @@ import {
 } from '@radix-ui/react-dropdown-menu'
 
 interface HeaderProps {
-  logoText?: string | any | null
-  navItems?:
-    | {
-        label: string | any
-        link: string
-        id?: string | null
-      }[]
-    | null
-  locale: string
+  data?: any // Данные из Payload Global Header
+  locale: 'uk' | 'en'
 }
 
-export const Header = ({ logoText, navItems, locale }: HeaderProps) => {
+export const Header = ({ data, locale }: HeaderProps) => {
   const router = useRouter()
   const pathname = usePathname()
 
-  const getText = (field: any): string => {
-    if (typeof field === 'object' && field !== null) {
-      return field[locale] || field['uk'] || field['en'] || ''
+  // Функция для безопасного извлечения текста (лечит ошибку [object Object])
+  const t = (field: any, fallback: string): string => {
+    if (!field) return fallback
+    if (typeof field === 'object') {
+      return field[locale] || field.uk || field.en || fallback
     }
-    return typeof field === 'string' ? field : ''
+    return typeof field === 'string' ? field : fallback
   }
 
   const changeLanguage = (newLocale: string) => {
@@ -42,49 +37,45 @@ export const Header = ({ logoText, navItems, locale }: HeaderProps) => {
     router.push(segments.join('/'))
   }
 
-  const defaultNavItems = [
-    {
-      label: { uk: 'ГОЛОВНА', en: 'HOME' },
-      link: '/',
-    },
-    {
-      label: { uk: 'КАЛЕНДАР ТУРІВ', en: 'TOUR CALENDAR' },
-      link: '/tours',
-    },
-    {
-      label: { uk: 'ПРО НАС', en: 'ABOUT US' },
-      link: '/about',
-    },
+  // Хардкод навигация
+  const navigation = [
+    { label: locale === 'en' ? 'HOME' : 'ГОЛОВНА', link: '/' },
+    { label: locale === 'en' ? 'TOUR CALENDAR' : 'КАЛЕНДАР ТУРІВ', link: '/tours' },
+    { label: locale === 'en' ? 'ABOUT US' : 'ПРО НАС', link: '/about' },
   ]
-
-  const navigation = navItems && navItems.length > 0 ? navItems : defaultNavItems
 
   return (
     <header className={styles.header}>
       <div className={styles.container}>
+        {/* Логотип из админки */}
         <Link href={`/${locale}`} className={styles.logo}>
-          {getText(logoText) || 'NEW WAY'}
+          {t(data?.logoText, 'NEW WAY')}
         </Link>
 
+        {/* Навигация (Хардкод) */}
         <nav className={styles.nav}>
-          {navigation.map((item: any, idx: number) => (
-            <Link
-              key={item.id || `nav-${idx}`}
-              href={`/${locale}${item.link.startsWith('/') ? item.link : '/' + item.link}`}
-              className={styles.navLink}
-            >
-              {getText(item.label)}
+          {navigation.map((item, idx) => (
+            <Link key={idx} href={`/${locale}${item.link}`} className={styles.navLink}>
+              {item.label}
             </Link>
           ))}
         </nav>
 
         <div className={styles.actions}>
-          <button className={styles.chatButton}>
-            <MessageCircle className={styles.icon} />
-            <span className={styles.chatText}>
-              {locale === 'en' ? 'ONLINE CHAT' : 'ОНЛАЙН ЧАТ'}
-            </span>
-          </button>
+          {/* Ссылка на телеграм из админки для кнопки ЧАТ */}
+          <a
+            href={data?.telegramChatLink || '#'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.chatLink}
+          >
+            <button className={styles.chatButton}>
+              <MessageCircle className={styles.icon} />
+              <span className={styles.chatText}>
+                {t(data?.chatText, locale === 'en' ? 'ONLINE CHAT' : 'ОНЛАЙН ЧАТ')}
+              </span>
+            </button>
+          </a>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -93,7 +84,6 @@ export const Header = ({ logoText, navItems, locale }: HeaderProps) => {
                 <Globe className={styles.iconSmall} />
               </button>
             </DropdownMenuTrigger>
-
             <DropdownMenuContent className={styles.dropdownContent} align="end">
               <DropdownMenuItem
                 className={styles.dropdownItem}
@@ -110,11 +100,21 @@ export const Header = ({ logoText, navItems, locale }: HeaderProps) => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+
+        {/* Соцсети из группы в админке */}
         <div className={styles.socialsLeft}>
-          <Facebook className={styles.icon} />
-          <Youtube className={styles.icon} />
-          <Send className={styles.icon} />
-          <Instagram className={styles.icon} />
+          <a href={data?.socialLinks?.facebook || '#'} target="_blank">
+            <Facebook className={styles.icon} />
+          </a>
+          <a href={data?.socialLinks?.youtube || '#'} target="_blank">
+            <Youtube className={styles.icon} />
+          </a>
+          <a href={data?.socialLinks?.telegram || '#'} target="_blank">
+            <Send className={styles.icon} />
+          </a>
+          <a href={data?.socialLinks?.instagram || '#'} target="_blank">
+            <Instagram className={styles.icon} />
+          </a>
         </div>
       </div>
     </header>

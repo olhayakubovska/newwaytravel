@@ -59,19 +59,10 @@
   justify-content: center;
   margin-bottom: 80px;
   clip-path: ellipse(150% 100% at 50% 0%);
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(11, 34, 57, 0.3), rgba(11, 34, 57, 0.7));
-    z-index: 1;
-  }
 }
 
 .heroActions {
   position: absolute;
-  z-index: 3;
   bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
@@ -135,11 +126,18 @@
 
 .infoCard {
   background: var(--white);
-  padding: 40px;
-  border-radius: 20px;
+  padding: 40px 30px; 
+  border-radius: 24px;
+  border: 1px solid rgba(252, 177, 45, 0.3);
+  text-align: center;
+  position: sticky;
+  top: 100px;
+  height: fit-content; 
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
   box-shadow: var(--shadow-md);
-  border: 1px solid rgba(0, 0, 0, 0.03);
-
+  
   h3 {
     font-size: 24px;
     font-weight: 900;
@@ -148,6 +146,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
+
     &::before {
       content: '';
       width: 8px;
@@ -197,87 +196,6 @@
   }
 }
 
-/* LEADERS */
-.leadersWrapper {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 40px;
-  justify-content: center;
-}
-
-.leaderCard {
-  background: var(--white);
-  border-radius: 24px;
-  padding: 40px 30px;
-  text-align: center;
-  box-shadow: var(--shadow-md);
-  transition: var(--transition);
-
-  &:hover {
-    transform: translateY(-10px);
-  }
-
-  .leaderImg {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    margin-bottom: 20px;
-    object-fit: cover;
-    outline: 3px solid var(--primary);
-    outline-offset: 4px;
-  }
-}
-
-/* ОДИН ЛИДЕР ВАРИАНТ */
-.leaderGridVariant {
-  grid-template-columns: 1.8fr 1.2fr;
-  align-items: stretch;
-}
-
-.leaderCardVariant {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.leaderSingleContent {
-  .leaderImgCircle {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 20px;
-    border: 5px solid var(--white);
-    outline: 3px solid var(--primary);
-    box-shadow: var(--shadow-lg);
-  }
-
-  .leaderName {
-    font-size: 28px;
-    font-weight: 900;
-    margin-bottom: 10px;
-  }
-
-  .leaderRole {
-    display: inline-block;
-    font-size: 13px;
-    font-weight: 800;
-    color: var(--primary);
-    background: rgba(252, 177, 45, 0.1);
-    padding: 6px 16px;
-    border-radius: 20px;
-    margin-bottom: 15px;
-  }
-
-  .leaderBio {
-    text-align: left;
-    color: var(--text-muted);
-    font-size: 15px;
-  }
-}
-
 /* PROGRAM & CONSULT */
 .programLayout {
   display: grid;
@@ -296,25 +214,80 @@
   height: fit-content;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+/* LEADER CARD */
+.leaderCardWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 30px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  background: var(--white);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  width: 300px;
+
+  margin: 0 auto;
+  
+  &:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
   }
 }
 
-.leaderCard,
-.infoCard,
-.galleryCard {
-  animation: fadeInUp 0.6s ease backwards;
+.leaderImageWrapper {
+  flex: 0 0 200px;
+  height: 200px; 
+  overflow: hidden;
+  border-radius: 50%;
+  border: 3px solid rgba(252, 177, 45, 0.3);
 }
 
+.leaderImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.leaderText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.leaderName {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--navy);
+}
+
+.leaderRole {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.leaderBio {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* CARD WRAPPER */
 .cardWrapper {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
 }
+
+// .sectionLeader{
+// // display: flex;
+// margin: 0 auto;
+// }
