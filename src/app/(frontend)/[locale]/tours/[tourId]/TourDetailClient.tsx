@@ -9,6 +9,7 @@ import { ConsultationModal } from '@/components/blocks/modal/ConsultationModal/C
 import styles from './TourDetailPage.module.scss'
 import { HeroSection } from '@/components/blocks/HeroSection/HeroSection'
 import TripAdditionalInfo from '@/components/blocks/ui/TripAdditionalInfo/TripAdditionalInfo'
+import AdditionalInfo from '@/components/blocks/ui/AdditionalInfo/AdditionalInfo'
 
 export interface Media {
   id: string
@@ -66,6 +67,19 @@ export interface Tour {
     bookingNote?: string
     additionalInfo?: any
   }
+  // Новые карточки
+  tripDetailsCard?: {
+    title?: any
+    content?: any
+  }
+  tripAdditionalInfoCard?: {
+    title?: any
+    content?: any
+  }
+  additionalInfoCard?: {
+    title?: any
+    content?: any
+  }
 }
 
 interface Props {
@@ -108,8 +122,9 @@ export default function TourDetailClient({ tour, locale }: Props) {
       {/* DETAILS & ADDITIONAL INFO */}
       <section className={styles.section}>
         <div className={styles.cardWrapper}>
-          <TripDetails tour={tour} locale={locale} />
-          <TripAdditionalInfo tour={tour} locale={locale} />
+          {tour.tripDetailsCard && <TripDetails tour={tour} locale={locale} />}
+          {tour.tripAdditionalInfoCard && <TripAdditionalInfo tour={tour} locale={locale} />}
+          {tour.additionalInfoCard && <AdditionalInfo tour={tour} locale={locale} />}
         </div>
       </section>
 

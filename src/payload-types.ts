@@ -261,47 +261,12 @@ export interface Tour {
   slug: string;
   price: number;
   uiTexts?: {
-    bookButton?: string | null;
-    consultButton?: string | null;
-    programTitle?: string | null;
+    'Кнопка забронювати'?: string | null;
+    'Кнопка консультація'?: string | null;
+    'Програма туру'?: string | null;
     leaderTitle?: string | null;
     consultCardTitle?: string | null;
     consultCardText?: string | null;
-  };
-  tripDetails?: {
-    dates?: string | null;
-    priceLabel?: string | null;
-    bookingConditions?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    bookingNote?: string | null;
-    additionalInfo?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
   };
   location?: string | null;
   duration?: string | null;
@@ -328,6 +293,60 @@ export interface Tour {
         id?: string | null;
       }[]
     | null;
+  tripDetailsCard?: {
+    title?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  tripAdditionalInfoCard?: {
+    title?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  additionalInfoCard?: {
+    title?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
   itinerary?:
     | {
         dayTitle?: string | null;
@@ -613,21 +632,12 @@ export interface ToursSelect<T extends boolean = true> {
   uiTexts?:
     | T
     | {
-        bookButton?: T;
-        consultButton?: T;
-        programTitle?: T;
+        'Кнопка забронювати'?: T;
+        'Кнопка консультація'?: T;
+        'Програма туру'?: T;
         leaderTitle?: T;
         consultCardTitle?: T;
         consultCardText?: T;
-      };
-  tripDetails?:
-    | T
-    | {
-        dates?: T;
-        priceLabel?: T;
-        bookingConditions?: T;
-        bookingNote?: T;
-        additionalInfo?: T;
       };
   location?: T;
   duration?: T;
@@ -639,6 +649,24 @@ export interface ToursSelect<T extends boolean = true> {
     | {
         image?: T;
         id?: T;
+      };
+  tripDetailsCard?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+      };
+  tripAdditionalInfoCard?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+      };
+  additionalInfoCard?:
+    | T
+    | {
+        title?: T;
+        content?: T;
       };
   itinerary?:
     | T

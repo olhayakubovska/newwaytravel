@@ -231,7 +231,7 @@
   width: 300px;
 
   margin: 0 auto;
-  
+
   &:hover {
     box-shadow: var(--shadow-md);
     transform: translateY(-3px);
@@ -284,7 +284,7 @@
 .cardWrapper {
   display: flex;
   gap: 20px;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
 }
 
 // .sectionLeader{
