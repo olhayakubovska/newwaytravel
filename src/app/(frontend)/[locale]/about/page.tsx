@@ -13,7 +13,6 @@ export default async function AboutPage({ params }: PageProps) {
   const { locale } = await params
   const payload = await getPayload({ config: configPromise })
 
-  // Получаем данные из Payload
   const data = await payload.findGlobal({
     slug: 'about',
     locale: locale as 'uk' | 'en',
@@ -21,7 +20,6 @@ export default async function AboutPage({ params }: PageProps) {
 
   if (!data) return notFound()
 
-  // Передаем данные data в клиентский компонент
   return <AboutPageClient data={data} locale={locale} />
 }
 

@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import styles from './HeroSection.module.scss'
 
-// Добавляем пропсы: subtitle, title, description
 export function HeroSection({
   subtitle,
   title,

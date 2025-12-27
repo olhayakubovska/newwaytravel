@@ -19,43 +19,41 @@ const MONTH_LABELS: Record<string, { uk: string; en: string }> = {
 }
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = (await params) as { locale: 'uk' | 'en' }
+  const { locale } = await params
+  const localeTyped = locale as 'uk' | 'en'
+
   const payload = await getPayload({ config: configPromise })
 
-  const result = await payload.find({
+  // --- Получаем страницу с layout, видео подтянутся через depth:2 ---
+  const pageResult = await payload.find({
     collection: 'pages',
     where: { slug: { equals: 'home' } },
-    locale: locale,
+    limit: 1,
+    locale: localeTyped,
+    depth: 2, // подтягивает videos → videoFile, thumbnail, relatedVideos
   })
 
-  const page = result.docs[0]
+  const page = pageResult.docs[0]
   if (!page) return notFound()
 
-  const toursData = await payload.find({
+  // --- Фильтры для поиска ---
+  const toursResult = await payload.find({
     collection: 'tours',
     limit: 100,
-    locale: locale,
+    locale: localeTyped,
   })
-  const tours = toursData.docs
+  const tours = toursResult.docs
 
   const searchData = {
     categories: Array.from(new Set(tours.map((t: any) => t.category)))
       .filter(Boolean)
-      .map((cat) => ({
-        label: String(cat),
-        value: String(cat),
-      })),
-
+      .map((cat) => ({ label: String(cat), value: String(cat) })),
     destinations: Array.from(new Set(tours.map((t: any) => t.location)))
       .filter(Boolean)
-      .map((loc) => ({
-        label: String(loc),
-        value: String(loc),
-      })),
-
+      .map((loc) => ({ label: String(loc), value: String(loc) })),
     months: Object.entries(MONTH_LABELS).map(([value, labels]) => ({
-      label: labels[locale] || labels.uk,
-      value: value,
+      label: labels[localeTyped] || labels.uk,
+      value,
     })),
   }
 

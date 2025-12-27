@@ -2,7 +2,13 @@ import { CollectionConfig } from 'payload'
 
 export const Consultations: CollectionConfig = {
   slug: 'consultations',
+  labels: {
+    singular: 'Консультація',
+    plural: 'Запити на консультацію',
+  },
   admin: {
+    group: 'Дані з форми',
+
     useAsTitle: 'name',
     defaultColumns: ['name', 'phone', 'createdAt'],
     // group: 'Заявки',

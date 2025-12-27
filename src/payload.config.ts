@@ -15,6 +15,7 @@ import { SearchBarConfig } from './collections/SearchBarConfig'
 import { Orders } from './collections/Orders'
 import { AboutConfig } from './collections/About'
 import { Consultations } from './collections/Consultations'
+import { Videos } from './collections/Videos'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -32,7 +33,7 @@ export default buildConfig({
     fallback: true,
   },
 
-  collections: [Users, Media, Pages, Tours, Orders, Consultations],
+  collections: [Users, Media, Pages, Tours, Orders, Consultations, Videos],
   globals: [FooterConfig, HeaderConfig, SearchBarConfig, AboutConfig],
 
   editor: lexicalEditor(),

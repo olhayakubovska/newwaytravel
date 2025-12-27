@@ -9,9 +9,13 @@ import { autoTranslate } from '../hooks/autoTranslate'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
-
+  labels: {
+    singular: 'Сторінка',
+    plural: 'Усі сторінки сайту',
+  },
   admin: {
     useAsTitle: 'title',
+    group: 'Усі сторінки',
 
     livePreview: {
       url: ({ data, locale }) => {

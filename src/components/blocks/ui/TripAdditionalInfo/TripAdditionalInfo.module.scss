@@ -1,77 +1,102 @@
-// TripAdditionalInfo.module.scss
-
 .wrapper {
-  margin: 2rem 0;
-  padding: 1.5rem;
-  background-color: #f9f9f9; // Легкий фон для виділення блоку
-  border-radius: 12px;
-  border: 1 link solid #ececec;
+  // Используем оранжевый и глубокий темно-синий
+  --primary: #fcb12d;
+  --navy: #0f172a;
+  --text-gray: #4b5563;
   
+  background-color: #ffffff;
+  border-radius: 20px; // Немного увеличил скругление для мягкости
+  border: 1px solid #f1f5f9;
+  padding: 25px 30px; 
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05); // Тень в тон Navy
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(252, 177, 45, 0.1); // Теплая тень при наведении
+  }
+
   @media (max-width: 768px) {
-    padding: 1rem;
-    margin: 1.5rem 0;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-radius: 16px;
   }
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1.25rem;
-  color: #1a1a1a;
-  position: relative;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: var(--navy);
   display: flex;
   align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 
-  // Необов'язково: додаємо декоративну лінію зліва
+  // Оранжевая полоска слева
   &::before {
     content: '';
-    width: 4px;
-    height: 1.5rem;
-    background-color: #3b82f6; // Колір акценту (наприклад, синій)
-    margin-right: 0.75rem;
-    border-radius: 2px;
+    width: 5px;
+    height: 1.6rem;
+    background-color: var(--primary); 
+    margin-right: 1rem;
+    border-radius: 10px;
   }
 
   @media (max-width: 480px) {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
 }
 
 .content {
-  line-height: 1.6;
-  color: #4b5563; // Приємний для читання сірий колір
-  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-gray); 
+  font-size: 1.05rem;
 
-  // Стилізація внутрішніх елементів RichText, якщо вони не стилізовані глобально
   :global {
     p {
       margin-bottom: 1rem;
-      &:last-child {
-        margin-bottom: 0;
-      }
+      &:last-child { margin-bottom: 0; }
     }
 
-    ul, ol {
-      padding-left: 1.5rem;
-      margin-bottom: 1rem;
-      
+    ul {
+      padding-left: 0;
+      list-style: none;
+
       li {
-        margin-bottom: 0.5rem;
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.75rem;
+
+        // Оранжевые маркеры-точки
+        &::before {
+          content: "•";
+          color: var(--primary);
+          font-weight: 900;
+          position: absolute;
+          left: 0;
+          font-size: 1.5rem;
+          line-height: 1;
+          top: -2px;
+        }
       }
     }
 
     strong {
-      color: #111827;
-      font-weight: 600;
+      color: var(--navy); // Жирный текст делаем темным
+      font-weight: 700;
     }
-
+    
+    // Если есть ссылки внутри текста
     a {
-      color: #3b82f6;
-      text-decoration: underline;
-      transition: color 0.2s ease;
-
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px solid transparent;
+      transition: border 0.2s ease;
+      
       &:hover {
-        color: #2563eb;
+        border-bottom-color: var(--primary);
       }
     }
   }

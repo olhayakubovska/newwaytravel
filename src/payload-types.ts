@@ -73,6 +73,7 @@ export interface Config {
     tours: Tour;
     orders: Order;
     consultations: Consultation;
+    videos: Video;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,6 +87,7 @@ export interface Config {
     tours: ToursSelect<false> | ToursSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     consultations: ConsultationsSelect<false> | ConsultationsSelect<true>;
+    videos: VideosSelect<false> | VideosSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -94,6 +96,7 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('uk' | 'en') | ('uk' | 'en')[];
   globals: {
     footer: Footer;
     header: Header;
@@ -208,6 +211,7 @@ export interface Page {
             blockType: 'searchBar';
           }
         | {
+            backgroundImage: string | Media;
             title?: string | null;
             text?: string | null;
             buttonText?: string | null;
@@ -217,14 +221,7 @@ export interface Page {
           }
         | {
             title?: string | null;
-            items?:
-              | {
-                  videoTitle?: string | null;
-                  thumbnail: string | Media;
-                  videoFile: string | Media;
-                  id?: string | null;
-                }[]
-              | null;
+            videos: (string | Video)[];
             id?: string | null;
             blockName?: string | null;
             blockType: 'videoSection';
@@ -261,31 +258,13 @@ export interface Tour {
   slug: string;
   price: number;
   uiTexts?: {
-    'Кнопка забронювати'?: string | null;
-    'Кнопка консультація'?: string | null;
-    'Програма туру'?: string | null;
-    leaderTitle?: string | null;
-    consultCardTitle?: string | null;
-    consultCardText?: string | null;
+    bookBtn?: string | null;
+    consultBtn?: string | null;
   };
   location?: string | null;
   duration?: string | null;
+  groupSize?: string | null;
   category?: string | null;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
   mainImage?: (string | null) | Media;
   gallery?:
     | {
@@ -293,7 +272,15 @@ export interface Tour {
         id?: string | null;
       }[]
     | null;
-  tripDetailsCard?: {
+  uiLabels?: {
+    itineraryTitle?: string | null;
+    leaderTitle?: string | null;
+  };
+  consultationCard?: {
+    title?: string | null;
+    text?: string | null;
+  };
+  descriptionCard?: {
     title?: string | null;
     content?: {
       root: {
@@ -310,6 +297,24 @@ export interface Tour {
       };
       [k: string]: unknown;
     } | null;
+  };
+  tripDetailsCard?: {
+    bookingConditions?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    bookingNote?: string | null;
   };
   tripAdditionalInfoCard?: {
     title?: string | null;
@@ -380,6 +385,20 @@ export interface Tour {
     photo?: (string | null) | Media;
     bio?: string | null;
   };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos".
+ */
+export interface Video {
+  id: string;
+  title: string;
+  youtubeUrl?: string | null;
+  videoFile: string | Media;
+  thumbnail: string | Media;
+  relatedVideos?: (string | Video)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -458,6 +477,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'consultations';
         value: string | Consultation;
+      } | null)
+    | ({
+        relationTo: 'videos';
+        value: string | Video;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -578,6 +601,7 @@ export interface PagesSelect<T extends boolean = true> {
         consultation?:
           | T
           | {
+              backgroundImage?: T;
               title?: T;
               text?: T;
               buttonText?: T;
@@ -588,14 +612,7 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               title?: T;
-              items?:
-                | T
-                | {
-                    videoTitle?: T;
-                    thumbnail?: T;
-                    videoFile?: T;
-                    id?: T;
-                  };
+              videos?: T;
               id?: T;
               blockName?: T;
             };
@@ -632,17 +649,13 @@ export interface ToursSelect<T extends boolean = true> {
   uiTexts?:
     | T
     | {
-        'Кнопка забронювати'?: T;
-        'Кнопка консультація'?: T;
-        'Програма туру'?: T;
-        leaderTitle?: T;
-        consultCardTitle?: T;
-        consultCardText?: T;
+        bookBtn?: T;
+        consultBtn?: T;
       };
   location?: T;
   duration?: T;
+  groupSize?: T;
   category?: T;
-  description?: T;
   mainImage?: T;
   gallery?:
     | T
@@ -650,11 +663,29 @@ export interface ToursSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
-  tripDetailsCard?:
+  uiLabels?:
+    | T
+    | {
+        itineraryTitle?: T;
+        leaderTitle?: T;
+      };
+  consultationCard?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+      };
+  descriptionCard?:
     | T
     | {
         title?: T;
         content?: T;
+      };
+  tripDetailsCard?:
+    | T
+    | {
+        bookingConditions?: T;
+        bookingNote?: T;
       };
   tripAdditionalInfoCard?:
     | T
@@ -715,6 +746,19 @@ export interface ConsultationsSelect<T extends boolean = true> {
   email?: T;
   message?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos_select".
+ */
+export interface VideosSelect<T extends boolean = true> {
+  title?: T;
+  youtubeUrl?: T;
+  videoFile?: T;
+  thumbnail?: T;
+  relatedVideos?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -861,6 +905,15 @@ export interface About {
         id?: string | null;
       }[]
     | null;
+  team?:
+    | {
+        photo: string | Media;
+        name: string;
+        role?: string | null;
+        bio?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -954,6 +1007,15 @@ export interface AboutSelect<T extends boolean = true> {
     | T
     | {
         image?: T;
+        id?: T;
+      };
+  team?:
+    | T
+    | {
+        photo?: T;
+        name?: T;
+        role?: T;
+        bio?: T;
         id?: T;
       };
   updatedAt?: T;

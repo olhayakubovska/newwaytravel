@@ -5,16 +5,28 @@ import { Facebook, Youtube, Instagram, Mail, Phone, MapPin, Clock } from 'lucide
 import styles from './Footer.module.scss'
 
 interface FooterProps {
-  description?: string | null
+  // Текстовые данные из Payload (локализованные поля)
+  description?: any
+  address?: any
   phone?: string | null
   email?: string | null
-  address?: string | null
-  hours?: string | null
+
+  // Заголовки колонок (для ручного ввода)
+  menuTitle?: any
+  contactTitle?: any
+  socialTitle?: any
+  copyrightText?: any
+
+  // Соцсети и ссылки
   socials?: {
     facebook?: string | null
     youtube?: string | null
     instagram?: string | null
   } | null
+
+  // Массив ссылок, как в Header
+  navItems?: { label: any; link: string }[]
+
   locale: string
 }
 
@@ -23,40 +35,62 @@ export function Footer({
   phone,
   email,
   address,
-  hours,
+  menuTitle,
+  contactTitle,
+  socialTitle,
+  copyrightText,
   socials,
+  navItems,
   locale,
 }: FooterProps) {
+  // Универсальная функция перевода
+  const t = (field: any, fallback: string = ''): string => {
+    if (!field) return fallback
+    if (typeof field === 'object') {
+      return field[locale] || field.uk || field.en || Object.values(field)[0] || fallback
+    }
+    return String(field)
+  }
+
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.grid}>
+          {/* 1. Лого и описание */}
           <div>
             <div className={styles.logoBlock}>
               <div className={styles.logoText}>NEW WAY</div>
               <div className={styles.logoSub}>TRAVEL</div>
             </div>
-            <p className={styles.description}>{description || ''}</p>
+            <p className={styles.description}>{t(description)}</p>
           </div>
 
+          {/* 2. Динамическое меню */}
           <div>
-            <h3 className={styles.heading}>{locale === 'en' ? 'Menu' : 'Меню'}</h3>
+            <h3 className={styles.heading}>{t(menuTitle, locale === 'en' ? 'Menu' : 'Меню')}</h3>
             <nav className={styles.nav}>
-              <Link href={`/${locale}`} className={styles.navLink}>
-                {locale === 'en' ? 'Home' : 'Головна'}
-              </Link>
-              <Link href={`/${locale}/tours`} className={styles.navLink}>
-                {locale === 'en' ? 'Tour Calendar' : 'Календар турів'}
-              </Link>
-              <Link href={`/${locale}/about`} className={styles.navLink}>
-                {locale === 'en' ? 'About Us' : 'Про нас'}
-              </Link>
+              {navItems?.map((item, idx) => (
+                <Link key={idx} href={`/${locale}${item.link}`} className={styles.navLink}>
+                  {t(item.label)}
+                </Link>
+              )) || (
+                // Запасной вариант, если navItems не передан
+                <>
+                  <Link href={`/${locale}`} className={styles.navLink}>
+                    {locale === 'en' ? 'Home' : 'Головна'}
+                  </Link>
+                  <Link href={`/${locale}/tours`} className={styles.navLink}>
+                    {locale === 'en' ? 'Tours' : 'Тури'}
+                  </Link>
+                </>
+              )}
             </nav>
           </div>
 
+          {/* 3. Контакты */}
           <div>
             <h3 className={styles.heading}>
-              {locale === 'en' ? 'Contact Us' : "Зворотній зв'язок"}
+              {t(contactTitle, locale === 'en' ? 'Contact Us' : "Зворотній зв'язок")}
             </h3>
             <div className={styles.contact}>
               {phone && (
@@ -74,15 +108,16 @@ export function Footer({
               {address && (
                 <div className={styles.contactItem}>
                   <MapPin className={styles.icon} />
-                  <span>{address}</span>
+                  <span>{t(address)}</span>
                 </div>
               )}
             </div>
           </div>
 
+          {/* 4. Соцсети */}
           <div>
             <h3 className={styles.heading}>
-              {locale === 'en' ? 'Social Media' : 'Соціальні мережі'}
+              {t(socialTitle, locale === 'en' ? 'Social Media' : 'Соціальні мережі')}
             </h3>
             <div className={styles.socials}>
               {socials?.facebook && (
@@ -95,13 +130,18 @@ export function Footer({
                   <Instagram className={styles.socialIcon} />
                 </a>
               )}
+              {socials?.youtube && (
+                <a href={socials.youtube} target="_blank" className={styles.socialLink}>
+                  <Youtube className={styles.socialIcon} />
+                </a>
+              )}
             </div>
           </div>
         </div>
 
         <div className={styles.copyright}>
           © {new Date().getFullYear()} New Way Travel.{' '}
-          {locale === 'en' ? 'All rights reserved.' : 'Всі права захищені.'}
+          {t(copyrightText, locale === 'en' ? 'All rights reserved.' : 'Всі права захищені.')}
         </div>
       </div>
     </footer>

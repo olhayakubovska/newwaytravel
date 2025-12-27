@@ -1,14 +1,28 @@
 .wrapper {
+  // Основные цвета: Оранжевый + Глубокий синий
+  --primary: #fcb12d;           // Ваш оранжевый
+  --primary-hover: #e69b1f;     // Темно-оранжевый
+  --primary-light: #fff7ed;     // Очень светлый оранжевый для фонов
+  
+  --navy: #0f172a;              // Глубокий темный (текст и заголовки)
+  --text-main: #334155;         // Серо-синий текст
+  --white: #ffffff;
+  
+  // Тени с мягким теплым оттенком
+  --shadow-md: 0 10px 25px rgba(252, 177, 45, 0.15);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
   width: 100%;
-  padding: 2rem 1rem;
 }
 
 .title {
-  font-weight: 600;
-  font-size: 1.5rem;
+  font-weight: 700;
+  font-size: 1.75rem;
   text-align: center;
-  margin-bottom: 2rem;
-  color: var(--foreground);
+  margin-bottom: 2.5rem;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .grid {
@@ -28,24 +42,31 @@
   gap: 1.5rem;
 
   .bookBtn {
-    padding: 1.5rem 2rem;
-    font-size: 1rem;
-    border-radius: 0.375rem;
-    background-color: var(--accent);
-    color: var(--accent-foreground);
-    transition: all 0.2s ease-in-out;
+    padding: 1.25rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 12px;
+    background-color: var(--primary);
+    color: var(--navy); // Темный текст на оранжевом лучше читается
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
 
     &:hover {
-      background-color: rgba(var(--accent-rgb), 0.9);
-      transform: scale(1.05);
+      background-color: var(--primary-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(252, 177, 45, 0.3);
     }
 
     &:active {
-      transform: scale(0.98);
+      transform: scale(0.96);
     }
   }
 }
 
+/* Сетка изображений */
 .imageGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -59,18 +80,19 @@
 .imageWrapper {
   position: relative;
   overflow: hidden;
-  border-radius: 0.375rem;
+  border-radius: 16px; // Сделал углы более мягкими
   aspect-ratio: 3/2;
   cursor: pointer;
+  border: 1px solid #f1f5f9;
 
   .image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.5s ease;
 
     &:hover {
-      transform: scale(1.03);
+      transform: scale(1.1);
     }
   }
 }

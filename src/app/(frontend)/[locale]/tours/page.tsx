@@ -15,7 +15,7 @@ export default async function HomePage() {
     id: doc.id,
     name: doc.name || '',
     location: doc.location || '',
-    month: doc.month || '', // Обеспечиваем пустую строку вместо undefined
+    month: doc.month || '',
     category: doc.category || '',
     duration: doc.duration || '',
     groupSize: doc.groupSize || '',

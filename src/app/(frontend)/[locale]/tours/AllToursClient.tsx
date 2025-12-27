@@ -8,37 +8,6 @@ import styles from './AllToursPage.module.scss'
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4000'
 
-const HARDCODED_MONTHS = {
-  uk: [
-    { label: 'Січень', value: '01' },
-    { label: 'Лютий', value: '02' },
-    { label: 'Березень', value: '03' },
-    { label: 'Квітень', value: '04' },
-    { label: 'Травень', value: '05' },
-    { label: 'Червень', value: '06' },
-    { label: 'Липень', value: '07' },
-    { label: 'Серпень', value: '08' },
-    { label: 'Вересень', value: '09' },
-    { label: 'Жовтень', value: '10' },
-    { label: 'Листопад', value: '11' },
-    { label: 'Грудень', value: '12' },
-  ],
-  en: [
-    { label: 'January', value: '01' },
-    { label: 'February', value: '02' },
-    { label: 'March', value: '03' },
-    { label: 'April', value: '04' },
-    { label: 'May', value: '05' },
-    { label: 'June', value: '06' },
-    { label: 'July', value: '07' },
-    { label: 'August', value: '08' },
-    { label: 'September', value: '09' },
-    { label: 'October', value: '10' },
-    { label: 'November', value: '11' },
-    { label: 'December', value: '12' },
-  ],
-}
-
 interface Tour {
   id: string
   name: any
@@ -52,15 +21,30 @@ interface Tour {
   mainImage?: { url: string } | null
 }
 
-function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
+// Интерфейс для словаря, который можно будет менять вручную
+interface AllToursDictionary {
+  noResults: string
+  loading: string
+  priceFromRequest: string
+  months: { label: string; value: string }[]
+}
+
+function AllToursContent({
+  initialTours = [],
+  dictionary,
+}: {
+  initialTours: Tour[]
+  dictionary: AllToursDictionary
+}) {
   const [filteredTours, setFilteredTours] = useState<Tour[]>(initialTours)
   const searchParams = useSearchParams()
   const params = useParams()
-  const locale = (params?.locale as 'uk' | 'en') || 'uk'
+  const locale = (params?.locale as string) || 'uk'
 
+  // Универсальный резолвер полей
   const resolveField = (field: any) => {
     if (field && typeof field === 'object') {
-      return field[locale] || field['uk'] || field['en'] || ''
+      return field[locale] || field['uk'] || Object.values(field)[0] || ''
     }
     return String(field || '')
   }
@@ -71,11 +55,7 @@ function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
       const catText = resolveField(t.category)
       if (catText) uniqueCats.add(catText)
     })
-
-    return Array.from(uniqueCats).map((cat) => ({
-      label: cat,
-      value: cat,
-    }))
+    return Array.from(uniqueCats).map((cat) => ({ label: cat, value: cat }))
   }, [initialTours, locale])
 
   const destinations = useMemo(() => {
@@ -87,7 +67,8 @@ function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
     return Array.from(uniqueLocs).map((loc) => ({ label: loc, value: loc }))
   }, [initialTours, locale])
 
-  const months = useMemo(() => HARDCODED_MONTHS[locale], [locale])
+  // Месяцы теперь берутся из переданного словаря
+  const months = useMemo(() => dictionary.months, [dictionary])
 
   const handleFilterChange = (filters: TourFilters) => {
     let result = [...initialTours]
@@ -127,6 +108,7 @@ function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
             const imageUrl = tour.mainImage?.url
               ? `${SERVER_URL}${tour.mainImage.url}`
               : '/placeholder-tour.jpg'
+
             return (
               <TourCard
                 key={tour.id}
@@ -136,14 +118,15 @@ function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
                 destination={resolveField(tour.location)}
                 duration={resolveField(tour.duration)}
                 groupSize={resolveField(tour.groupSize)}
-                price={tour.price ? `${tour.price}€` : 'Ціна за запитом'}
+                // Цена теперь берет текст "по запросу" из словаря
+                price={tour.price ? `${tour.price}€` : dictionary.priceFromRequest}
                 alt={resolveField(tour.name)}
               />
             )
           })
         ) : (
           <div className={styles.noResults}>
-            <h3>Турів не знайдено</h3>
+            <h3>{dictionary.noResults}</h3>
           </div>
         )}
       </div>
@@ -152,9 +135,56 @@ function AllToursContent({ initialTours = [] }: { initialTours: Tour[] }) {
 }
 
 export default function AllToursClient({ initialTours }: { initialTours: Tour[] }) {
+  const params = useParams()
+  const locale = (params?.locale as string) || 'uk'
+
+  // Этот объект можно вынести в отдельный JSON файл или получать из Payload CMS
+  const dictionaries: Record<string, AllToursDictionary> = {
+    uk: {
+      noResults: 'Турів не знайдено',
+      loading: 'Завантаження...',
+      priceFromRequest: 'Ціна за запитом',
+      months: [
+        { label: 'Січень', value: '01' },
+        { label: 'Лютий', value: '02' },
+        { label: 'Березень', value: '03' },
+        { label: 'Квітень', value: '04' },
+        { label: 'Травень', value: '05' },
+        { label: 'Червень', value: '06' },
+        { label: 'Липень', value: '07' },
+        { label: 'Серпень', value: '08' },
+        { label: 'Вересень', value: '09' },
+        { label: 'Жовтень', value: '10' },
+        { label: 'Листопад', value: '11' },
+        { label: 'Грудень', value: '12' },
+      ],
+    },
+    en: {
+      noResults: 'No tours found',
+      loading: 'Loading...',
+      priceFromRequest: 'Price on request',
+      months: [
+        { label: 'January', value: '01' },
+        { label: 'February', value: '02' },
+        { label: 'March', value: '03' },
+        { label: 'April', value: '04' },
+        { label: 'May', value: '05' },
+        { label: 'June', value: '06' },
+        { label: 'July', value: '07' },
+        { label: 'August', value: '08' },
+        { label: 'September', value: '09' },
+        { label: 'October', value: '10' },
+        { label: 'November', value: '11' },
+        { label: 'December', value: '12' },
+      ],
+    },
+  }
+
+  const currentDict = dictionaries[locale] || dictionaries['uk']
+
   return (
-    <Suspense fallback={<div>Завантаження...</div>}>
-      <AllToursContent initialTours={initialTours} />
+    <Suspense fallback={<div>{currentDict.loading}</div>}>
+      <AllToursContent initialTours={initialTours} dictionary={currentDict} />
     </Suspense>
   )
 }

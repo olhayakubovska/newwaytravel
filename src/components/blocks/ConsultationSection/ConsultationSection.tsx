@@ -1,23 +1,47 @@
 'use client'
 import { motion } from 'framer-motion'
+import { useParams } from 'next/navigation'
 import styles from './ConsultationSection.module.scss'
-import { Button } from '@payloadcms/ui'
 
 interface ConsultationProps {
-  title?: string
-  text?: string
-  buttonText?: string
+  title?: any // Теперь принимает и строку, и объект {uk: "", en: ""}
+  text?: any // Аналогично
+  buttonText?: any // Аналогично
+  backgroundImage?: any
 }
 
-export function ConsultationSection({ title, text, buttonText }: ConsultationProps) {
+export function ConsultationSection({
+  title,
+  text,
+  buttonText,
+  backgroundImage,
+}: ConsultationProps) {
+  const params = useParams()
+  const locale = (params?.locale as string) || 'uk'
+
+  // Универсальная функция перевода
+  const t = (field: any): string => {
+    if (!field) return ''
+    if (typeof field === 'object') {
+      // Ищем текущий язык -> потом украинский -> потом первый доступный ключ
+      return field[locale] || field['uk'] || Object.values(field)[0] || ''
+    }
+    return String(field)
+  }
+
+  const imageUrl = typeof backgroundImage === 'object' ? backgroundImage?.url : backgroundImage
+
   return (
     <section className={styles.section}>
       <div className={styles.bgWrapper}>
-        <img
-          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&h=600&fit=crop"
-          alt="Mountains"
-          className={styles.image}
-        />
+        {imageUrl ? (
+          <img src={imageUrl} alt={t(title) || 'Background'} className={styles.image} />
+        ) : (
+          <div
+            className={styles.placeholder}
+            style={{ backgroundColor: '#333', width: '100%', height: '100%' }}
+          />
+        )}
         <div className={styles.overlay} />
       </div>
 
@@ -29,9 +53,16 @@ export function ConsultationSection({ title, text, buttonText }: ConsultationPro
           transition={{ duration: 0.6 }}
           className={styles.inner}
         >
-          <h2 className={styles.title}>{title || 'Не знаєш що вибрати?'}</h2>
-          {text && <p className={styles.text}>{text}</p>}
-          <Button className={styles.button}>{buttonText || 'Зв’язатися з нами'}</Button>
+          {/* Если title не заполнен в админке, выведется пустая строка или можно задать дефолт через t(title) || 'Дефолт' */}
+          <h2 className={styles.title}>
+            {t(title) || (locale === 'en' ? 'Not sure what to choose?' : 'Не знаєш що вибрати?')}
+          </h2>
+
+          {text && <p className={styles.text}>{t(text)}</p>}
+
+          <button className={styles.button}>
+            {t(buttonText) || (locale === 'en' ? 'Contact us' : 'Зв’язатися з нами')}
+          </button>
         </motion.div>
       </div>
     </section>
