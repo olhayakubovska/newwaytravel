@@ -96,7 +96,7 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('uk' | 'en') | ('uk' | 'en')[];
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('uk' | 'en' | 'ru') | ('uk' | 'en' | 'ru')[];
   globals: {
     footer: Footer;
     header: Header;
@@ -109,7 +109,7 @@ export interface Config {
     searchBar: SearchBarSelect<false> | SearchBarSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
   };
-  locale: 'uk' | 'en';
+  locale: 'uk' | 'en' | 'ru';
   user: User & {
     collection: 'users';
   };
@@ -257,6 +257,7 @@ export interface Tour {
   name: string;
   slug: string;
   price: number;
+  startDate: string;
   uiTexts?: {
     bookBtn?: string | null;
     consultBtn?: string | null;
@@ -646,6 +647,7 @@ export interface ToursSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   price?: T;
+  startDate?: T;
   uiTexts?:
     | T
     | {

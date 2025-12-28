@@ -1,12 +1,14 @@
 'use client'
 
+import { Tour } from '@/payload-types'
 import { RichText } from '../RichText'
-import { Tour } from '@/app/(frontend)/[locale]/tours/[tourId]/TourDetailClient'
+// import { Tour } from '@/app/(frontend)/[locale]/tours/[tourId]/TourDetailClient'
 import styles from './AdditionalInfo.module.scss'
+import { Locale } from '@/app/(frontend)/[locale]/page'
 
 interface Props {
   tour: Tour
-  locale: 'uk' | 'en'
+  locale: Locale
 }
 
 export default function AdditionalInfo({ tour, locale }: Props) {

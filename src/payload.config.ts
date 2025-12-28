@@ -28,7 +28,7 @@ export default buildConfig({
     },
   },
   localization: {
-    locales: ['uk', 'en'],
+    locales: ['uk', 'en', 'ru'],
     defaultLocale: 'uk',
     fallback: true,
   },

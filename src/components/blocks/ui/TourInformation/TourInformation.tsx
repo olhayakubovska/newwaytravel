@@ -1,14 +1,16 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import styles from './TourInformation.module.scss'
 import { Button } from '@payloadcms/ui'
-import { Tour } from '@/app/(frontend)/[locale]/tours/[tourId]/TourDetailClient'
 import { RichText } from '../RichText'
+import { Locale } from '@/app/(frontend)/[locale]/page'
+import { Tour } from '@/payload-types'
 
 interface Props {
   tour: Tour
-  locale: 'uk' | 'en'
+  locale: Locale
 }
 
 export const TourInformation = ({ tour, locale }: Props) => {
@@ -25,7 +27,6 @@ export const TourInformation = ({ tour, locale }: Props) => {
       const imageElements = imagesRef.current.querySelectorAll(`.${styles.imageWrapper}`)
 
       imageElements.forEach((img, index) => {
-        // Анимация через GSAP
         import('gsap').then(({ default: gsap }) => {
           import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
             gsap.registerPlugin(ScrollTrigger)
@@ -60,7 +61,7 @@ export const TourInformation = ({ tour, locale }: Props) => {
       <div className={styles.grid}>
         {/* Текстовая информация о туре */}
         <div className={styles.textContent}>
-          {tour.description && <RichText content={tour.description} />}
+          {tour.descriptionCard?.content && <RichText content={tour.descriptionCard.content} />}
           <Button onClick={handleBookClick} className={styles.bookBtn}>
             {locale === 'en' ? 'Book Now' : 'ЗАБРОНЮВАТИ'}
           </Button>
@@ -69,11 +70,28 @@ export const TourInformation = ({ tour, locale }: Props) => {
         {/* Галерея изображений */}
         {tour.gallery && tour.gallery.length > 0 && (
           <div ref={imagesRef} className={styles.imageGrid}>
-            {tour.gallery.map((img, idx) => (
-              <div key={idx} className={styles.imageWrapper}>
-                <img src={img.image.url} alt={img.image.url || ''} className={styles.image} />
-              </div>
-            ))}
+            {tour.gallery.map((img, idx) => {
+              if (!img.image) return null
+
+              const src =
+                typeof img.image === 'object' && img.image.url
+                  ? img.image.url
+                  : (img.image as string) || '/placeholder.jpg'
+
+              const alt = typeof img.image === 'object' ? img.image.alt || '' : ''
+
+              return (
+                <div key={idx} className={styles.imageWrapper}>
+                  <Image
+                    src={src}
+                    alt={alt}
+                    width={400} // или нужные тебе размеры
+                    height={300}
+                    className={styles.image}
+                  />
+                </div>
+              )
+            })}
           </div>
         )}
       </div>

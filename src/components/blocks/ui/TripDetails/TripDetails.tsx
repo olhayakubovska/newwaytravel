@@ -3,10 +3,12 @@
 import React from 'react'
 import styles from './TripDetails.module.scss'
 import { RichText } from '@/components/blocks/ui/RichText'
+import { Locale } from '@/app/(frontend)/[locale]/page'
+import { Tour } from '@/payload-types'
 
 interface Props {
-  tour: any
-  locale: 'uk' | 'en'
+  tour: Tour
+  locale: Locale
 }
 
 export default function TripDetails({ tour, locale }: Props) {

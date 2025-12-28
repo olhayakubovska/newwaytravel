@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { notFound } from 'next/navigation'
 import AboutPageClient from '@/components/blocks/AboutPageClient/AboutPageClient'
+import { Locale } from '../page'
 
 interface PageProps {
   params: Promise<{
@@ -15,7 +16,7 @@ export default async function AboutPage({ params }: PageProps) {
 
   const data = await payload.findGlobal({
     slug: 'about',
-    locale: locale as 'uk' | 'en',
+    locale: locale as Locale,
   })
 
   if (!data) return notFound()

@@ -6,7 +6,7 @@ import styles from './ConsultationModal.module.scss'
 
 interface ConsultationModalProps {
   onClose: () => void
-  locale: 'uk' | 'en'
+  locale: 'uk' | 'en' | 'ru'
 }
 
 export function ConsultationModal({ onClose, locale }: ConsultationModalProps) {

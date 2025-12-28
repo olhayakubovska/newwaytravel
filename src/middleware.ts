@@ -1,17 +1,22 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const locales = ['uk', 'en']
+const locales = ['uk', 'en', 'ru']
 const defaultLocale = 'uk'
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  let { pathname } = request.nextUrl
 
-  const pathnameHasLocale = locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
+  // Проверяем, есть ли локаль в начале пути
+  const matchedLocale = locales.find(
+    (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
   )
 
-  if (pathnameHasLocale) return
+  if (matchedLocale) return
+
+  // Если локаль не указана — добавляем дефолтную
+  // Убираем возможный ведущий слэш для корректного объединения
+  pathname = pathname.startsWith('/') ? pathname : `/${pathname}`
 
   request.nextUrl.pathname = `/${defaultLocale}${pathname}`
   return NextResponse.redirect(request.nextUrl)

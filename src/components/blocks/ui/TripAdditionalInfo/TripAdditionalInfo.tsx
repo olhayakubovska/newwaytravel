@@ -1,12 +1,14 @@
 'use client'
 
+import { Tour } from '@/payload-types'
 import { RichText } from '../RichText'
 import styles from './TripAdditionalInfo.module.scss'
-import { Tour } from '@/app/(frontend)/[locale]/tours/[tourId]/TourDetailClient'
+import { Locale } from '@/app/(frontend)/[locale]/page'
+// import { Tour } from '@/app/(frontend)/[locale]/tours/[tourId]/TourDetailClient'
 
 interface Props {
   tour: Tour
-  locale: 'uk' | 'en'
+  locale: Locale
 }
 
 export default function TripAdditionalInfo({ tour, locale }: Props) {
@@ -19,9 +21,7 @@ export default function TripAdditionalInfo({ tour, locale }: Props) {
       <h3 className={styles.title}>
         {card.title || (locale === 'en' ? 'Additional Information' : 'Додаткова інформація')}
       </h3>
-      <div className={styles.content}>
-        {card.content && <RichText content={card.content} />}
-      </div>
+      <div className={styles.content}>{card.content && <RichText content={card.content} />}</div>
     </div>
   )
 }

@@ -2,20 +2,19 @@
 
 import { useState } from 'react'
 import styles from './TripItinerary.module.scss'
-import { Tour } from '@/app/(frontend)/[locale]/tours/[tourId]/TourDetailClient'
 import { ChevronDown } from 'lucide-react'
 import { RichText } from '../RichText'
+import { Tour } from '@/payload-types'
+import { Locale } from '@/app/(frontend)/[locale]/page'
+import Image from 'next/image'
 
 interface Props {
   tour: Tour
-  locale: 'uk' | 'en'
+  locale: Locale
 }
 
 export default function TripItinerary({ tour, locale }: Props) {
   const [openDay, setOpenDay] = useState<number | null>(0)
-
-  // Базовый URL сервера из окружения или пустая строка
-  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
 
   if (!tour || !tour.itinerary || !Array.isArray(tour.itinerary)) return null
 
@@ -49,22 +48,29 @@ export default function TripItinerary({ tour, locale }: Props) {
                       <RichText content={day.content} />
                     </div>
                   )}
+
                   {hasImages && (
                     <div className={styles.imageGrid}>
                       {day.images?.map((img) => {
-                        const image = img.image
-                        if (!image?.url) return null
+                        if (!img.image) return null
+
+                        // безопасный src
+                        const src =
+                          typeof img.image === 'object'
+                            ? img.image.url || '/placeholder.jpg'
+                            : img.image || '/placeholder.jpg'
+
+                        // безопасный alt
+                        const alt = typeof img.image === 'object' ? img.image.alt || '' : ''
 
                         return (
-                          <div key={img.id} className={styles.imageWrapper}>
-                            <img
-                              src={`${serverUrl}${image.url}`}
-                              alt={image.alt || ''}
-                              className={styles.itineraryImage}
-                              loading="lazy"
-                              onError={() =>
-                                console.error('Не удалось загрузить:', `${serverUrl}${image.url}`)
-                              }
+                          <div key={img.id || src} className={styles.imageWrapper}>
+                            <Image
+                              src={src}
+                              alt={alt}
+                              width={400}
+                              height={300}
+                              className={styles.image}
                             />
                           </div>
                         )
