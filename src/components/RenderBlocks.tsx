@@ -5,6 +5,7 @@ import { SearchBar } from './blocks/SearchBar/SearchBar'
 import { ConsultationSection } from './blocks/ConsultationSection/ConsultationSection'
 import { VideoSection } from './blocks/VideoSection/VideoSection'
 import { TestimonialsSection } from './blocks/TestimonialsSection/TestimonialsSection'
+import AboutPageClient from './blocks/AboutPageClient/AboutPageClient'
 
 const components = {
   header: Header,
@@ -14,6 +15,7 @@ const components = {
   consultation: ConsultationSection,
   videoSection: VideoSection,
   testimonials: TestimonialsSection,
+  aboutSection: AboutPageClient, // 🔥 Добавьте эту строку
 }
 
 interface RenderBlocksProps {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, Navigation } from 'swiper/modules'
 import { Play, X, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -13,27 +13,12 @@ import 'swiper/css/navigation'
 
 import styles from './VideoSection.module.scss'
 
-export interface Media {
-  url: string
-}
-
-export interface Video {
-  id: string
-  title?: Record<string, string>
-  youtubeUrl?: string
-  videoFile?: Media
-  thumbnail?: Media
-  relatedVideos?: Video[]
-}
-
-export interface VideoSectionProps {
-  title?: Record<string, string>
-  videos?: Video[]
-}
-
-export function VideoSection({ title, videos }: VideoSectionProps) {
+export function VideoSection({ title, videos }: any) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const [showRelated, setShowRelated] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
   const params = useParams()
   const locale = (params?.locale as string) || 'uk'
 
@@ -41,37 +26,78 @@ export function VideoSection({ title, videos }: VideoSectionProps) {
     setMounted(true)
   }, [])
 
-  const safeVideos = Array.isArray(videos) ? videos : []
-  if (safeVideos.length === 0 || !mounted) return null
+  // ГАРАНТИРОВАННЫЙ ЗАПУСК ЗВУКА
+  useEffect(() => {
+    if (activeIndex !== null && videoRef.current) {
+      const video = videoRef.current
 
-  const t = (field: any) => field?.[locale] || field?.uk || ''
+      // Сбрасываем громкость на максимум и выключаем беззвучный режим
+      video.muted = false
+      video.volume = 1.0
+
+      const playPromise = video.play()
+
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          console.warn('Звук заблокирован. Проверьте, нажали ли вы на карточку:', error)
+        })
+      }
+    }
+  }, [activeIndex])
+
+  const t = (field: any) => {
+    if (!field) return ''
+    if (typeof field === 'string') return field
+    return field[locale] || field.uk || field.en || Object.values(field)[0] || ''
+  }
+
+  const getImageUrl = (media: any) => {
+    if (!media) return null
+    if (typeof media === 'object' && media.url) return media.url
+    if (typeof media === 'string') return `/media/${media}`
+    return null
+  }
+
+  const handleResume = () => {
+    if (videoRef.current) {
+      videoRef.current.play()
+    }
+  }
+
+  if (!mounted || !videos?.length) return null
+
+  const activeVideo = activeIndex !== null ? videos[activeIndex] : null
 
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        <h2 className={styles.mainTitle}>{t(title)}</h2>
+        {title && <h2 className={styles.mainTitle}>{t(title)}</h2>}
 
         <div className={styles.swiperWrapper}>
           <Swiper
             modules={[Pagination, Navigation]}
             spaceBetween={24}
             slidesPerView={3}
-            pagination={{ clickable: true, el: `.${styles.paginationCustom}` }}
             navigation={{
-              prevEl: '#prev_video',
-              nextEl: '#next_video',
+              prevEl: `.${styles.prevBtn}`,
+              nextEl: `.${styles.nextBtn}`,
             }}
             breakpoints={{
               320: { slidesPerView: 1 },
               768: { slidesPerView: 2 },
               1024: { slidesPerView: 3 },
             }}
-            className={styles.mySwiper}
           >
-            {safeVideos.map((video, index) => (
+            {videos.map((video: any, index: number) => (
               <SwiperSlide key={video.id}>
-                <div className={styles.card} onClick={() => setActiveIndex(index)}>
-                  <img src={video.thumbnail?.url} alt="" className={styles.thumbnail} />
+                <div
+                  className={styles.card}
+                  onClick={() => {
+                    setActiveIndex(index)
+                    setShowRelated(false)
+                  }}
+                >
+                  <img src={getImageUrl(video.thumbnail)} className={styles.thumbnail} alt="" />
                   <div className={styles.playBtn}>
                     <div className={styles.playIconCircle}>
                       <Play size={30} fill="white" color="white" />
@@ -82,19 +108,17 @@ export function VideoSection({ title, videos }: VideoSectionProps) {
             ))}
           </Swiper>
 
-          <button id="prev_video" className={`${styles.navBtn} ${styles.prevBtn}`}>
+          <button className={`${styles.navBtn} ${styles.prevBtn}`}>
             <ChevronLeft size={32} />
           </button>
-          <button id="next_video" className={`${styles.navBtn} ${styles.nextBtn}`}>
+          <button className={`${styles.navBtn} ${styles.nextBtn}`}>
             <ChevronRight size={32} />
           </button>
-
-          <div className={styles.paginationCustom}></div>
         </div>
       </div>
 
       <AnimatePresence>
-        {activeIndex !== null && (
+        {activeVideo && (
           <motion.div
             className={styles.modal}
             initial={{ opacity: 0 }}
@@ -102,56 +126,93 @@ export function VideoSection({ title, videos }: VideoSectionProps) {
             exit={{ opacity: 0 }}
           >
             <div className={styles.overlay} onClick={() => setActiveIndex(null)} />
+
             <div className={styles.modalContent}>
               <div className={styles.modalHeader}>
-                {/* Теперь заголовок — это ссылка на YouTube, если она есть */}
-                {safeVideos[activeIndex]?.youtubeUrl ? (
-                  <a
-                    href={safeVideos[activeIndex].youtubeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.modalTitleLink}
-                  >
-                    {t(safeVideos[activeIndex]?.title)}
-                    <ExternalLink size={18} />
-                  </a>
-                ) : (
-                  <span>{t(safeVideos[activeIndex]?.title)}</span>
-                )}
+                <a
+                  href={activeVideo.youtubeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.modalTitleLink}
+                >
+                  <span className={styles.modalTitle}>{t(activeVideo.title)}</span>
+                  <ExternalLink size={18} className={styles.externalIcon} />
+                </a>
 
-                <button onClick={() => setActiveIndex(null)}>
-                  <X size={32} />
+                <button className={styles.closeBtn} onClick={() => setActiveIndex(null)}>
+                  <X size={28} />
                 </button>
               </div>
 
               <div className={styles.videoWrapper}>
-                <video src={safeVideos[activeIndex]?.videoFile?.url} controls autoPlay />
-              </div>
+                <video
+                  ref={videoRef}
+                  src={activeVideo.videoFile?.url}
+                  controls
+                  playsInline
+                  // ВАЖНО: Убрали autoPlay и muted из атрибутов совсем!
+                  className={styles.mainVideo}
+                  onPause={() => setShowRelated(true)}
+                  onPlay={() => setShowRelated(false)}
+                  key={activeVideo.id}
+                />
 
-              {/* Блок похожих видео ПРЯМО ПОД ВИДЕО */}
-              {safeVideos[activeIndex]?.relatedVideos &&
-                safeVideos[activeIndex].relatedVideos!.length > 0 && (
-                  <div className={styles.relatedVideosBlock}>
-                    <p className={styles.relatedLabel}>Похожие видео</p>
-                    <div className={styles.relatedGrid}>
-                      {safeVideos[activeIndex].relatedVideos!.map((relVideo) => (
-                        <div
-                          key={relVideo.id}
-                          className={styles.relatedItem}
-                          onClick={() => {
-                            const newIndex = safeVideos.findIndex((v) => v.id === relVideo.id)
-                            if (newIndex !== -1) setActiveIndex(newIndex)
-                          }}
-                        >
-                          <div className={styles.relThumb}>
-                            <img src={relVideo.thumbnail?.url} alt="" />
-                          </div>
-                          <p>{t(relVideo.title)}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <AnimatePresence>
+                  {showRelated && (
+                    <motion.div
+                      className={styles.pausedCenterIcon}
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.5, opacity: 0 }}
+                      onClick={handleResume}
+                    >
+                      <Play size={60} fill="white" color="white" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <AnimatePresence>
+                  {showRelated && activeVideo.relatedVideos?.length > 0 && (
+                    <motion.div
+                      className={styles.relatedOverlay}
+                      initial={{ y: '100%', opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: '100%', opacity: 0 }}
+                    >
+                      <div className={styles.relatedHeader}>
+                        <span>Другие видео</span>
+                        <button className={styles.relClose} onClick={() => setShowRelated(false)}>
+                          <X size={18} />
+                        </button>
+                      </div>
+
+                      <div className={styles.relatedGrid}>
+                        {activeVideo.relatedVideos.map((relVideo: any) => {
+                          if (typeof relVideo === 'string') return null
+                          return (
+                            <div
+                              key={relVideo.id}
+                              className={styles.relatedItem}
+                              onClick={() => {
+                                const idx = videos.findIndex((v: any) => v.id === relVideo.id)
+                                if (idx !== -1) {
+                                  setActiveIndex(idx)
+                                  setShowRelated(false)
+                                }
+                              }}
+                            >
+                              <div className={styles.relThumb}>
+                                <img src={getImageUrl(relVideo.thumbnail)} alt="" />
+                              </div>
+                              <p>{t(relVideo.title)}</p>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </motion.div>
         )}

@@ -42,6 +42,9 @@ export const Videos: CollectionConfig = {
       relationTo: 'videos',
       hasMany: true,
       label: 'Похожие видео',
+      admin: {
+        allowCreate: true,
+      },
     },
   ],
 }

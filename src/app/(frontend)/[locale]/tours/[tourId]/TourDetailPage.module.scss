@@ -1,4 +1,5 @@
 .wrapper {
+  // Переменные
   --primary: #fcb12d;
   --primary-hover: #e69b1f;
   --navy: #0b2239;
@@ -15,27 +16,27 @@
   background-color: var(--bg-light);
   color: var(--text-main);
   font-family: 'Inter', sans-serif;
-  padding-bottom: 60px;
+  padding-bottom: 80px;
 }
 
+// Общие стили секций
 .section {
+  max-width: 1440px;
   margin: 0 auto 100px;
   padding: 0 100px;
 
-  @media (max-width: 1200px) {
-    padding: 0 40px;
-  }
+  @media (max-width: 1200px) { padding: 0 40px; }
+  @media (max-width: 768px) { padding: 0 20px; margin-bottom: 60px; }
 }
 
 .sectionTitle {
-  font-size: 38px;
+  font-size: clamp(28px, 5vw, 38px);
   font-weight: 900;
   text-transform: uppercase;
   text-align: center;
   color: var(--navy);
   margin-bottom: 50px;
   letter-spacing: -0.5px;
-  position: relative;
 
   &::after {
     content: '';
@@ -49,37 +50,32 @@
 }
 
 /* HERO SECTION */
-.hero {
-  position: relative;
-  height: 500px;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 80px;
-  // clip-path: ellipse(150% 100% at 50% 0%);
-}
+// .hero {
+//   position: relative;
+//   height: 500px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   margin-bottom: 80px;
+// }
 
-.heroActions {
-  position: absolute;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 20px;
-  padding: 15px 30px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 24px;
-}
+// .heroActions {
+//   position: absolute;
+//   bottom: 80px;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   display: flex;
+//   gap: 20px;
+//   padding: 15px 30px;
+//   background: rgba(255, 255, 255, 0.1);
+//   backdrop-filter: blur(8px);
+//   border: 1px solid rgba(255, 255, 255, 0.2);
+//   border-radius: 24px;
+//   z-index: 2;
+// }
 
-/* BUTTONS */
-.primaryBtn,
-.orangeBtn {
-  background: var(--primary);
-  color: var(--navy);
+/* КНОПКИ */
+.primaryBtn, .orangeBtn, .secondaryBtn {
   padding: 16px 36px;
   border-radius: 12px;
   font-weight: 800;
@@ -87,6 +83,11 @@
   border: none;
   cursor: pointer;
   transition: var(--transition);
+}
+
+.primaryBtn, .orangeBtn {
+  background: var(--primary);
+  color: var(--navy);
   box-shadow: 0 4px 15px rgba(252, 177, 45, 0.4);
 
   &:hover {
@@ -97,48 +98,41 @@
 }
 
 .secondaryBtn {
-    background: var(--primary);
-  color: var(--navy);
-  padding: 16px 36px;
-  border-radius: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: 0 4px 15px rgba(252, 177, 45, 0.4);
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--white);
 
   &:hover {
-    background: var(--white);
+    background: var(--primary);
     color: var(--navy);
   }
 }
 
-/* GRID & CARDS */
+/* СЕТКИ И КАРТОЧКИ */
+.cardWrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
 .infoGrid {
   display: grid;
-  grid-template-columns: 1fr 2.5fr;
+  grid-template-columns: 350px 1fr;
   gap: 50px;
 
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
-  }
+  @media (max-width: 1024px) { grid-template-columns: 1fr; }
 }
 
 .infoCard {
   background: var(--white);
-  padding: 40px 30px; 
+  padding: 40px;
   border-radius: 24px;
-  border: 1px solid rgba(252, 177, 45, 0.3);
-  text-align: center;
+  border: 1px solid rgba(252, 177, 45, 0.2);
+  height: fit-content;
   position: sticky;
-  top: 100px;
-  height: fit-content; 
-  display: flex;
-  flex-direction: column;
-  gap: 20px; 
+  top: 40px;
   box-shadow: var(--shadow-md);
-  
+
   h3 {
     font-size: 24px;
     font-weight: 900;
@@ -150,7 +144,7 @@
 
     &::before {
       content: '';
-      width: 8px;
+      width: 6px;
       height: 24px;
       background: var(--primary);
       border-radius: 4px;
@@ -158,16 +152,14 @@
   }
 }
 
-/* GALLERY */
+/* ГАЛЕРЕЯ */
 .galleryWrapper {
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-auto-rows: 240px;
   gap: 16px;
 
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-  }
+  @media (max-width: 600px) { grid-template-columns: 1fr; }
 }
 
 .galleryCard {
@@ -187,102 +179,115 @@
   &:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
-    img {
-      transform: scale(1.08);
-    }
+    img { transform: scale(1.08); }
   }
 
-  &:first-child {
-    grid-row: span 2;
-  }
+  &:first-child { grid-row: span 2; }
 }
 
-/* PROGRAM & CONSULT */
+/* ПРОГРАММА И КОНСУЛЬТАЦИЯ */
 .programLayout {
   display: grid;
   grid-template-columns: 320px 1fr;
   gap: 50px;
+  @media (max-width: 1024px) { grid-template-columns: 1fr; }
 }
 
 .consultCard {
-  background: var(--white);
-  padding: 40px 30px;
-  border-radius: 24px;
-  border: 1px solid rgba(252, 177, 45, 0.3);
-  text-align: center;
+  @extend .infoCard;
   position: sticky;
-  top: 100px;
-  height: fit-content;
+  top: 40px;
+  text-align: center;
 }
 
-/* LEADER CARD */
+/* ТУРЛИДЕР */
+.sectionLeader { @extend .section; }
+
 .leaderCardWrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 30px;
-  margin-top: 20px;
-  flex-wrap: wrap;
+  gap: 40px;
   background: var(--white);
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-  width: 300px;
-
+  padding: 40px;
+  border-radius: 32px;
+  box-shadow: var(--shadow-md);
+  max-width: 850px;
   margin: 0 auto;
+  transition: var(--transition);
 
-  &:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-3px);
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
   }
+
+  &:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
 }
 
 .leaderImageWrapper {
   flex: 0 0 200px;
-  height: 200px; 
-  overflow: hidden;
+  height: 200px;
   border-radius: 50%;
-  border: 3px solid rgba(252, 177, 45, 0.3);
+  overflow: hidden;
+  border: 4px solid var(--primary);
 }
 
-.leaderImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+.leaderImage { width: 100%; height: 100%; object-fit: cover; }
 
 .leaderText {
   flex: 1;
+  .leaderName { font-size: 1.8rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+  .leaderRole { font-size: 1.1rem; color: var(--primary); font-weight: 600; margin-bottom: 12px; }
+  .leaderBio { font-size: 1rem; line-height: 1.6; color: var(--text-muted); }
+}
+
+
+
+/* HERO SECTION */
+.hero {
+  position: relative;
+  height: 80vh; // Немного увеличим высоту для эффекта
+  min-height: 500px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  margin-bottom: 60px;
+  overflow: hidden;
 }
 
-.leaderName {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: var(--navy);
-}
-
-.leaderRole {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--primary);
-  margin-bottom: 10px;
-}
-
-.leaderBio {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: var(--text-muted);
-}
-
-.cardWrapper {
+.heroActions {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  gap: 20px;
+  gap: 16px;
+  padding: 12px;
+  /* Убираем лишние рамки и делаем легкое размытие только под кнопками, если нужно */
+  background: transparent; 
+  z-index: 10;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    width: 90%;
+    bottom: 40px;
+  }
 }
 
+.secondaryBtn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 16px 36px;
+  border-radius: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  border: 2px solid rgba(255, 255, 255, 0.5); // Белая полупрозрачная рамка
+  cursor: pointer;
+  transition: var(--transition);
+  backdrop-filter: blur(4px);
+
+  &:hover {
+    background: #ffffff;
+    color: var(--navy);
+    border-color: #ffffff;
+  }
+}

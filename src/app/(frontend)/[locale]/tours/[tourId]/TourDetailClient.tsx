@@ -21,67 +21,81 @@ type Props = {
   locale: Locale
 }
 
-/**
- * Универсальный helper для локализованных полей Payload
- */
-const getLocalizedValue = (field: any, locale: Locale): any => {
-  if (!field) return ''
-
-  // RichText
-  if (field?.root) return field
-
-  // Localized object
-  if (typeof field === 'object') {
-    return field[locale] || field.uk || field.en || ''
-  }
-
-  return field
-}
-
 export default function TourDetailClient({ tour, locale }: Props) {
   const [bookingOpen, setBookingOpen] = useState(false)
   const [consultationOpen, setConsultationOpen] = useState(false)
 
-  const t = (field: any) => getLocalizedValue(field, locale)
+  /**
+   * Универсальная функция перевода.
+   * Тянет данные строго из локализованных полей Payload.
+   */
+  const t = (field: any): any => {
+    if (!field) return ''
 
+    // Если это RichText (Lexical), возвращаем объект целиком
+    if (field && typeof field === 'object' && 'root' in field) {
+      return field
+    }
+
+    // Если поле локализовано { uk: '...', en: '...' }
+    if (typeof field === 'object' && field !== null) {
+      return field[locale] || field['uk'] || field['en'] || Object.values(field)[0] || ''
+    }
+
+    return String(field)
+  }
+
+  /**
+   * Helper для безопасного получения URL изображений
+   */
+  const getImageUrl = (media: any) => {
+    if (typeof media === 'object' && media !== null) return media.url || ''
+    return typeof media === 'string' ? media : ''
+  }
+
+  const getImageAlt = (media: any) => {
+    if (typeof media === 'object' && media !== null) return media.alt || ''
+    return ''
+  }
+
+  // Данные интерфейса из админки
   const labels = {
-    bookBtn: t(tour.uiTexts?.bookBtn) || (locale === 'en' ? 'Book now' : 'Забронювати'),
-    consultBtn: t(tour.uiTexts?.consultBtn) || (locale === 'en' ? 'Consultation' : 'Консультація'),
-
-    itineraryTitle:
-      t(tour.uiLabels?.itineraryTitle) || (locale === 'en' ? 'Tour program' : 'Програма туру'),
-
-    leaderTitle: t(tour.uiLabels?.leaderTitle) || (locale === 'en' ? 'Tour leader' : 'Турлідер'),
-
+    bookBtn: t(tour.uiTexts?.bookBtn),
+    consultBtn: t(tour.uiTexts?.consultBtn),
+    itineraryTitle: t(tour.uiLabels?.itineraryTitle),
+    leaderTitle: t(tour.uiLabels?.leaderTitle),
+    descriptionTitle: t(tour.descriptionCard?.title),
     consultCardTitle: t(tour.consultationCard?.title),
     consultCardText: t(tour.consultationCard?.text),
-
-    descriptionTitle:
-      t(tour.descriptionCard?.title) ||
-      (locale === 'en' ? 'Tour information' : 'Інформація про тур'),
   }
 
   return (
     <main className={styles.wrapper}>
-      {/* HERO */}
+      {/* 1. HERO SECTION */}
       <section className={styles.hero}>
         <HeroSection
           title={t(tour.name)}
           subtitle={t(tour.location)}
           description={`${t(tour.duration)}${tour.groupSize ? ` • ${t(tour.groupSize)}` : ''}`}
+          backgroundImage={tour.mainImage ?? undefined}
         />
 
         <div className={styles.heroActions}>
-          <button className={styles.primaryBtn} onClick={() => setBookingOpen(true)}>
-            {labels.bookBtn}
-          </button>
-          <button className={styles.secondaryBtn} onClick={() => setConsultationOpen(true)}>
-            {labels.consultBtn}
-          </button>
+          {/* Показываем кнопки только если текст для них введен в админке */}
+          {labels.bookBtn && (
+            <button className={styles.primaryBtn} onClick={() => setBookingOpen(true)}>
+              {labels.bookBtn}
+            </button>
+          )}
+          {labels.consultBtn && (
+            <button className={styles.secondaryBtn} onClick={() => setConsultationOpen(true)}>
+              {labels.consultBtn}
+            </button>
+          )}
         </div>
       </section>
 
-      {/* DETAILS */}
+      {/* 2. TRIP DETAILS (Cards) */}
       <section className={styles.section}>
         <div className={styles.cardWrapper}>
           {tour.tripDetailsCard && <TripDetails tour={tour} locale={locale} />}
@@ -90,39 +104,42 @@ export default function TourDetailClient({ tour, locale }: Props) {
         </div>
       </section>
 
-      {/* DESCRIPTION */}
+      {/* 3. DESCRIPTION & GALLERY */}
       <section className={styles.section}>
         <div className={styles.infoGrid}>
           <div className={styles.infoCard}>
-            <h3>{labels.descriptionTitle}</h3>
+            {labels.descriptionTitle && <h3>{labels.descriptionTitle}</h3>}
 
             {tour.descriptionCard?.content && (
               <RichText content={t(tour.descriptionCard.content)} />
             )}
 
-            <button
-              className={styles.primaryBtn}
-              style={{ marginTop: 20 }}
-              onClick={() => setBookingOpen(true)}
-            >
-              {labels.bookBtn}
-            </button>
+            {labels.bookBtn && (
+              <button
+                className={styles.primaryBtn}
+                style={{ marginTop: '20px' }}
+                onClick={() => setBookingOpen(true)}
+              >
+                {labels.bookBtn}
+              </button>
+            )}
           </div>
+
+          {/* GALLERY - берем первые 3 фото */}
           {tour.gallery && tour.gallery.length > 0 && (
             <div className={styles.galleryWrapper}>
-              {tour.gallery.slice(0, 3).map((item) => {
-                if (!item.image) return null
-
-                const src =
-                  typeof item.image === 'object' && item.image
-                    ? item.image.url || '/placeholder.jpg'
-                    : (item.image as string) || '/placeholder.jpg'
-
-                const alt = typeof item.image === 'object' && item.image ? item.image.alt || '' : ''
-
+              {tour.gallery.slice(0, 3).map((item: any, index: number) => {
+                const url = getImageUrl(item.image)
+                if (!url) return null
                 return (
-                  <div key={item.id || src} className={styles.galleryCard}>
-                    <Image src={src} alt={alt} width={400} height={300} />
+                  <div key={item.id || index} className={styles.galleryCard}>
+                    <Image
+                      src={url}
+                      alt={getImageAlt(item.image)}
+                      width={400}
+                      height={300}
+                      style={{ objectFit: 'cover' }}
+                    />
                   </div>
                 )
               })}
@@ -131,40 +148,38 @@ export default function TourDetailClient({ tour, locale }: Props) {
         </div>
       </section>
 
-      {/* ITINERARY */}
+      {/* 4. ITINERARY & CONSULTATION CARD */}
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{labels.itineraryTitle}</h2>
+        {labels.itineraryTitle && <h2 className={styles.sectionTitle}>{labels.itineraryTitle}</h2>}
 
         <div className={styles.programLayout}>
           <div className={styles.consultCard}>
-            <h3>{labels.consultCardTitle}</h3>
-            <p>{labels.consultCardText}</p>
+            {labels.consultCardTitle && <h3>{labels.consultCardTitle}</h3>}
+            {labels.consultCardText && <p>{labels.consultCardText}</p>}
 
-            <button className={styles.orangeBtn} onClick={() => setConsultationOpen(true)}>
-              {labels.consultBtn}
-            </button>
+            {labels.consultBtn && (
+              <button className={styles.orangeBtn} onClick={() => setConsultationOpen(true)}>
+                {labels.consultBtn}
+              </button>
+            )}
           </div>
 
           <TripItinerary tour={tour} locale={locale} />
         </div>
       </section>
 
-      {/* LEADER */}
+      {/* 5. TOUR LEADER */}
       {tour.leader && (
         <section className={styles.sectionLeader}>
-          <h2 className={styles.sectionTitle}>{labels.leaderTitle}</h2>
+          {labels.leaderTitle && <h2 className={styles.sectionTitle}>{labels.leaderTitle}</h2>}
 
           <div className={styles.leaderCardWrapper}>
             {tour.leader?.photo && (
               <div className={styles.leaderImageWrapper}>
                 <Image
-                  src={
-                    typeof tour.leader.photo === 'object' && tour.leader.photo.url
-                      ? tour.leader.photo.url
-                      : (tour.leader.photo as string) // если это строка
-                  }
-                  alt={typeof tour.leader.photo === 'object' ? tour.leader.photo.alt || '' : ''}
-                  width={400} // укажи нужные размеры
+                  src={getImageUrl(tour.leader.photo)}
+                  alt={getImageAlt(tour.leader.photo)}
+                  width={400}
                   height={400}
                   className={styles.leaderImage}
                 />
@@ -180,6 +195,7 @@ export default function TourDetailClient({ tour, locale }: Props) {
         </section>
       )}
 
+      {/* MODALS */}
       {bookingOpen && (
         <BookingModal tourName={t(tour.name)} onClose={() => setBookingOpen(false)} />
       )}

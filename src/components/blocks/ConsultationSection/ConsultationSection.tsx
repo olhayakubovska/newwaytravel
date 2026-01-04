@@ -4,10 +4,11 @@ import { useParams } from 'next/navigation'
 import styles from './ConsultationSection.module.scss'
 
 interface ConsultationProps {
-  title?: any // Теперь принимает и строку, и объект {uk: "", en: ""}
-  text?: any // Аналогично
-  buttonText?: any // Аналогично
+  title?: any
+  text?: any
+  buttonText?: any
   backgroundImage?: any
+  phoneNumber?: any // Изменили на any, так как Payload может вернуть объект локализации
 }
 
 export function ConsultationSection({
@@ -15,21 +16,26 @@ export function ConsultationSection({
   text,
   buttonText,
   backgroundImage,
+  phoneNumber,
 }: ConsultationProps) {
   const params = useParams()
   const locale = (params?.locale as string) || 'uk'
 
-  // Универсальная функция перевода
   const t = (field: any): string => {
     if (!field) return ''
     if (typeof field === 'object') {
-      // Ищем текущий язык -> потом украинский -> потом первый доступный ключ
       return field[locale] || field['uk'] || Object.values(field)[0] || ''
     }
     return String(field)
   }
 
   const imageUrl = typeof backgroundImage === 'object' ? backgroundImage?.url : backgroundImage
+
+  // 1. Сначала переводим (получаем строку из объекта Payload)
+  const phoneString = t(phoneNumber)
+
+  // 2. Безопасно очищаем номер. Если номера нет, используем заглушку или пустую строку.
+  const cleanNumber = phoneString ? phoneString.replace(/\s+/g, '') : ''
 
   return (
     <section className={styles.section}>
@@ -53,16 +59,22 @@ export function ConsultationSection({
           transition={{ duration: 0.6 }}
           className={styles.inner}
         >
-          {/* Если title не заполнен в админке, выведется пустая строка или можно задать дефолт через t(title) || 'Дефолт' */}
           <h2 className={styles.title}>
             {t(title) || (locale === 'en' ? 'Not sure what to choose?' : 'Не знаєш що вибрати?')}
           </h2>
 
           {text && <p className={styles.text}>{t(text)}</p>}
 
-          <button className={styles.button}>
-            {t(buttonText) || (locale === 'en' ? 'Contact us' : 'Зв’язатися з нами')}
-          </button>
+          {/* Добавляем условие: рендерить ссылку, только если номер существует */}
+          {cleanNumber && (
+            <a
+              href={`tel:${cleanNumber}`}
+              className={styles.button}
+              style={{ display: 'inline-block', textAlign: 'center', textDecoration: 'none' }}
+            >
+              {t(buttonText) || (locale === 'en' ? 'Contact us' : 'Зв’язатися з нами')}
+            </a>
+          )}
         </motion.div>
       </div>
     </section>

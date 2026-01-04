@@ -100,14 +100,10 @@ export interface Config {
   globals: {
     footer: Footer;
     header: Header;
-    searchBar: SearchBar;
-    about: About;
   };
   globalsSelect: {
     footer: FooterSelect<false> | FooterSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
-    searchBar: SearchBarSelect<false> | SearchBarSelect<true>;
-    about: AboutSelect<false> | AboutSelect<true>;
   };
   locale: 'uk' | 'en' | 'ru';
   user: User & {
@@ -200,12 +196,38 @@ export interface Page {
             subtitle?: string | null;
             title: string;
             description?: string | null;
+            backgroundImage: string | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: 'heroSection';
           }
         | {
-            placeholderText?: string | null;
+            categoryLabel?: string | null;
+            destinationLabel?: string | null;
+            monthLabel?: string | null;
+            searchBtnLabel?: string | null;
+            resetBtnLabel?: string | null;
+            categories?:
+              | {
+                  label: string;
+                  value: string;
+                  id?: string | null;
+                }[]
+              | null;
+            destinations?:
+              | {
+                  label: string;
+                  value: string;
+                  id?: string | null;
+                }[]
+              | null;
+            months?:
+              | {
+                  label: string;
+                  value: string;
+                  id?: string | null;
+                }[]
+              | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'searchBar';
@@ -215,6 +237,7 @@ export interface Page {
             title?: string | null;
             text?: string | null;
             buttonText?: string | null;
+            phoneNumber?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'consultation';
@@ -242,6 +265,53 @@ export interface Page {
             id?: string | null;
             blockName?: string | null;
             blockType: 'testimonials';
+          }
+        | {
+            heroImage: string | Media;
+            heroTitle?: string | null;
+            historyTitle?: string | null;
+            historyContent?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            mainImages?:
+              | {
+                  image?: (string | null) | Media;
+                  id?: string | null;
+                }[]
+              | null;
+            specsTitle?: string | null;
+            features?:
+              | {
+                  label?: string | null;
+                  value?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            teamTitle?: string | null;
+            team?:
+              | {
+                  photo: string | Media;
+                  name: string;
+                  role?: string | null;
+                  bio?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'aboutSection';
           }
       )[]
     | null;
@@ -589,13 +659,39 @@ export interface PagesSelect<T extends boolean = true> {
               subtitle?: T;
               title?: T;
               description?: T;
+              backgroundImage?: T;
               id?: T;
               blockName?: T;
             };
         searchBar?:
           | T
           | {
-              placeholderText?: T;
+              categoryLabel?: T;
+              destinationLabel?: T;
+              monthLabel?: T;
+              searchBtnLabel?: T;
+              resetBtnLabel?: T;
+              categories?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    id?: T;
+                  };
+              destinations?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    id?: T;
+                  };
+              months?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    id?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -606,6 +702,7 @@ export interface PagesSelect<T extends boolean = true> {
               title?: T;
               text?: T;
               buttonText?: T;
+              phoneNumber?: T;
               id?: T;
               blockName?: T;
             };
@@ -630,6 +727,40 @@ export interface PagesSelect<T extends boolean = true> {
                     date?: T;
                     rating?: T;
                     text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        aboutSection?:
+          | T
+          | {
+              heroImage?: T;
+              heroTitle?: T;
+              historyTitle?: T;
+              historyContent?: T;
+              mainImages?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
+              specsTitle?: T;
+              features?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    id?: T;
+                  };
+              teamTitle?: T;
+              team?:
+                | T
+                | {
+                    photo?: T;
+                    name?: T;
+                    role?: T;
+                    bio?: T;
                     id?: T;
                   };
               id?: T;
@@ -843,84 +974,6 @@ export interface Header {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "searchBar".
- */
-export interface SearchBar {
-  id: string;
-  categories?:
-    | {
-        label: string;
-        value: string;
-        id?: string | null;
-      }[]
-    | null;
-  destinations?:
-    | {
-        label: string;
-        value: string;
-        id?: string | null;
-      }[]
-    | null;
-  months?:
-    | {
-        label: string;
-        value: string;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about".
- */
-export interface About {
-  id: string;
-  title: string;
-  historyTitle?: string | null;
-  historyContent?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  features?:
-    | {
-        label?: string | null;
-        value?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  mainImages?:
-    | {
-        image?: (string | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  team?:
-    | {
-        photo: string | Media;
-        name: string;
-        role?: string | null;
-        bio?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
@@ -955,70 +1008,6 @@ export interface HeaderSelect<T extends boolean = true> {
         youtube?: T;
         instagram?: T;
         telegram?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "searchBar_select".
- */
-export interface SearchBarSelect<T extends boolean = true> {
-  categories?:
-    | T
-    | {
-        label?: T;
-        value?: T;
-        id?: T;
-      };
-  destinations?:
-    | T
-    | {
-        label?: T;
-        value?: T;
-        id?: T;
-      };
-  months?:
-    | T
-    | {
-        label?: T;
-        value?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about_select".
- */
-export interface AboutSelect<T extends boolean = true> {
-  title?: T;
-  historyTitle?: T;
-  historyContent?: T;
-  features?:
-    | T
-    | {
-        label?: T;
-        value?: T;
-        id?: T;
-      };
-  mainImages?:
-    | T
-    | {
-        image?: T;
-        id?: T;
-      };
-  team?:
-    | T
-    | {
-        photo?: T;
-        name?: T;
-        role?: T;
-        bio?: T;
-        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;

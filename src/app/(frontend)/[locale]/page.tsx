@@ -21,7 +21,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     where: { slug: { equals: 'home' } },
     limit: 1,
     locale: localeTyped,
-    depth: 2,
+    depth: 3,
   })
 
   const page = pageResult.docs[0]

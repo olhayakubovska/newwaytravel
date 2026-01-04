@@ -1,127 +1,126 @@
 .section {
-  background: #fdfdfd; 
-  padding: 50px 0;
+  background: #fdfdfd;
+  padding: 80px 0;
+
+  @media (max-width: 768px) {
+    padding: 40px 0;
+  }
 }
 
 .container {
-  width: 100%;
-  max-width: 1200px; 
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
+/* ---------- HEADER ---------- */
+
 .header {
   display: flex;
-  align-items: flex-end; 
-  justify-content: space-between;
-  margin-bottom: 50px;
-  
+  justify-content: space-between; // Изменено с flex-end на space-between для баланса
+  align-items: flex-end;
+  margin-bottom: 40px;
+
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
+    gap: 15px;
     text-align: center;
-    gap: 24px;
   }
 }
 
 .title {
   font-size: 36px;
   font-weight: 800;
-  color: #002347;
-  letter-spacing: -0.5px;
+  color: #1a2b48;
   margin: 0;
-}
 
-.calendarLink {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #002347;
-  font-weight: 700;
-  text-decoration: none;
-  font-size: 15px;
-  border-bottom: 2px solid #ff7010;
-  padding-bottom: 4px;
-  transition: all 0.3s ease;
-
-  &:hover {
-    color: #ff7010;
-    gap: 14px;
+  @media (max-width: 768px) {
+    font-size: 28px;
   }
 }
 
-.grid {
-  display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+.allToursLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a2b48;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #ffb129;
+    gap: 12px;
+  }
 }
 
+/* ---------- CARD (Vertical Style) ---------- */
+
 .cardLink {
-  text-decoration: none;
-  color: inherit;
   display: block;
   height: 100%;
+  color: inherit;
+  text-decoration: none;
 }
 
 .card {
-  background: #fff;
-  border-radius: 20px; 
-  border: 1px solid #f0f0f0;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   height: 100%;
   display: flex;
   flex-direction: column;
-  position: relative;
+  background: #fff;
+  border-radius: 4px; // Острые углы как на скрине
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0, 35, 71, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
   }
 }
 
 .imageWrapper {
   position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 11; 
+  height: 240px;
   overflow: hidden;
-  background: #eee;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 40%;
-    background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
-  }
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: transform 0.8s ease;
 
   .card:hover & {
-    transform: scale(1.08);
+    transform: scale(1.1);
   }
 }
 
-.priceTag {
+/* Эффект матового стекла под названием тура (как на фото) */
+.titleOverlay {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  background: #ff7010;
-  color: #fff;
-  padding: 6px 14px;
-  border-radius: 100px;
-  font-weight: 800;
-  font-size: 16px;
-  z-index: 2;
-  box-shadow: 0 4px 12px rgba(255, 112, 16, 0.3);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+.cardTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a2b48;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ---------- CONTENT ---------- */
 
 .content {
   padding: 20px;
@@ -130,98 +129,86 @@
   flex-grow: 1;
 }
 
-.cardTitle {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  color: #002347;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  height: 50px;
+.category {
+  font-weight: 800;
+  color: #1a2b48;
+  font-size: 15px;
+  margin-bottom: 8px;
 }
 
+.shortDesc {
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Сетка параметров 2 колонки (как на скрине) */
 .infoGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: auto;
-  padding-top: 16px;
-  border-top: 1px dashed #eee;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 12px 10px;
+  margin-bottom: 24px;
+  margin-top: auto; // Прижимает сетку вниз
 }
 
-.infoRow {
+.infoItem {
   display: flex;
   align-items: center;
-  gap: 6px;
-  color: #6c757d;
-  font-size: 13px;
-  font-weight: 500;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
 
-  svg {
-    color: #ff7010; 
+  .icon {
+    width: 16px;
+    height: 16px;
+    color: #1a2b48;
     flex-shrink: 0;
   }
+}
 
-  &:first-child {
-    grid-column: span 2; 
-    color: #002347;
-    font-weight: 600;
+.dateRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ---------- FOOTER ---------- */
+
+.footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.detailsBtn {
+  background: #ffb129; // Фирменный оранжевый
+  color: white;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #f39c12;
   }
 }
 
-.footer {
-  margin-top: 16px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.detailsText {
-  font-size: 14px;
-  font-weight: 700;
-  color: #ff7010;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
+/* ---------- SWIPER ---------- */
 
 .swiper {
-  padding-bottom: 30px; 
-}
-
-.swiper-pagination-bullet {
-  background: #ff7010;
-  opacity: 1;
-}
-
-.swiper-pagination-bullet-active {
-  background: #002347;
-}
-
-
-.swiper {
-  padding-bottom: 50px !important;
-  position: relative;
-}
-
-
-
-.swiper :global(.swiper-pagination) {
-  bottom: 0px !important;
+  padding-bottom: 60px !important;
 }
 
 .swiper :global(.swiper-pagination-bullet) {
-  background: #ccc; 
+  background: #d0d0d0;
   opacity: 1;
-  width: 10px;
-  height: 10px;
-  margin: 0 6px !important;
-  transition: all 0.3s ease;
 }
 
 .swiper :global(.swiper-pagination-bullet-active) {
-  background: #ff7010; 
-  width: 25px;        
-  border-radius: 5px;
+  background: #ffb129; // Цвет под кнопку
 }

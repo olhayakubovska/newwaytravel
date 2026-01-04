@@ -11,9 +11,9 @@ import { Pages } from './collections/Pages'
 import { Tours } from './collections/Tours'
 import { FooterConfig } from './blocks/Footer'
 import { HeaderConfig } from './blocks/Header'
-import { SearchBarConfig } from './collections/SearchBarConfig'
+// import { SearchBarConfig } from './collections/SearchBarConfig'
 import { Orders } from './collections/Orders'
-import { AboutConfig } from './collections/About'
+// import { AboutConfig } from './collections/About'
 import { Consultations } from './collections/Consultations'
 import { Videos } from './collections/Videos'
 
@@ -34,7 +34,8 @@ export default buildConfig({
   },
 
   collections: [Users, Media, Pages, Tours, Orders, Consultations, Videos],
-  globals: [FooterConfig, HeaderConfig, SearchBarConfig, AboutConfig],
+  // globals: [FooterConfig, HeaderConfig, SearchBarConfig, AboutConfig],
+  globals: [FooterConfig, HeaderConfig],
 
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

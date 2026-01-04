@@ -6,6 +6,7 @@ import { ToursBlock } from '@/blocks/Tours'
 import { VideoBlock } from '@/blocks/Video'
 import { CollectionConfig } from 'payload'
 import { autoTranslate } from '../hooks/autoTranslate'
+import { AboutSectionBlock } from '@/blocks/AboutSection'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -50,6 +51,7 @@ export const Pages: CollectionConfig = {
       // unique: true,
       localized: true,
     },
+
     {
       name: 'layout',
       label: 'Конструктор сторінки',
@@ -62,6 +64,7 @@ export const Pages: CollectionConfig = {
         ConsultationBlock,
         VideoBlock,
         TestimonialsBlock,
+        AboutSectionBlock,
       ],
     },
   ],

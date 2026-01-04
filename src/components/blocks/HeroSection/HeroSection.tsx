@@ -3,23 +3,33 @@
 import { motion } from 'framer-motion'
 import styles from './HeroSection.module.scss'
 
-export function HeroSection({
-  subtitle,
-  title,
-  description,
-}: {
+// Описываем структуру медиа-файла из Payload
+interface Media {
+  url?: string
+  alt?: string
+}
+
+interface HeroSectionProps {
   subtitle?: string
   title: string
   description?: string
-}) {
+  backgroundImage?: Media | string // Payload может вернуть объект или ID (строку)
+}
+
+export function HeroSection({ subtitle, title, description, backgroundImage }: HeroSectionProps) {
+  // Получаем URL: если backgroundImage это объект, берем .url, иначе — пусто
+  const imageUrl = typeof backgroundImage === 'object' ? backgroundImage?.url : backgroundImage
+
   return (
     <section className={styles.hero}>
       <div className={styles.background}>
-        <img
-          src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&h=1080&fit=crop"
-          alt="Travel background"
-          className={styles.image}
-        />
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt={typeof backgroundImage === 'object' ? backgroundImage?.alt : title}
+            className={styles.image}
+          />
+        )}
         <div className={styles.overlay} />
       </div>
 
@@ -30,7 +40,7 @@ export function HeroSection({
           transition={{ duration: 1, ease: 'easeOut' }}
         >
           {subtitle && <div className={styles.subtitle}>{subtitle}</div>}
-          <div className={styles.title}>{title}</div>
+          <h1 className={styles.title}>{title}</h1>
           {description && <p className={styles.description}>{description}</p>}
         </motion.div>
       </div>

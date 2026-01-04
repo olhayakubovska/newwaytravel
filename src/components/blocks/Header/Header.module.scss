@@ -99,6 +99,10 @@
   text-transform: uppercase;
 }
 
+.chatLink {
+  text-decoration: none;
+}
+
 .localeWrapper {
   position: relative;
 }
@@ -114,7 +118,9 @@
   color: #0f172a;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease, border 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border 0.2s ease;
 
   &:hover {
     background: rgba(0, 0, 0, 0.04);

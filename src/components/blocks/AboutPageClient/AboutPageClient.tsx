@@ -1,196 +1,87 @@
-// 'use client'
-
-// import React from 'react'
-// import { Send } from 'lucide-react'
-// import styles from './About.module.scss'
-// import { RichText } from '../ui/RichText'
-// import { HeroSection } from '../HeroSection/HeroSection'
-
-// interface AboutData {
-//   title?: any
-//   subtitle?: any
-//   description?: any
-//   historyTitle?: any
-//   historyContent?: any
-//   specsTitle?: any // Добавьте это поле в Payload
-//   teamTitle?: any // Добавьте это поле в Payload
-//   features?: { label: any; value: any }[]
-//   mainImages?: { image?: { url?: string } }[]
-//   team?: { name: any; role?: any; bio?: any; photo?: { url?: string } }[]
-// }
-
-// export default function AboutPageClient({ data, locale }: { data: AboutData; locale: string }) {
-//   // Универсальная функция перевода внутри компонента
-//   const t = (field: any, fallback: string = '') => {
-//     if (!field) return fallback
-//     if (typeof field === 'object') {
-//       return field[locale] || field.uk || field.en || Object.values(field)[0] || fallback
-//     }
-//     return String(field)
-//   }
-
-//   const i18n = {
-//     historyTitle: t(
-//       data.historyTitle,
-//       locale === 'en' ? 'How it all started' : 'Як все починалося',
-//     ),
-//     specsTitle: t(
-//       data.specsTitle,
-//       locale === 'en' ? 'Why travel with us' : 'Чому подорожують з нами',
-//     ),
-//     teamTitle: t(data.teamTitle, locale === 'en' ? 'Our Team' : 'Наша команда'),
-//     loading: locale === 'en' ? 'Loading...' : 'Завантаження...',
-//   }
-
-//   const img1 = data.mainImages?.[0]?.image?.url || '/images/about-1.jpg'
-//   const img2 = data.mainImages?.[1]?.image?.url || '/images/about-2.jpg'
-
-//   return (
-//     <main className={styles.wrapper}>
-//       <section className={styles.hero}>
-//         {/* Теперь Hero получает реальные данные из админки About */}
-//         <HeroSection
-//           title={t(data.title)}
-//           subtitle={t(data.subtitle)}
-//           description={t(data.description)}
-//         />
-//       </section>
-
-//       <div className={styles.container}>
-//         <section className={styles.whiteCard}>
-//           <h2 className={styles.sectionTitle}>{i18n.historyTitle}</h2>
-//           <div className={styles.textContent}>
-//             {data.historyContent ? (
-//               <RichText content={data.historyContent} />
-//             ) : (
-//               <p>{i18n.loading}</p>
-//             )}
-//           </div>
-//         </section>
-
-//         <section className={styles.gridSection}>
-//           <div className={styles.imageColumn}>
-//             <img src={img1} alt="Travel" className={styles.sideImage} />
-//             <img src={img2} alt="Vans" className={styles.sideImage} />
-//           </div>
-
-//           <div className={styles.detailsColumn}>
-//             <h2 className={styles.sectionTitle}>{i18n.specsTitle}</h2>
-//             <ul className={styles.specsList}>
-//               {data.features?.map((item, idx) => (
-//                 <li key={idx}>
-//                   <strong>{t(item.label)}</strong>
-//                   <p>{t(item.value)}</p>
-//                 </li>
-//               ))}
-//             </ul>
-//           </div>
-//         </section>
-
-//         {data.team && data.team.length > 0 && (
-//           <section className={styles.teamSection}>
-//             <h2 className={styles.sectionTitle}>{i18n.teamTitle}</h2>
-//             <div className={styles.teamGrid}>
-//               {data.team.map((member, idx) => (
-//                 <div key={idx} className={styles.teamCard}>
-//                   <div className={styles.teamImageWrapper}>
-//                     <img
-//                       src={member.photo?.url || '/images/avatar-placeholder.jpg'}
-//                       alt={t(member.name)}
-//                     />
-//                   </div>
-//                   <h3>{t(member.name)}</h3>
-//                   {member.role && <span className={styles.teamRole}>{t(member.role)}</span>}
-//                   {member.bio && <p className={styles.teamBio}>{t(member.bio)}</p>}
-//                 </div>
-//               ))}
-//             </div>
-//           </section>
-//         )}
-//       </div>
-//     </main>
-//   )
-// }
-
 'use client'
 
 import React from 'react'
 import styles from './About.module.scss'
 import { RichText } from '../ui/RichText'
-import { HeroSection } from '../HeroSection/HeroSection'
+import { motion } from 'framer-motion'
 
-interface AboutData {
-  title?: any
-  subtitle?: any
-  description?: any
-  historyTitle?: any
-  historyContent?: any
-  specsTitle?: any
-  teamTitle?: any
-  features?: { label: any; value: any }[]
-  mainImages?: { image?: { url?: string } }[]
-  team?: { name: any; role?: any; bio?: any; photo?: { url?: string } }[]
-}
-
-export default function AboutPageClient({ data, locale }: { data: AboutData; locale: string }) {
-  // Универсальная функция перевода
+export default function AboutPageClient({
+  heroImage, // Новое поле из админки
+  heroTitle, // Новое поле из админки
+  historyTitle,
+  historyContent,
+  specsTitle,
+  teamTitle,
+  features,
+  mainImages,
+  team,
+  locale = 'uk',
+}: any) {
   const t = (field: any, fallback: string = '') => {
     if (!field) return fallback
-    if (typeof field === 'object') {
-      return field[locale] || field.uk || field.en || Object.values(field)[0] || fallback
-    }
+    if (typeof field === 'object') return field[locale] || field.uk || field.en || fallback
     return String(field)
   }
 
-  const img1 = data.mainImages?.[0]?.image?.url || '/images/about-1.jpg'
-  const img2 = data.mainImages?.[1]?.image?.url || '/images/about-2.jpg'
+  const heroUrl = heroImage?.url || ''
+  const img1 = mainImages?.[0]?.image?.url || '/images/about-1.jpg'
+  const img2 = mainImages?.[1]?.image?.url || '/images/about-2.jpg'
 
   return (
     <main className={styles.wrapper}>
-      <section className={styles.hero}>
-        <HeroSection
-          title={t(data.title)}
-          subtitle={t(data.subtitle)}
-          description={t(data.description)}
-        />
+      {/* Локальный Hero, управляемый из админки этой страницы */}
+      <section className={styles.localHero}>
+        <div className={styles.heroBg}>
+          {heroUrl && <img src={heroUrl} alt="Hero" />}
+          <div className={styles.heroOverlay} />
+        </div>
+        <div className={styles.heroContent}>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={styles.mainTitle}
+          >
+            {t(heroTitle)}
+          </motion.h1>
+        </div>
       </section>
 
       <div className={styles.container}>
         <section className={styles.whiteCard}>
-          <h2 className={styles.sectionTitle}>{t(data.historyTitle)}</h2>
+          <h2 className={styles.sectionTitle}>{t(historyTitle)}</h2>
           <div className={styles.textContent}>
-            {data.historyContent ? (
-              <RichText content={data.historyContent} />
-            ) : (
-              <p>{t('loading', 'Loading...')}</p>
-            )}
+            {historyContent ? <RichText content={historyContent} /> : <p>Завантаження...</p>}
           </div>
         </section>
 
         <section className={styles.gridSection}>
           <div className={styles.imageColumn}>
-            <img src={img1} alt={t(data.title, 'About image')} className={styles.sideImage} />
-            <img src={img2} alt={t(data.title, 'About image')} className={styles.sideImage} />
+            <div className={styles.imageWrapper}>
+              <img src={img1} alt="About 1" className={styles.sideImage} />
+            </div>
+            <div className={styles.imageWrapper}>
+              <img src={img2} alt="About 2" className={styles.sideImage} />
+            </div>
           </div>
 
           <div className={styles.detailsColumn}>
-            <h2 className={styles.sectionTitle}>{t(data.specsTitle)}</h2>
+            <h2 className={styles.sectionTitle}>{t(specsTitle)}</h2>
             <ul className={styles.specsList}>
-              {data.features?.map((item, idx) => (
-                <li key={idx}>
-                  <strong>{t(item.label)}</strong>
-                  <p>{t(item.value)}</p>
+              {features?.map((item: any, idx: number) => (
+                <li key={idx} className={styles.specItem}>
+                  <strong className={styles.specLabel}>{t(item.label)}</strong>
+                  <p className={styles.specValue}>{t(item.value)}</p>
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
-        {data.team && data.team.length > 0 && (
+        {team && team.length > 0 && (
           <section className={styles.teamSection}>
-            <h2 className={styles.sectionTitle}>{t(data.teamTitle)}</h2>
+            <h2 className={styles.sectionTitleCenter}>{t(teamTitle)}</h2>
             <div className={styles.teamGrid}>
-              {data.team.map((member, idx) => (
+              {team.map((member: any, idx: number) => (
                 <div key={idx} className={styles.teamCard}>
                   <div className={styles.teamImageWrapper}>
                     <img
@@ -198,15 +89,21 @@ export default function AboutPageClient({ data, locale }: { data: AboutData; loc
                       alt={t(member.name)}
                     />
                   </div>
-                  <h3>{t(member.name)}</h3>
+                  <h3 className={styles.memberName}>{t(member.name)}</h3>
                   {member.role && <span className={styles.teamRole}>{t(member.role)}</span>}
-                  {member.bio && <p className={styles.teamBio}>{t(member.bio)}</p>}
                 </div>
               ))}
             </div>
           </section>
         )}
       </div>
+
+      <a
+        href="https://t.me/yourname"
+        className={styles.floatingTg}
+        target="_blank"
+        rel="noreferrer"
+      />
     </main>
   )
 }

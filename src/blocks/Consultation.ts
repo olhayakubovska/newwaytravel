@@ -34,5 +34,14 @@ export const ConsultationBlock: Block = {
       label: 'Текст кнопки',
       defaultValue: 'Зв’язатися з нами',
     },
+    {
+      name: 'phoneNumber',
+      type: 'text',
+      label: 'Номер телефону для кнопки',
+      localized: true,
+      admin: {
+        placeholder: '+380934453182',
+      },
+    },
   ],
 }
