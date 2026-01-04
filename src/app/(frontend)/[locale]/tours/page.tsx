@@ -111,12 +111,8 @@ export default async function ToursPage({ params }: Props) {
 
   return (
     <>
-      {/* Рендерим все блоки КРОМЕ поиска (например, Hero) */}
       <RenderBlocks blocks={otherBlocks || []} />
 
-      {/* Рендерим сетку туров и передаем туда данные блока SearchBar,
-         которые мы нашли в пункте 2.
-      */}
       <AllToursClient initialTours={tours} searchBarData={searchBarBlockData} />
     </>
   )

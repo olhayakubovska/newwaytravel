@@ -6,8 +6,8 @@ import { RichText } from '../ui/RichText'
 import { motion } from 'framer-motion'
 
 export default function AboutPageClient({
-  heroImage, // Новое поле из админки
-  heroTitle, // Новое поле из админки
+  heroImage,
+  heroTitle,
   historyTitle,
   historyContent,
   specsTitle,
@@ -29,7 +29,6 @@ export default function AboutPageClient({
 
   return (
     <main className={styles.wrapper}>
-      {/* Локальный Hero, управляемый из админки этой страницы */}
       <section className={styles.localHero}>
         <div className={styles.heroBg}>
           {heroUrl && <img src={heroUrl} alt="Hero" />}

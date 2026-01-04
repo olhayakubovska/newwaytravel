@@ -1,128 +1,204 @@
 .footer {
   background-color: #0f172a; 
-  color: #fff;
-  padding: 64px 0;
-  font-family: sans-serif;
+  color: #ffffff;
+  padding: 60px 0 20px 0;
+  overflow: hidden; 
+  width: 100%;
+  position: relative;
 }
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .grid {
   display: grid;
-  gap: 48px;
+  gap: 20px;
   grid-template-columns: 1fr;
   
-  @media (min-width: 768px) {
+  @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
   }
   
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 60px;
+  }
+
+  @media (max-width: 640px) {
+    text-align: center;
+    & > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center; // Центрируем заголовки и блоки относительно экрана
+    }
   }
 }
 
 .logoBlock {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  @media (max-width: 640px) {
+    align-items: center;
+  }
 }
 
 .logoText {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 28px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: -0.5px;
-  margin-bottom: 4px;
+  color: #ffffff;
 }
 
 .logoSub {
-  font-size: 14px;
-  opacity: 0.8;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: #f97316;
+  text-transform: uppercase;
 }
 
 .description {
   font-size: 14px;
-  line-height: 1.6;
-  opacity: 0.8;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 300px;
 }
 
 .heading {
   margin-bottom: 24px;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
   text-transform: uppercase;
+  color: #ffffff;
+  position: relative;
+  width: fit-content;
+  // margin-top: 10px;
+  padding: 5px 0 ;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 30px;
+    height: 2px;
+    background-color: #f97316;
+  }
+
+  @media (max-width: 640px) {
+    &::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
 }
 
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-
-.navLink {
-  font-size: 14px;
-  color: rgba(255,255,255,0.8);
-  text-decoration: none;
-  transition: color 0.2s;
-
-  &:hover {
-    color: #fff;
+  gap: 20px;
+  
+  @media (max-width: 640px) {
+    align-items: center;
+    // font-size: 20px;
   }
 }
 
+.navLink {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  &:hover {
+    color: #f97316;
+  }
+}
+
+/* СЕКЦИЯ КОНТАКТОВ */
 .contact {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
+  width: fit-content; // Чтобы блок можно было отцентрировать как целое
+
+  @media (max-width: 640px) {
+    align-items: flex-start; // Внутри блока выравниваем по левому краю (иконка к иконке)
+    text-align: left;
+    padding: 20px;
+  }
 }
 
 .contactItem {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: flex-start; // Выравнивание по верху для многострочного текста
+  gap: 15px;
   font-size: 14px;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color 0.3s ease;
 
   .icon {
-    width: 16px;
-    height: 16px;
+    color: #f97316;
     flex-shrink: 0;
+    width: 24px; // Фиксированная ширина "колонки" для иконок
+    display: flex;
+    justify-content: center;
+    margin-top: 2px;
+  }
+
+  span {
+    line-height: 1.5;
+    flex: 1; // Занимает всё оставшееся пространство (колонка информации)
+  }
+
+  &:hover {
+    color: #ffffff;
   }
 }
 
+/* СОЦСЕТИ */
 .socials {
   display: flex;
-  gap: 16px;
+  gap: 12px;
+  @media (max-width: 640px) {
+    justify-content: center;
+    margin-top: 10px;
+  }
 }
 
 .socialLink {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: rgba(255,255,255,0.1);
-  transition: background-color 0.2s;
-
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  transition: all 0.3s ease;
   &:hover {
-    background-color: rgba(255,255,255,0.2);
+    background-color: #f97316;
+    transform: translateY(-5px);
   }
 }
 
-.socialIcon {
-  width: 20px;
-  height: 20px;
+.copyright {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  padding-bottom: 20px;
 }
 
-.copyright {
-  margin-top: 32px;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  padding-top: 32px;
-  text-align: center;
-  font-size: 12px;
-  color: rgba(255,255,255,0.6);
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  margin-bottom: 24px;
 }

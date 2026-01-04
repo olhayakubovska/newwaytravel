@@ -29,10 +29,6 @@ export const Pages: CollectionConfig = {
     },
   },
 
-  // versions: {
-  //   drafts: true,
-  // },
-
   hooks: {
     afterChange: [autoTranslate(['title', 'layout'])],
   },
@@ -47,8 +43,7 @@ export const Pages: CollectionConfig = {
     {
       name: 'slug',
       type: 'text',
-      // required: true,
-      // unique: true,
+
       localized: true,
     },
 

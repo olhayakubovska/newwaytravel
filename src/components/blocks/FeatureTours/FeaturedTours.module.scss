@@ -1,89 +1,360 @@
+// .section {
+//   padding: 80px 0;
+//   background-color: #f8fafc; // Светлый фон как на макете
+//   overflow: hidden;
+//   margin-top: 50px;
+
+//   @media (max-width: 768px) {
+//     padding: 60px 0;
+//     margin-top: 0;
+//   }
+// }
+
+// .container {
+//   max-width: 1300px;
+//   margin: 0 auto;
+//   padding: 0 20px;
+// }
+
+// /* --- ШАПКА СЕКЦИИ (КАК НА ФОТО) --- */
+// .header {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   margin-bottom: 40px;
+//   gap: 20px;
+
+//   @media (max-width: 640px) {
+//     flex-direction: column;
+//     align-items: flex-start;
+//   }
+// }
+
+// .title {
+//   font-size: clamp(28px, 4vw, 42px);
+//   font-weight: 900;
+//   color: #0f172a; // Темно-синий из макета
+//   margin: 0;
+//   letter-spacing: -0.5px;
+//   text-transform: none; // Если нужно капсом — поставьте uppercase
+// }
+
+// // .allToursLink {
+// //   display: flex;
+// //   align-items: center;
+// //   gap: 8px;
+// //   padding: 10px 20px;
+// //   border: 2px solid #0f172a; // Черная рамка как на фото
+// //   border-radius: 6px;
+// //   color: #0f172a;
+// //   text-decoration: none;
+// //   font-weight: 800;
+// //   font-size: 14px;
+// //   transition: all 0.2s ease;
+
+// //   &:hover {
+// //     background-color: #0f172a;
+// //     color: #ffffff;
+// //   }
+
+// //   @media (max-width: 640px) {
+// //     // width: 100%;
+// //     justify-content: center;
+// //   }
+// // }
+// .allToursLink {
+//   display: flex;
+//   align-items: center;
+//   gap: 8px;
+//   padding: 12px 24px; // Чуть увеличил отступы для баланса
+//   color: #0f172a;
+//   text-decoration: none;
+//   font-weight: 800;
+//   font-size: 14px;
+//   transition: all 0.3s ease;
+//   position: relative; // Нужно для позиционирования полоски
+//   overflow: hidden;
+
+//   // Текст внутри кнопки (чтобы полоска не перекрывала его)
+//   span {
+//     position: relative;
+//     z-index: 1;
+//   }
+
+//   // --- ОРАНЖЕВАЯ ПОЛОСКА ---
+//   &::after {
+//     content: '';
+//     position: absolute;
+//     bottom: 6px;      // Отступ от нижнего края рамки
+//     left: 50%;        // Центрируем
+//     transform: translateX(-50%);
+//     width: 30px;      // Ширина полоски
+//     height: 3px;      // Толщина полоски
+//     background-color: #f97316; // Ваш оранжевый цвет
+//     border-radius: 2px;
+//     transition: all 0.3s ease;
+//   }
+
+//   &:hover {
+//     background-color: #0f172a;
+//     color: #ffffff;
+
+//     // При наведении полоска может либо исчезать, либо становиться шире
+//     &::after {
+//       width: 0; // Скрываем полоску при инверсии цвета (чтобы не мешала белому тексту)
+//       opacity: 0;
+//     }
+//   }
+
+//   @media (max-width: 640px) {
+//     justify-content: center;
+//     margin-top: 10px;
+//   }
+// }
+
+// /* --- КАРТОЧКА ТУРА --- */
+// .cardLink {
+//   text-decoration: none;
+//   display: block;
+// }
+
+// .card {
+//   background: #ffffff;
+//   border-radius: 20px;
+//   overflow: hidden;
+//   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+//   transition: all 0.3s ease;
+//   height: 100%;
+//   border: 1px solid transparent;
+
+//   &:hover {
+//     transform: translateY(-5px);
+//     box-shadow: 0 15px 35px rgba(15, 23, 42, 0.1);
+//     border-color: #e2e8f0;
+//   }
+// }
+
+// .imageWrapper {
+//   position: relative;
+//   aspect-ratio: 16 / 11;
+//   overflow: hidden;
+// }
+
+// .image {
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+//   transition: transform 0.5s ease;
+// }
+
+// .titleOverlay {
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   padding: 20px;
+//   background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+// }
+
+// .cardTitle {
+//   color: #ffffff;
+//   font-size: 20px;
+//   font-weight: 800;
+//   margin: 0;
+// }
+
+// .content {
+//   padding: 24px;
+// }
+
+// .category {
+//   font-size: 12px;
+//   font-weight: 800;
+//   color: #f97316; // Оранжевый из макета
+//   text-transform: uppercase;
+//   margin-bottom: 12px;
+// }
+
+// /* СЕТКА ИНФОРМАЦИИ (СТИЛЬ ИКОНОК КАК В КОНТАКТАХ) */
+// .infoGrid {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 12px;
+//   margin-bottom: 20px;
+// }
+
+// .infoItem {
+//   display: flex;
+//   align-items: center;
+//   gap: 12px;
+//   color: #1e293b;
+//   font-size: 14px;
+//   font-weight: 600;
+
+//   .icon {
+//     color: #f97316; // Оранжевый цвет иконок
+//     flex-shrink: 0;
+//   }
+// }
+
+// .detailsBtn {
+//   width: 100%;
+//   padding: 14px;
+//   background: #f8fafc;
+//   border: 1px solid #e2e8f0;
+//   border-radius: 12px;
+//   font-weight: 800;
+//   color: #0f172a;
+//   cursor: pointer;
+//   transition: all 0.2s ease;
+
+//   &:hover {
+//     background: #f97316;
+//     color: #ffffff;
+//     border-color: #f97316;
+//   }
+// }
+
+// /* --- ПАГИНАЦИЯ (ИСПРАВЛЕННАЯ) --- */
+// .swiper {
+//   padding-bottom: 50px !important;
+//   overflow: visible !important;
+// }
+
+// .swiper :global {
+//   .swiper-pagination-bullet {
+//     width: 8px;
+//     height: 8px;
+//     background: #cbd5e1 !important;
+//     opacity: 1 !important;
+//     transition: all 0.3s ease !important;
+//   }
+
+//   .swiper-pagination-bullet-active {
+//     background: #f97316 !important; // Оранжевая активная точка
+//     width: 24px !important;
+//     border-radius: 4px !important;
+//   }
+// }
+
+
 .section {
-  background: #fdfdfd;
   padding: 80px 0;
+  background-color: #f8fafc;
+  overflow: hidden;
+  margin-top: 50px;
 
   @media (max-width: 768px) {
-    padding: 40px 0;
+    padding: 60px 0;
+    margin-top: 0;
   }
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-/* ---------- HEADER ---------- */
-
+/* --- ШАПКА СЕКЦИИ --- */
 .header {
   display: flex;
-  justify-content: space-between; // Изменено с flex-end на space-between для баланса
-  align-items: flex-end;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 40px;
+  gap: 20px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 640px) {
     flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    text-align: center;
+    align-items: flex-start;
   }
 }
 
 .title {
-  font-size: 36px;
-  font-weight: 800;
-  color: #1a2b48;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900;
+  color: #0f172a;
   margin: 0;
-
-  @media (max-width: 768px) {
-    font-size: 28px;
-  }
+  letter-spacing: -0.5px;
 }
 
 .allToursLink {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #1a2b48;
+  padding: 12px 24px;
+  // border: 2px solid #0f172a; // Вернул рамку, так как на фото она есть
+  // border-radius: 4px;
+  color: #0f172a;
   text-decoration: none;
-  transition: color 0.3s ease;
+  font-weight: 800;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  position: relative;
+
+  span {
+    position: relative;
+    z-index: 1;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+    background-color: #f97316;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
 
   &:hover {
-    color: #ffb129;
-    gap: 12px;
+    background-color: #0f172a;
+    color: #ffffff;
+    &::after {
+      width: 0;
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    justify-content: center;
+    width: 100%;
   }
 }
 
-/* ---------- CARD (Vertical Style) ---------- */
-
+/* --- ВЕРНУЛ ТВОЮ КАРТОЧКУ ТОВАРА --- */
 .cardLink {
+  text-decoration: none;
   display: block;
   height: 100%;
-  color: inherit;
-  text-decoration: none;
 }
 
 .card {
+  background: #ffffff;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid #f1f5f9;
+  transition: all 0.4s ease;
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border-radius: 4px; // Острые углы как на скрине
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.1);
+    border-color: #e2e8f0;
+    .image {
+      transform: scale(1.08);
+    }
   }
 }
 
 .imageWrapper {
   position: relative;
-  height: 240px;
+  height: 260px;
   overflow: hidden;
 }
 
@@ -91,124 +362,108 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.8s ease;
-
-  .card:hover & {
-    transform: scale(1.1);
-  }
+  transition: transform 0.8s cubic-bezier(0.2, 0, 0.2, 1);
 }
 
-/* Эффект матового стекла под названием тура (как на фото) */
 .titleOverlay {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 16px 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 30px 24px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
 }
 
 .cardTitle {
-  margin: 0;
-  font-size: 20px;
+  color: #ffffff;
+  font-size: 22px;
   font-weight: 800;
-  color: #1a2b48;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  margin: 0;
+  line-height: 1.2;
 }
 
-/* ---------- CONTENT ---------- */
-
 .content {
-  padding: 20px;
+  padding: 24px;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
 }
 
 .category {
-  font-weight: 800;
-  color: #1a2b48;
-  font-size: 15px;
-  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 900;
+  color: #f97316;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
 }
 
 .shortDesc {
-  color: #4b5563;
   font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 20px;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 24px;
 }
 
-/* Сетка параметров 2 колонки (как на скрине) */
 .infoGrid {
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 12px 10px;
+  grid-template-columns: repeat(2, 1fr); // Вернул сетку в 2 колонки
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
   margin-bottom: 24px;
-  margin-top: auto; // Прижимает сетку вниз
 }
 
 .infoItem {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
+  gap: 10px;
+  color: #334155;
+  font-size: 13px;
   font-weight: 600;
-  color: #374151;
 
   .icon {
-    width: 16px;
-    height: 16px;
-    color: #1a2b48;
+    color: #f97316;
     flex-shrink: 0;
   }
 }
 
-.dateRow {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* ---------- FOOTER ---------- */
-
-.footer {
-  margin-top: auto;
-  display: flex;
-  justify-content: flex-start;
-}
-
 .detailsBtn {
-  background: #ffb129; // Фирменный оранжевый
-  color: white;
-  padding: 12px 28px;
-  border-radius: 6px;
+  width: 100%;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
   font-weight: 700;
-  font-size: 16px;
-  border: none;
+  color: #0f172a;
+  transition: 0.3s;
   cursor: pointer;
-  transition: background 0.3s ease;
 
   &:hover {
-    background: #f39c12;
+    background: #0f172a;
+    color: #ffffff;
   }
 }
 
-/* ---------- SWIPER ---------- */
-
+/* --- ПАГИНАЦИЯ --- */
 .swiper {
-  padding-bottom: 60px !important;
+  padding-bottom: 70px !important;
+  overflow: visible !important;
 }
 
-.swiper :global(.swiper-pagination-bullet) {
-  background: #d0d0d0;
-  opacity: 1;
-}
+.swiper :global {
+  .swiper-pagination-bullet {
+    width: 10px !important;
+    height: 10px !important;
+    background: #cbd5e1 !important;
+    opacity: 1 !important;
+    margin: 0 6px !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  }
 
-.swiper :global(.swiper-pagination-bullet-active) {
-  background: #ffb129; // Цвет под кнопку
+  .swiper-pagination-bullet-active {
+    background: #f97316 !important;
+    width: 35px !important;
+    border-radius: 10px !important;
+  }
 }

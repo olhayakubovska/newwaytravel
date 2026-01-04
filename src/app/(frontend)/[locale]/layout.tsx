@@ -1,4 +1,3 @@
-// src/app/(frontend)/layout.tsx
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { Footer } from '@/components/blocks/Footer/Footer'
@@ -15,7 +14,6 @@ export default async function RootLayout({
   const { locale } = await params
   const payload = await getPayload({ config: configPromise })
 
-  // Payload сам вернет нужные строки для указанной локали
   const headerData = await payload.findGlobal({
     slug: 'header',
     locale: locale as any,
@@ -27,7 +25,6 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body>
-        {/* Исправлено: передаем headerData в пропс data */}
         <Header data={headerData} locale={locale as Locale} />
         <main>{children}</main>
         <Footer {...footerData} locale={locale} />{' '}

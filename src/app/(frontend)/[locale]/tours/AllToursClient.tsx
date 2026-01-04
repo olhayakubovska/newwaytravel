@@ -6,7 +6,7 @@ import { SearchBar, TourFilters } from '@/components/blocks/SearchBar/SearchBar'
 import { TourCard } from '@/components/blocks/TourCard/TourCard'
 import styles from './AllToursPage.module.scss'
 
-const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:4000'
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL
 
 export type Locale = 'uk' | 'en' | 'ru'
 
@@ -34,9 +34,6 @@ function AllToursContent({
   const searchParams = useSearchParams()
   const locale = (params?.locale as Locale) || 'uk'
 
-  /**
-   * Функция для локализации данных (имена туров и т.д.)
-   */
   const resolveField = (field: any) => {
     if (field && typeof field === 'object') {
       return field[locale] || field.uk || field.en || ''
@@ -44,9 +41,6 @@ function AllToursContent({
     return String(field || '')
   }
 
-  /**
-   * Функция для получения перевода из блока SearchBar
-   */
   const t = (field: any) => {
     if (!field) return ''
     if (typeof field === 'object') {
@@ -55,19 +49,14 @@ function AllToursContent({
     return field
   }
 
-  /**
-   * Готовим данные для SearchBar, используя данные из админки (searchBarData)
-   */
   const finalSearchData = useMemo(() => {
     return {
-      // Подтягиваем лейблы и тексты кнопок из админки
       categoryLabel: t(searchBarData?.categoryLabel),
       destinationLabel: t(searchBarData?.destinationLabel),
       monthLabel: t(searchBarData?.monthLabel),
       searchBtnLabel: t(searchBarData?.searchBtnLabel),
       resetBtnLabel: t(searchBarData?.resetBtnLabel),
 
-      // Подтягиваем списки (категории, направления, месяцы) из админки
       categories:
         searchBarData?.categories?.map((cat: any) => ({
           label: t(cat.label),
@@ -88,7 +77,6 @@ function AllToursContent({
     }
   }, [searchBarData, locale])
 
-  // ================= ФИЛЬТРАЦИЯ =================
   const handleFilterChange = (filters: TourFilters) => {
     let result = [...initialTours]
 
@@ -101,7 +89,6 @@ function AllToursContent({
     }
 
     if (filters.month) {
-      // Логика поиска месяца в строке duration (например, "16.03 - 27.03")
       result = result.filter((t) => {
         if (!t.duration) return false
         const match = t.duration.match(/\d{2}\.(\d{2})/)
@@ -114,7 +101,6 @@ function AllToursContent({
     setFilteredTours(result)
   }
 
-  // Следим за изменениями URL (параметры поиска)
   useEffect(() => {
     handleFilterChange({
       category: searchParams.get('category') || undefined,
@@ -125,7 +111,6 @@ function AllToursContent({
 
   return (
     <div className={styles.pageContainer}>
-      {/* SearchBar теперь получает ВСЕ переводы и настройки из админки */}
       <SearchBar searchData={finalSearchData} onChange={handleFilterChange} />
 
       <div className={styles.tourGrid}>

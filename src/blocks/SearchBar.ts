@@ -7,7 +7,6 @@ export const SearchBarBlock: Block = {
     plural: 'Пошукові рядки',
   },
   fields: [
-    // --- Поля для локализации интерфейса (внутри блока) ---
     {
       type: 'row',
       fields: [
@@ -53,7 +52,6 @@ export const SearchBarBlock: Block = {
         },
       ],
     },
-    // --- Списки выбора (теперь они настраиваются в каждом блоке) ---
     {
       name: 'categories',
       label: 'Категорії',

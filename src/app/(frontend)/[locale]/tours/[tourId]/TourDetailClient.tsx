@@ -25,19 +25,13 @@ export default function TourDetailClient({ tour, locale }: Props) {
   const [bookingOpen, setBookingOpen] = useState(false)
   const [consultationOpen, setConsultationOpen] = useState(false)
 
-  /**
-   * Универсальная функция перевода.
-   * Тянет данные строго из локализованных полей Payload.
-   */
   const t = (field: any): any => {
     if (!field) return ''
 
-    // Если это RichText (Lexical), возвращаем объект целиком
     if (field && typeof field === 'object' && 'root' in field) {
       return field
     }
 
-    // Если поле локализовано { uk: '...', en: '...' }
     if (typeof field === 'object' && field !== null) {
       return field[locale] || field['uk'] || field['en'] || Object.values(field)[0] || ''
     }
@@ -45,9 +39,6 @@ export default function TourDetailClient({ tour, locale }: Props) {
     return String(field)
   }
 
-  /**
-   * Helper для безопасного получения URL изображений
-   */
   const getImageUrl = (media: any) => {
     if (typeof media === 'object' && media !== null) return media.url || ''
     return typeof media === 'string' ? media : ''
@@ -58,7 +49,6 @@ export default function TourDetailClient({ tour, locale }: Props) {
     return ''
   }
 
-  // Данные интерфейса из админки
   const labels = {
     bookBtn: t(tour.uiTexts?.bookBtn),
     consultBtn: t(tour.uiTexts?.consultBtn),
@@ -71,7 +61,6 @@ export default function TourDetailClient({ tour, locale }: Props) {
 
   return (
     <main className={styles.wrapper}>
-      {/* 1. HERO SECTION */}
       <section className={styles.hero}>
         <HeroSection
           title={t(tour.name)}
@@ -81,7 +70,6 @@ export default function TourDetailClient({ tour, locale }: Props) {
         />
 
         <div className={styles.heroActions}>
-          {/* Показываем кнопки только если текст для них введен в админке */}
           {labels.bookBtn && (
             <button className={styles.primaryBtn} onClick={() => setBookingOpen(true)}>
               {labels.bookBtn}
@@ -95,7 +83,6 @@ export default function TourDetailClient({ tour, locale }: Props) {
         </div>
       </section>
 
-      {/* 2. TRIP DETAILS (Cards) */}
       <section className={styles.section}>
         <div className={styles.cardWrapper}>
           {tour.tripDetailsCard && <TripDetails tour={tour} locale={locale} />}
@@ -104,7 +91,6 @@ export default function TourDetailClient({ tour, locale }: Props) {
         </div>
       </section>
 
-      {/* 3. DESCRIPTION & GALLERY */}
       <section className={styles.section}>
         <div className={styles.infoGrid}>
           <div className={styles.infoCard}>
@@ -125,7 +111,6 @@ export default function TourDetailClient({ tour, locale }: Props) {
             )}
           </div>
 
-          {/* GALLERY - берем первые 3 фото */}
           {tour.gallery && tour.gallery.length > 0 && (
             <div className={styles.galleryWrapper}>
               {tour.gallery.slice(0, 3).map((item: any, index: number) => {
@@ -148,7 +133,6 @@ export default function TourDetailClient({ tour, locale }: Props) {
         </div>
       </section>
 
-      {/* 4. ITINERARY & CONSULTATION CARD */}
       <section className={styles.section}>
         {labels.itineraryTitle && <h2 className={styles.sectionTitle}>{labels.itineraryTitle}</h2>}
 
@@ -168,7 +152,6 @@ export default function TourDetailClient({ tour, locale }: Props) {
         </div>
       </section>
 
-      {/* 5. TOUR LEADER */}
       {tour.leader && (
         <section className={styles.sectionLeader}>
           {labels.leaderTitle && <h2 className={styles.sectionTitle}>{labels.leaderTitle}</h2>}
@@ -195,7 +178,6 @@ export default function TourDetailClient({ tour, locale }: Props) {
         </section>
       )}
 
-      {/* MODALS */}
       {bookingOpen && (
         <BookingModal tourName={t(tour.name)} onClose={() => setBookingOpen(false)} />
       )}

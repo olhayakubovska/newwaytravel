@@ -8,7 +8,7 @@ interface ConsultationProps {
   text?: any
   buttonText?: any
   backgroundImage?: any
-  phoneNumber?: any // Изменили на any, так как Payload может вернуть объект локализации
+  phoneNumber?: any
 }
 
 export function ConsultationSection({
@@ -31,22 +31,17 @@ export function ConsultationSection({
 
   const imageUrl = typeof backgroundImage === 'object' ? backgroundImage?.url : backgroundImage
 
-  // 1. Сначала переводим (получаем строку из объекта Payload)
   const phoneString = t(phoneNumber)
 
-  // 2. Безопасно очищаем номер. Если номера нет, используем заглушку или пустую строку.
   const cleanNumber = phoneString ? phoneString.replace(/\s+/g, '') : ''
 
   return (
     <section className={styles.section}>
       <div className={styles.bgWrapper}>
         {imageUrl ? (
-          <img src={imageUrl} alt={t(title) || 'Background'} className={styles.image} />
+          <img src={imageUrl} alt={t(title)} className={styles.image} />
         ) : (
-          <div
-            className={styles.placeholder}
-            style={{ backgroundColor: '#333', width: '100%', height: '100%' }}
-          />
+          <div className={styles.placeholder} />
         )}
         <div className={styles.overlay} />
       </div>
@@ -65,13 +60,8 @@ export function ConsultationSection({
 
           {text && <p className={styles.text}>{t(text)}</p>}
 
-          {/* Добавляем условие: рендерить ссылку, только если номер существует */}
           {cleanNumber && (
-            <a
-              href={`tel:${cleanNumber}`}
-              className={styles.button}
-              style={{ display: 'inline-block', textAlign: 'center', textDecoration: 'none' }}
-            >
+            <a href={`tel:${cleanNumber}`} className={styles.button}>
               {t(buttonText) || (locale === 'en' ? 'Contact us' : 'Зв’язатися з нами')}
             </a>
           )}

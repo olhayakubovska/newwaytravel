@@ -10,7 +10,7 @@ export const VideoBlock: Block = {
     {
       name: 'title',
       type: 'text',
-      localized: true, // Это позволит передавать объект с переводами { uk: "...", en: "..." }
+      localized: true,
       label: 'Заголовок секции',
     },
     {

@@ -15,7 +15,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   const payload = await getPayload({ config: configPromise })
 
-  // --- Получаем страницу ---
   const pageResult = await payload.find({
     collection: 'pages',
     where: { slug: { equals: 'home' } },
@@ -27,7 +26,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const page = pageResult.docs[0]
   if (!page) return notFound()
 
-  // --- Получаем туры ---
   const toursResult = await payload.find({
     collection: 'tours',
     limit: 100,
@@ -36,13 +34,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   const tours = toursResult.docs
 
-  // --- Месяцы ТОЛЬКО из туров ---
   const monthIndexes = Array.from(
     new Set(
       tours
         .map((t: any) => {
           if (!t.startDate) return null
-          return new Date(t.startDate).getMonth() // 0–11
+          return new Date(t.startDate).getMonth()
         })
         .filter((m): m is number => m !== null),
     ),

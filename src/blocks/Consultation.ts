@@ -10,14 +10,14 @@ export const ConsultationBlock: Block = {
     {
       name: 'backgroundImage',
       type: 'upload',
-      relationTo: 'media', // Название вашей коллекции с картинками
+      relationTo: 'media',
       label: 'Фонове зображення',
       required: true,
     },
     {
       name: 'title',
       type: 'text',
-      localized: true, // Добавляем локализацию, если нужно
+      localized: true,
       label: 'Заголовок',
       defaultValue: 'Не знаєш що вибрати?',
     },

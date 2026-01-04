@@ -3,7 +3,6 @@ import { CollectionConfig } from 'payload'
 export const Orders: CollectionConfig = {
   slug: 'orders',
 
-  // Змінюємо назви для інтерфейсу
   labels: {
     singular: 'Бронювання',
     plural: 'Бронювання турів',

@@ -1,83 +1,110 @@
 .section {
   position: relative;
   overflow: hidden;
-  padding: 6rem 0;
+  padding: clamp(4rem, 10vw, 8rem) 0; // Адаптивные отступы секции
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .bgWrapper {
   position: absolute;
   inset: 0;
+  z-index: 1;
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
 
+.placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #1a2b48;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(7, 20, 43, 0.8); 
+  // Делаем наложение чуть мягче для премиального вида
+  background: linear-gradient(to bottom, rgba(7, 20, 43, 0.85), rgba(7, 20, 43, 0.7)); 
 }
 
 .content {
   position: relative;
   z-index: 10;
-  max-width: 1280px;
+  width: 100%;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 20px;
   text-align: center;
 }
 
 .inner {
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .title {
   margin-bottom: 1.5rem;
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3.5rem); // Адаптивный размер заголовка
+  font-weight: 800;
   color: #fff;
-
-  @media (min-width: 768px) {
-    font-size: 3rem;
-  }
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .text {
-  margin-bottom: 2rem;
-  font-size: 1.125rem;
-  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2.5rem;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
 }
 
 .button {
-  // Исправлено для тега <a>
-  display: inline-flex; // Позволяет использовать align-items и justify-content
+  // Используем inline-flex для идеального центрирования текста внутри
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   
-  height: 3.5rem;
-  padding: 0 2.5rem;
+  // Размеры и форма
+  // min-height: 3.5rem;
+  padding:  1rem 3rem;
+  // border-radius: 50px; 
+  border-radius: 10px; 
+  
+  // Текст
   font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
-  background-color: #07142b; 
-  color: #fff;
-  text-decoration: none; // Убираем стандартное подчеркивание ссылки
-  border-radius: 4px; // Добавил немного скругления для эстетики
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-decoration: none;
+  
+  // Фон и эффекты
+  background-color: #fb8c00;
+  border: 2px solid transparent;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
 
   &:hover {
-    background-color: #122a54; // Чуть светлее при наведении
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background-color: #f9a035;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(249, 115, 22, 0.5);
+    color: #fff;
   }
 
   &:active {
-    transform: translateY(0);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 480px) {
+    width: 100%; // На очень маленьких экранах кнопка на всю ширину
+    // padding: 0 1rem;
+      padding: 0.3rem;
+
   }
 }

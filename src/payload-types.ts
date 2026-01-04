@@ -942,14 +942,26 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface Footer {
   id: string;
   description?: string | null;
+  navItems?:
+    | {
+        label: string;
+        link: string;
+        id?: string | null;
+      }[]
+    | null;
+  menuTitle?: string | null;
+  contactTitle?: string | null;
+  socialTitle?: string | null;
   phone?: string | null;
   email?: string | null;
   address?: string | null;
   hours?: string | null;
+  copyrightText?: string | null;
   socials?: {
     facebook?: string | null;
     youtube?: string | null;
     instagram?: string | null;
+    telegram?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -961,6 +973,13 @@ export interface Footer {
 export interface Header {
   id: string;
   logoText?: string | null;
+  navItems?:
+    | {
+        label: string;
+        link: string;
+        id?: string | null;
+      }[]
+    | null;
   chatText?: string | null;
   telegramChatLink?: string | null;
   socialLinks?: {
@@ -978,16 +997,28 @@ export interface Header {
  */
 export interface FooterSelect<T extends boolean = true> {
   description?: T;
+  navItems?:
+    | T
+    | {
+        label?: T;
+        link?: T;
+        id?: T;
+      };
+  menuTitle?: T;
+  contactTitle?: T;
+  socialTitle?: T;
   phone?: T;
   email?: T;
   address?: T;
   hours?: T;
+  copyrightText?: T;
   socials?:
     | T
     | {
         facebook?: T;
         youtube?: T;
         instagram?: T;
+        telegram?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -999,6 +1030,13 @@ export interface FooterSelect<T extends boolean = true> {
  */
 export interface HeaderSelect<T extends boolean = true> {
   logoText?: T;
+  navItems?:
+    | T
+    | {
+        label?: T;
+        link?: T;
+        id?: T;
+      };
   chatText?: T;
   telegramChatLink?: T;
   socialLinks?:

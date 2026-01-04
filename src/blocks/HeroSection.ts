@@ -1,27 +1,3 @@
-// import { Block } from 'payload'
-
-// export const HeroSectionBlock: Block = {
-//   slug: 'heroSection',
-//   fields: [
-//     {
-//       name: 'subtitle',
-//       type: 'text',
-//       label: 'Подзаголовок',
-//     },
-//     {
-//       name: 'title',
-//       type: 'text',
-//       label: 'Главный заголовок',
-//       required: true,
-//     },
-//     {
-//       name: 'description',
-//       type: 'text',
-//       label: 'Описание',
-//     },
-//   ],
-// }
-
 import { Block } from 'payload'
 
 export const HeroSectionBlock: Block = {
@@ -44,13 +20,13 @@ export const HeroSectionBlock: Block = {
     },
     {
       name: 'description',
-      type: 'textarea', // Используем textarea для длинного описания
+      type: 'textarea',
       label: 'Описание',
     },
     {
-      name: 'backgroundImage', // Название поля
-      type: 'upload', // Тип поля для выбора файла
-      relationTo: 'media', // Slug коллекции, где хранятся фото (обычно 'media')
+      name: 'backgroundImage',
+      type: 'upload',
+      relationTo: 'media',
       label: 'Изображение',
       required: true,
     },

@@ -14,7 +14,7 @@ import { HeaderConfig } from './blocks/Header'
 // import { SearchBarConfig } from './collections/SearchBarConfig'
 import { Orders } from './collections/Orders'
 // import { AboutConfig } from './collections/About'
-import { Consultations } from './collections/Consultations'
+import { Consultations } from './collections/ConsultationsModal'
 import { Videos } from './collections/Videos'
 
 const filename = fileURLToPath(import.meta.url)
