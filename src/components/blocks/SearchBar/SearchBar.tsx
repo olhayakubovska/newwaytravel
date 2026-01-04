@@ -3,6 +3,10 @@
 import { useState } from 'react'
 import { useRouter, usePathname, useParams } from 'next/navigation'
 import styles from './SearchBar.module.scss'
+import { Config, Page } from '@/payload-types'
+
+type SearchBarBlock = Extract<NonNullable<Page['layout']>[number], { blockType: 'searchBar' }>
+type Locale = Config['locale']
 
 export interface TourFilters {
   category?: string
@@ -10,31 +14,34 @@ export interface TourFilters {
   month?: string
 }
 
-export function SearchBar(props: any) {
+interface SearchBarProps extends Partial<SearchBarBlock> {
+  searchData?: Partial<SearchBarBlock>
+  onChange?: (filters: TourFilters) => void
+}
+
+export function SearchBar({ searchData, onChange, ...restProps }: SearchBarProps) {
   const router = useRouter()
   const pathname = usePathname()
   const params = useParams()
-  const locale = (params?.locale as string) || 'uk'
+  const locale = (params?.locale as Locale) || 'uk'
 
-  // Данные приходят либо в searchData, либо напрямую в props
-  const data = props.searchData || props || {}
+  const data = searchData || restProps
 
-  // Списки для выпадашек
   const categories = data.categories || []
   const destinations = data.destinations || []
   const months = data.months || []
-  const { onChange } = props
 
-  // Универсальная функция перевода для любых полей из админки
-  const t = (field: any, defaultText: string = '') => {
+  const t = (
+    field: string | Record<string, string> | null | undefined,
+    defaultText: string = '',
+  ): string => {
     if (!field) return defaultText
     if (typeof field === 'object') {
       return field[locale] || field['uk'] || field['en'] || Object.values(field)[0] || defaultText
     }
-    return field
+    return String(field)
   }
 
-  // Состояния для выбранных значений
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedDestination, setSelectedDestination] = useState('')
   const [selectedMonth, setSelectedMonth] = useState('')
@@ -77,8 +84,8 @@ export function SearchBar(props: any) {
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
           <option value="">{t(data.categoryLabel, 'Категорія')}</option>
-          {categories.map((c: any, i: number) => (
-            <option key={i} value={c.value}>
+          {categories.map((c, i) => (
+            <option key={c.id || i} value={c.value}>
               {t(c.label)}
             </option>
           ))}
@@ -91,8 +98,8 @@ export function SearchBar(props: any) {
           onChange={(e) => setSelectedDestination(e.target.value)}
         >
           <option value="">{t(data.destinationLabel, 'Напрямок')}</option>
-          {destinations.map((d: any, i: number) => (
-            <option key={i} value={d.value}>
+          {destinations.map((d, i) => (
+            <option key={d.id || i} value={d.value}>
               {t(d.label)}
             </option>
           ))}
@@ -105,19 +112,17 @@ export function SearchBar(props: any) {
           onChange={(e) => setSelectedMonth(e.target.value)}
         >
           <option value="">{t(data.monthLabel, 'Місяць')}</option>
-          {months.map((m: any, i: number) => (
-            <option key={i} value={m.value}>
+          {months.map((m, i) => (
+            <option key={m.id || i} value={m.value}>
               {t(m.label)}
             </option>
           ))}
         </select>
 
-        {/* Кнопка Поиска */}
         <button className={styles.searchButton} onClick={handleSearch}>
           {t(data.searchBtnLabel, 'ШУКАТИ')}
         </button>
 
-        {/* Кнопка Сброса */}
         <button className={styles.clearButton} onClick={handleClear}>
           {t(data.resetBtnLabel, 'Скинути')}
         </button>

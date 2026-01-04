@@ -4,6 +4,13 @@ import React from 'react'
 import styles from './About.module.scss'
 import { RichText } from '../ui/RichText'
 import { motion } from 'framer-motion'
+import { Page, Config, Media } from '@/payload-types'
+
+type AboutSectionBlock = Extract<NonNullable<Page['layout']>[number], { blockType: 'aboutSection' }>
+
+interface AboutPageClientProps extends AboutSectionBlock {
+  locale?: Config['locale']
+}
 
 export default function AboutPageClient({
   heroImage,
@@ -16,22 +23,28 @@ export default function AboutPageClient({
   mainImages,
   team,
   locale = 'uk',
-}: any) {
-  const t = (field: any, fallback: string = '') => {
+}: AboutPageClientProps) {
+  const t = (
+    field: string | Record<string, string> | null | undefined,
+    fallback: string = '',
+  ): string => {
     if (!field) return fallback
-    if (typeof field === 'object') return field[locale] || field.uk || field.en || fallback
+    if (typeof field === 'object') {
+      return field[locale] || field.uk || field.en || Object.values(field)[0] || fallback
+    }
     return String(field)
   }
 
-  const heroUrl = heroImage?.url || ''
-  const img1 = mainImages?.[0]?.image?.url || '/images/about-1.jpg'
-  const img2 = mainImages?.[1]?.image?.url || '/images/about-2.jpg'
+  // Безопасно извлекаем URL изображений с проверкой типа Media
+  const heroUrl = (heroImage as Media)?.url || ''
+  const img1 = (mainImages?.[0]?.image as Media)?.url || '/images/about-1.jpg'
+  const img2 = (mainImages?.[1]?.image as Media)?.url || '/images/about-2.jpg'
 
   return (
     <main className={styles.wrapper}>
       <section className={styles.localHero}>
         <div className={styles.heroBg}>
-          {heroUrl && <img src={heroUrl} alt="Hero" />}
+          {heroUrl && <img src={heroUrl} alt={t(heroTitle)} />}
           <div className={styles.heroOverlay} />
         </div>
         <div className={styles.heroContent}>
@@ -49,7 +62,11 @@ export default function AboutPageClient({
         <section className={styles.whiteCard}>
           <h2 className={styles.sectionTitle}>{t(historyTitle)}</h2>
           <div className={styles.textContent}>
-            {historyContent ? <RichText content={historyContent} /> : <p>Завантаження...</p>}
+            {historyContent ? (
+              <RichText content={historyContent} />
+            ) : (
+              <p>{locale === 'en' ? 'Loading...' : 'Завантаження...'}</p>
+            )}
           </div>
         </section>
 
@@ -66,8 +83,8 @@ export default function AboutPageClient({
           <div className={styles.detailsColumn}>
             <h2 className={styles.sectionTitle}>{t(specsTitle)}</h2>
             <ul className={styles.specsList}>
-              {features?.map((item: any, idx: number) => (
-                <li key={idx} className={styles.specItem}>
+              {features?.map((item, idx) => (
+                <li key={item.id || idx} className={styles.specItem}>
                   <strong className={styles.specLabel}>{t(item.label)}</strong>
                   <p className={styles.specValue}>{t(item.value)}</p>
                 </li>
@@ -80,11 +97,11 @@ export default function AboutPageClient({
           <section className={styles.teamSection}>
             <h2 className={styles.sectionTitleCenter}>{t(teamTitle)}</h2>
             <div className={styles.teamGrid}>
-              {team.map((member: any, idx: number) => (
-                <div key={idx} className={styles.teamCard}>
+              {team.map((member, idx) => (
+                <div key={member.id || idx} className={styles.teamCard}>
                   <div className={styles.teamImageWrapper}>
                     <img
-                      src={member.photo?.url || '/images/avatar-placeholder.jpg'}
+                      src={(member.photo as Media)?.url || '/images/avatar-placeholder.jpg'}
                       alt={t(member.name)}
                     />
                   </div>
@@ -102,6 +119,7 @@ export default function AboutPageClient({
         className={styles.floatingTg}
         target="_blank"
         rel="noreferrer"
+        aria-label="Telegram"
       />
     </main>
   )

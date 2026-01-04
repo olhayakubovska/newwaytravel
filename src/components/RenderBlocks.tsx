@@ -6,8 +6,11 @@ import { ConsultationSection } from './blocks/ConsultationSection/ConsultationSe
 import { VideoSection } from './blocks/VideoSection/VideoSection'
 import { TestimonialsSection } from './blocks/TestimonialsSection/TestimonialsSection'
 import AboutPageClient from './blocks/AboutPageClient/AboutPageClient'
+import { Page } from '@/payload-types'
 
-const components = {
+type Block = NonNullable<Page['layout']>[number]
+
+const components: Record<string, React.ComponentType<any>> = {
   header: Header,
   tours: FeaturedTours,
   heroSection: HeroSection,
@@ -15,47 +18,54 @@ const components = {
   consultation: ConsultationSection,
   videoSection: VideoSection,
   testimonials: TestimonialsSection,
-  aboutSection: AboutPageClient, // 🔥 Добавьте эту строку
+  aboutSection: AboutPageClient,
 }
 
 interface RenderBlocksProps {
-  blocks: any[]
+  blocks: Block[]
   searchData?: {
-    categories: any[]
-    destinations: any[]
-    months: any[]
+    categories: { label: string; value: string }[]
+    destinations: { label: string; value: string }[]
+    months: { label: string; value: string }[]
   }
 }
 
 export const RenderBlocks = ({ blocks, searchData }: RenderBlocksProps) => {
-  if (!blocks) return null
+  if (!blocks || blocks.length === 0) return null
 
   return (
     <>
       {blocks.map((block, index) => {
-        const BlockComponent = components[block.blockType as keyof typeof components]
+        const BlockComponent = components[block.blockType]
 
-        if (BlockComponent) {
-          if (block.blockType === 'searchBar') {
+        if (!BlockComponent) {
+          // Выводим только в режиме разработки
+          if (process.env.NODE_ENV === 'development') {
             return (
-              <BlockComponent
+              <div
                 key={index}
-                {...block}
-                categories={searchData?.categories}
-                destinations={searchData?.destinations}
-                months={searchData?.months}
-              />
+                style={{ padding: '20px', backgroundColor: '#fee2e2', color: '#dc2626' }}
+              >
+                Block {block.blockType} is not implemented yet.
+              </div>
             )
           }
-
-          return <BlockComponent key={index} {...block} />
+          return null
         }
 
-        return (
-          <div key={index} className="p-4 bg-red-100 text-red-600">
-            {/* Блок "{block.blockType}" ще не створений. */}
-          </div>
-        )
+        if (block.blockType === 'searchBar') {
+          return (
+            <BlockComponent
+              key={block.id || index}
+              {...block}
+              categories={searchData?.categories || block.categories}
+              destinations={searchData?.destinations || block.destinations}
+              months={searchData?.months || block.months}
+            />
+          )
+        }
+
+        return <BlockComponent key={block.id || index} {...block} />
       })}
     </>
   )

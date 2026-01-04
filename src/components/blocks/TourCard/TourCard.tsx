@@ -13,18 +13,21 @@ import {
   ChevronDown,
 } from 'lucide-react'
 import styles from './TourCard.module.scss'
+import { Config } from '@/payload-types'
+
+type Locale = Config['locale']
 
 interface TourCardProps {
-  id: any
+  id: string
   image: string
-  title: any
-  destination: any
-  duration: any
-  groupSize: any
-  price: any
-  alt: any
-  category?: any
-  description?: any
+  title: string | Record<string, string> | null
+  destination: string | Record<string, string> | null
+  duration?: string | Record<string, string> | null
+  groupSize: string | Record<string, string> | null
+  price: number | string
+  alt: string | Record<string, string> | null
+  category?: string | Record<string, string> | null
+  description?: string | Record<string, string> | null
   startDate?: string
 }
 
@@ -42,32 +45,37 @@ export function TourCard({
   startDate,
 }: TourCardProps) {
   const params = useParams()
-  const locale = (params?.locale as string) || 'uk'
+  const locale = (params?.locale as Locale) || 'uk'
 
-  const getText = (field: any): string => {
+  const getText = (field: string | Record<string, string> | null | undefined): string => {
     if (!field) return ''
     if (typeof field === 'object') {
-      return field[locale] || field['uk'] || field['en'] || ''
+      return field[locale] || field['uk'] || field['en'] || Object.values(field)[0] || ''
     }
     return String(field)
   }
 
-  // Красивое форматирование месяца
   const formatMonth = (dateString?: string) => {
     if (!dateString) return ''
-    const date = new Date(dateString)
-    const month = new Intl.DateTimeFormat(locale, { month: 'short' }).format(date)
-    return month.charAt(0).toUpperCase() + month.slice(1).replace('.', '')
+    try {
+      const date = new Date(dateString)
+      const month = new Intl.DateTimeFormat(locale, { month: 'short' }).format(date)
+      return month.charAt(0).toUpperCase() + month.slice(1).replace('.', '')
+    } catch {
+      return ''
+    }
   }
-
-  const tourId = typeof id === 'object' ? id[locale] || id['uk'] : id
 
   const t = {
     details: locale === 'en' ? 'Details' : locale === 'ru' ? 'Детали' : 'Деталі',
+    defaultDesc:
+      locale === 'en'
+        ? 'Untouched nature and authentic experiences'
+        : 'Природа поза часом та неймовірні пригоди',
   }
 
   return (
-    <Link href={`/${locale}/tours/${tourId}`} className={styles.cardLink}>
+    <Link href={`/${locale}/tours/${id}`} className={styles.cardLink}>
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -91,12 +99,7 @@ export function TourCard({
         <div className={styles.content}>
           <div className={styles.category}>{getText(category)}</div>
 
-          <p className={styles.description}>
-            {getText(description) ||
-              (locale === 'en'
-                ? 'Untouched nature and authentic experiences'
-                : 'Природа поза часом та неймовірні пригоди')}
-          </p>
+          <p className={styles.description}>{getText(description) || t.defaultDesc}</p>
 
           <div className={styles.infoGrid}>
             <div className={styles.infoItem}>
@@ -107,14 +110,9 @@ export function TourCard({
             <div className={styles.infoItem}>
               <Calendar size={17} className={styles.icon} />
               <div className={styles.dateWrapper}>
-                <span>20.01 - 27.01</span>
+                <span>{formatMonth(startDate)}</span>
                 <ChevronDown size={14} className={styles.chevron} />
               </div>
-            </div>
-
-            <div className={styles.infoItem}>
-              <Calendar size={17} className={styles.icon} />
-              <span>{formatMonth(startDate)}</span>
             </div>
 
             <div className={styles.infoItem}>

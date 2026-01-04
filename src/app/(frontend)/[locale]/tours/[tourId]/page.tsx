@@ -16,7 +16,7 @@ export default async function TourPage({
   const result = await payload.find({
     collection: 'tours',
     limit: 1,
-    locale: locale as any,
+    locale: locale as Locale,
     where: {
       or: [{ slug: { equals: tourId } }, { id: { equals: tourId } }],
     },

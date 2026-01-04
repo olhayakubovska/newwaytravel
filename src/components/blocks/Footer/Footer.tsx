@@ -4,28 +4,10 @@ import React from 'react'
 import Link from 'next/link'
 import { Facebook, Youtube, Instagram, Mail, Phone, MapPin, Clock, Send } from 'lucide-react'
 import styles from './Footer.module.scss'
+import { Footer as PayloadFooterType, Config } from '@/payload-types'
 
-interface FooterProps {
-  description?: any
-  address?: any
-  phone?: string | null
-  email?: string | null
-  hours?: any // Добавлено
-
-  menuTitle?: any
-  contactTitle?: any
-  socialTitle?: any
-  copyrightText?: any
-
-  socials?: {
-    facebook?: string | null
-    youtube?: string | null
-    instagram?: string | null
-    telegram?: string | null
-  } | null
-
-  navItems?: { label: any; link: string }[]
-  locale: string
+interface FooterProps extends Partial<PayloadFooterType> {
+  locale: Config['locale']
 }
 
 export function Footer({
@@ -49,8 +31,6 @@ export function Footer({
     }
     return String(field)
   }
-
-  console.log(navItems, 'navItems')
 
   return (
     <footer className={styles.footer}>
@@ -105,7 +85,6 @@ export function Footer({
             </div>
           </div>
 
-          {/* 4. Соцсети */}
           <div>
             <h3 className={styles.heading}>{t(socialTitle, 'Соціальні мережі')}</h3>
             <div className={styles.socials}>

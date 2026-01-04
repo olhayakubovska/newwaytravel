@@ -1,7 +1,7 @@
 .section {
   position: relative;
   overflow: hidden;
-  padding: clamp(4rem, 10vw, 8rem) 0; // Адаптивные отступы секции
+  padding: clamp(4rem, 10vw, 8rem) 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,8 +29,7 @@
 .overlay {
   position: absolute;
   inset: 0;
-  // Делаем наложение чуть мягче для премиального вида
-  background: linear-gradient(to bottom, rgba(7, 20, 43, 0.85), rgba(7, 20, 43, 0.7)); 
+  background: linear-gradient(to bottom, rgba(7, 20, 43, 0.85), rgba(7, 20, 43, 0.7));
 }
 
 .content {
@@ -50,7 +49,7 @@
 
 .title {
   margin-bottom: 1.5rem;
-  font-size: clamp(2rem, 5vw, 3.5rem); // Адаптивный размер заголовка
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 800;
   color: #fff;
   line-height: 1.2;
@@ -65,26 +64,17 @@
 }
 
 .button {
-  // Используем inline-flex для идеального центрирования текста внутри
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  
-  // Размеры и форма
-  // min-height: 3.5rem;
-  padding:  1rem 3rem;
-  // border-radius: 50px; 
-  border-radius: 10px; 
-  
-  // Текст
+  padding: 1rem 3rem;
+  border-radius: 10px;
   font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #ffffff;
   text-decoration: none;
-  
-  // Фон и эффекты
   background-color: #fb8c00;
   border: 2px solid transparent;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -102,9 +92,7 @@
   }
 
   @media (max-width: 480px) {
-    width: 100%; // На очень маленьких экранах кнопка на всю ширину
-    // padding: 0 1rem;
-      padding: 0.3rem;
-
+    width: 100%;
+    padding: 0.3rem;
   }
 }

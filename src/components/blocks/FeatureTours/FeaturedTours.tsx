@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import { motion } from 'framer-motion'
 import { MapPin, Calendar, Clock, ArrowRight, Users, ShoppingCart, ChevronDown } from 'lucide-react'
 import styles from './FeaturedTours.module.scss'
@@ -9,7 +10,9 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import { Tour, Media } from '@/payload-types'
+import { Tour, Media, Config } from '@/payload-types'
+
+type Locale = Config['locale']
 
 interface LocalizedString {
   uk?: string
@@ -19,7 +22,7 @@ interface LocalizedString {
 
 interface FeaturedToursProps {
   title?: LocalizedString
-  selectedTours: Tour[]
+  selectedTours: (string | Tour)[]
   allToursLabel?: LocalizedString
   detailsLabel?: LocalizedString
 }
@@ -31,7 +34,7 @@ export function FeaturedTours({
   detailsLabel,
 }: FeaturedToursProps) {
   const params = useParams()
-  const locale = (params?.locale as string) || 'uk'
+  const locale = (params?.locale as Locale) || 'uk'
 
   const t = (field?: LocalizedString | string | null): string => {
     if (!field) return ''
@@ -81,18 +84,19 @@ export function FeaturedTours({
             1024: { slidesPerView: 3 },
           }}
         >
-          {selectedTours.map((tour, index) => {
-            const tourId = tour.id
+          {selectedTours.map((tourItem, index) => {
+            if (typeof tourItem === 'string') return null
+            const tour = tourItem as Tour
 
             return (
-              <SwiperSlide key={tourId}>
+              <SwiperSlide key={tour.id}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <Link href={`/${locale}/tours/${tourId}`} className={styles.cardLink}>
+                  <Link href={`/${locale}/tours/${tour.id}`} className={styles.cardLink}>
                     <div className={styles.card}>
                       <div className={styles.imageWrapper}>
                         <img
@@ -106,13 +110,12 @@ export function FeaturedTours({
                       </div>
 
                       <div className={styles.content}>
-                        {/* КАТЕГОРИЯ */}
                         <div className={styles.category}>{t(tour.category)}</div>
 
                         <p className={styles.shortDesc}>
                           {locale === 'en'
                             ? 'Unforgettable adventures and nature'
-                            : 'Природа вне времени и приключения'}
+                            : 'Природа поза часом та неймовірні пригоди'}
                         </p>
 
                         <div className={styles.infoGrid}>
@@ -163,4 +166,4 @@ export function FeaturedTours({
   )
 }
 
-///////                            {t(detailsLabel) || (locale === 'en' ? 'Details' : 'Деталі')}
+//                            {t(detailsLabel) || (locale === 'en' ? 'Details' : 'Деталі')}

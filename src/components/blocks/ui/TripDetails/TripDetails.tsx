@@ -14,9 +14,7 @@ interface Props {
 export default function TripDetails({ tour, locale }: Props) {
   const t = (field: any) => {
     if (!field) return ''
-    // Если это RichText (объект с ключом root), возвращаем как есть
     if (typeof field === 'object' && field.root) return field
-    // Обычная локализация для строк
     return typeof field === 'object' ? field[locale] || field.uk || field.en : field
   }
 
@@ -48,7 +46,6 @@ export default function TripDetails({ tour, locale }: Props) {
               {locale === 'en' ? 'BOOKING*' : 'БРОНЬ ТУРА*'}
             </span>
             <div className={styles.bookingText}>
-              {/* Исправлено: передаем контент напрямую, проверяя локализацию внутри */}
               {details?.bookingConditions && (
                 <RichText
                   content={details.bookingConditions[locale] || details.bookingConditions}

@@ -4,49 +4,36 @@ import { useMemo, useState, useEffect, Suspense } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import { SearchBar, TourFilters } from '@/components/blocks/SearchBar/SearchBar'
 import { TourCard } from '@/components/blocks/TourCard/TourCard'
+import { Tour as PayloadTour, Page, Config, Media } from '@/payload-types'
 import styles from './AllToursPage.module.scss'
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL
 
-export type Locale = 'uk' | 'en' | 'ru'
+export type Locale = Config['locale']
 
-interface Tour {
-  id: string
-  name: any
-  location: any
-  category: string
-  duration?: string
-  groupSize: any
-  price: number
-  mainImage?: { url: string } | null
+type SearchBarBlock = Extract<NonNullable<Page['layout']>[number], { blockType: 'searchBar' }>
+
+interface AllToursProps {
+  initialTours: PayloadTour[]
+  searchBarData: SearchBarBlock | null | undefined
 }
 
-function AllToursContent({
-  initialTours,
-  searchBarData,
-}: {
-  initialTours: Tour[]
-  searchBarData: any
-}) {
-  const [filteredTours, setFilteredTours] = useState(initialTours)
+function AllToursContent({ initialTours, searchBarData }: AllToursProps) {
+  const [filteredTours, setFilteredTours] = useState<PayloadTour[]>(initialTours)
 
   const params = useParams()
   const searchParams = useSearchParams()
   const locale = (params?.locale as Locale) || 'uk'
 
-  const resolveField = (field: any) => {
-    if (field && typeof field === 'object') {
-      return field[locale] || field.uk || field.en || ''
-    }
-    return String(field || '')
-  }
-
-  const t = (field: any) => {
-    if (!field) return ''
+  const t = (
+    field: string | Record<string, string> | null | undefined,
+    fallback: string = '',
+  ): string => {
+    if (!field) return fallback
     if (typeof field === 'object') {
-      return field[locale] || field.uk || field.en || ''
+      return field[locale] || field.uk || field.en || Object.values(field)[0] || fallback
     }
-    return field
+    return String(field)
   }
 
   const finalSearchData = useMemo(() => {
@@ -58,19 +45,19 @@ function AllToursContent({
       resetBtnLabel: t(searchBarData?.resetBtnLabel),
 
       categories:
-        searchBarData?.categories?.map((cat: any) => ({
+        searchBarData?.categories?.map((cat) => ({
           label: t(cat.label),
           value: cat.value,
         })) || [],
 
       destinations:
-        searchBarData?.destinations?.map((dest: any) => ({
+        searchBarData?.destinations?.map((dest) => ({
           label: t(dest.label),
           value: dest.value,
         })) || [],
 
       months:
-        searchBarData?.months?.map((m: any) => ({
+        searchBarData?.months?.map((m) => ({
           label: t(m.label),
           value: m.value,
         })) || [],
@@ -81,19 +68,18 @@ function AllToursContent({
     let result = [...initialTours]
 
     if (filters.category) {
-      result = result.filter((t) => t.category === filters.category)
+      result = result.filter((tour) => tour.category === filters.category)
     }
 
     if (filters.destination) {
-      result = result.filter((t) => resolveField(t.location) === filters.destination)
+      result = result.filter((tour) => t(tour.location) === filters.destination)
     }
 
     if (filters.month) {
-      result = result.filter((t) => {
-        if (!t.duration) return false
-        const match = t.duration.match(/\d{2}\.(\d{2})/)
-        if (!match) return false
-        const monthNum = parseInt(match[1], 10)
+      result = result.filter((tour) => {
+        if (!tour.startDate) return false
+        const date = new Date(tour.startDate)
+        const monthNum = date.getMonth() + 1
         return monthNum === Number(filters.month)
       })
     }
@@ -115,21 +101,26 @@ function AllToursContent({
 
       <div className={styles.tourGrid}>
         {filteredTours.length > 0 ? (
-          filteredTours.map((tour) => (
-            <TourCard
-              key={tour.id}
-              id={tour.id}
-              image={
-                tour.mainImage?.url ? `${SERVER_URL}${tour.mainImage.url}` : '/placeholder-tour.jpg'
-              }
-              title={resolveField(tour.name)}
-              destination={resolveField(tour.location)}
-              duration={tour.duration}
-              groupSize={resolveField(tour.groupSize)}
-              price={`${tour.price}€`}
-              alt={resolveField(tour.name)}
-            />
-          ))
+          filteredTours.map((tour) => {
+            const tourMedia = tour.mainImage as Media | null | undefined
+            const imageUrl = tourMedia?.url
+              ? `${SERVER_URL}${tourMedia.url}`
+              : '/placeholder-tour.jpg'
+
+            return (
+              <TourCard
+                key={tour.id}
+                id={tour.id}
+                image={imageUrl}
+                title={t(tour.name)}
+                destination={t(tour.location)}
+                duration={tour.duration || ''}
+                groupSize={t(tour.groupSize)}
+                price={`${tour.price}€`}
+                alt={t(tour.name)}
+              />
+            )
+          })
         ) : (
           <div className={styles.noResults}>
             <h3>{locale === 'en' ? 'Tours not found' : 'Турів не знайдено'}</h3>
@@ -143,13 +134,7 @@ function AllToursContent({
   )
 }
 
-export default function AllToursClient({
-  initialTours,
-  searchBarData,
-}: {
-  initialTours: Tour[]
-  searchBarData: any
-}) {
+export default function AllToursClient({ initialTours, searchBarData }: AllToursProps) {
   return (
     <Suspense fallback={<div className={styles.loader}>Завантаження...</div>}>
       <AllToursContent initialTours={initialTours} searchBarData={searchBarData} />

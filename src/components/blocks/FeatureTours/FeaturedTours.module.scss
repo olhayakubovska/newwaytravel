@@ -1,241 +1,3 @@
-// .section {
-//   padding: 80px 0;
-//   background-color: #f8fafc; // Светлый фон как на макете
-//   overflow: hidden;
-//   margin-top: 50px;
-
-//   @media (max-width: 768px) {
-//     padding: 60px 0;
-//     margin-top: 0;
-//   }
-// }
-
-// .container {
-//   max-width: 1300px;
-//   margin: 0 auto;
-//   padding: 0 20px;
-// }
-
-// /* --- ШАПКА СЕКЦИИ (КАК НА ФОТО) --- */
-// .header {
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   margin-bottom: 40px;
-//   gap: 20px;
-
-//   @media (max-width: 640px) {
-//     flex-direction: column;
-//     align-items: flex-start;
-//   }
-// }
-
-// .title {
-//   font-size: clamp(28px, 4vw, 42px);
-//   font-weight: 900;
-//   color: #0f172a; // Темно-синий из макета
-//   margin: 0;
-//   letter-spacing: -0.5px;
-//   text-transform: none; // Если нужно капсом — поставьте uppercase
-// }
-
-// // .allToursLink {
-// //   display: flex;
-// //   align-items: center;
-// //   gap: 8px;
-// //   padding: 10px 20px;
-// //   border: 2px solid #0f172a; // Черная рамка как на фото
-// //   border-radius: 6px;
-// //   color: #0f172a;
-// //   text-decoration: none;
-// //   font-weight: 800;
-// //   font-size: 14px;
-// //   transition: all 0.2s ease;
-
-// //   &:hover {
-// //     background-color: #0f172a;
-// //     color: #ffffff;
-// //   }
-
-// //   @media (max-width: 640px) {
-// //     // width: 100%;
-// //     justify-content: center;
-// //   }
-// // }
-// .allToursLink {
-//   display: flex;
-//   align-items: center;
-//   gap: 8px;
-//   padding: 12px 24px; // Чуть увеличил отступы для баланса
-//   color: #0f172a;
-//   text-decoration: none;
-//   font-weight: 800;
-//   font-size: 14px;
-//   transition: all 0.3s ease;
-//   position: relative; // Нужно для позиционирования полоски
-//   overflow: hidden;
-
-//   // Текст внутри кнопки (чтобы полоска не перекрывала его)
-//   span {
-//     position: relative;
-//     z-index: 1;
-//   }
-
-//   // --- ОРАНЖЕВАЯ ПОЛОСКА ---
-//   &::after {
-//     content: '';
-//     position: absolute;
-//     bottom: 6px;      // Отступ от нижнего края рамки
-//     left: 50%;        // Центрируем
-//     transform: translateX(-50%);
-//     width: 30px;      // Ширина полоски
-//     height: 3px;      // Толщина полоски
-//     background-color: #f97316; // Ваш оранжевый цвет
-//     border-radius: 2px;
-//     transition: all 0.3s ease;
-//   }
-
-//   &:hover {
-//     background-color: #0f172a;
-//     color: #ffffff;
-
-//     // При наведении полоска может либо исчезать, либо становиться шире
-//     &::after {
-//       width: 0; // Скрываем полоску при инверсии цвета (чтобы не мешала белому тексту)
-//       opacity: 0;
-//     }
-//   }
-
-//   @media (max-width: 640px) {
-//     justify-content: center;
-//     margin-top: 10px;
-//   }
-// }
-
-// /* --- КАРТОЧКА ТУРА --- */
-// .cardLink {
-//   text-decoration: none;
-//   display: block;
-// }
-
-// .card {
-//   background: #ffffff;
-//   border-radius: 20px;
-//   overflow: hidden;
-//   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-//   transition: all 0.3s ease;
-//   height: 100%;
-//   border: 1px solid transparent;
-
-//   &:hover {
-//     transform: translateY(-5px);
-//     box-shadow: 0 15px 35px rgba(15, 23, 42, 0.1);
-//     border-color: #e2e8f0;
-//   }
-// }
-
-// .imageWrapper {
-//   position: relative;
-//   aspect-ratio: 16 / 11;
-//   overflow: hidden;
-// }
-
-// .image {
-//   width: 100%;
-//   height: 100%;
-//   object-fit: cover;
-//   transition: transform 0.5s ease;
-// }
-
-// .titleOverlay {
-//   position: absolute;
-//   bottom: 0;
-//   left: 0;
-//   right: 0;
-//   padding: 20px;
-//   background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-// }
-
-// .cardTitle {
-//   color: #ffffff;
-//   font-size: 20px;
-//   font-weight: 800;
-//   margin: 0;
-// }
-
-// .content {
-//   padding: 24px;
-// }
-
-// .category {
-//   font-size: 12px;
-//   font-weight: 800;
-//   color: #f97316; // Оранжевый из макета
-//   text-transform: uppercase;
-//   margin-bottom: 12px;
-// }
-
-// /* СЕТКА ИНФОРМАЦИИ (СТИЛЬ ИКОНОК КАК В КОНТАКТАХ) */
-// .infoGrid {
-//   display: flex;
-//   flex-direction: column;
-//   gap: 12px;
-//   margin-bottom: 20px;
-// }
-
-// .infoItem {
-//   display: flex;
-//   align-items: center;
-//   gap: 12px;
-//   color: #1e293b;
-//   font-size: 14px;
-//   font-weight: 600;
-
-//   .icon {
-//     color: #f97316; // Оранжевый цвет иконок
-//     flex-shrink: 0;
-//   }
-// }
-
-// .detailsBtn {
-//   width: 100%;
-//   padding: 14px;
-//   background: #f8fafc;
-//   border: 1px solid #e2e8f0;
-//   border-radius: 12px;
-//   font-weight: 800;
-//   color: #0f172a;
-//   cursor: pointer;
-//   transition: all 0.2s ease;
-
-//   &:hover {
-//     background: #f97316;
-//     color: #ffffff;
-//     border-color: #f97316;
-//   }
-// }
-
-// /* --- ПАГИНАЦИЯ (ИСПРАВЛЕННАЯ) --- */
-// .swiper {
-//   padding-bottom: 50px !important;
-//   overflow: visible !important;
-// }
-
-// .swiper :global {
-//   .swiper-pagination-bullet {
-//     width: 8px;
-//     height: 8px;
-//     background: #cbd5e1 !important;
-//     opacity: 1 !important;
-//     transition: all 0.3s ease !important;
-//   }
-
-//   .swiper-pagination-bullet-active {
-//     background: #f97316 !important; // Оранжевая активная точка
-//     width: 24px !important;
-//     border-radius: 4px !important;
-//   }
-// }
 
 
 .section {
@@ -256,7 +18,6 @@
   padding: 0 20px;
 }
 
-/* --- ШАПКА СЕКЦИИ --- */
 .header {
   display: flex;
   align-items: center;
@@ -283,8 +44,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  // border: 2px solid #0f172a; // Вернул рамку, так как на фото она есть
-  // border-radius: 4px;
+
   color: #0f172a;
   text-decoration: none;
   font-weight: 800;
@@ -325,7 +85,6 @@
   }
 }
 
-/* --- ВЕРНУЛ ТВОЮ КАРТОЧКУ ТОВАРА --- */
 .cardLink {
   text-decoration: none;
   display: block;
@@ -407,8 +166,7 @@
 
 .infoGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); // Вернул сетку в 2 колонки
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr); 
   padding-top: 20px;
   border-top: 1px solid #f1f5f9;
   margin-bottom: 24px;
@@ -445,7 +203,6 @@
   }
 }
 
-/* --- ПАГИНАЦИЯ --- */
 .swiper {
   padding-bottom: 70px !important;
   overflow: visible !important;
