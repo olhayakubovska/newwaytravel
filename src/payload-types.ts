@@ -942,6 +942,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface Footer {
   id: string;
   description?: string | null;
+  menuTitle?: string | null;
   navItems?:
     | {
         label: string;
@@ -949,20 +950,19 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
-  menuTitle?: string | null;
   contactTitle?: string | null;
-  socialTitle?: string | null;
   phone?: string | null;
   email?: string | null;
   address?: string | null;
   hours?: string | null;
-  copyrightText?: string | null;
+  socialTitle?: string | null;
   socials?: {
     facebook?: string | null;
-    youtube?: string | null;
     instagram?: string | null;
     telegram?: string | null;
+    youtube?: string | null;
   };
+  copyrightText?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -997,6 +997,7 @@ export interface Header {
  */
 export interface FooterSelect<T extends boolean = true> {
   description?: T;
+  menuTitle?: T;
   navItems?:
     | T
     | {
@@ -1004,22 +1005,21 @@ export interface FooterSelect<T extends boolean = true> {
         link?: T;
         id?: T;
       };
-  menuTitle?: T;
   contactTitle?: T;
-  socialTitle?: T;
   phone?: T;
   email?: T;
   address?: T;
   hours?: T;
-  copyrightText?: T;
+  socialTitle?: T;
   socials?:
     | T
     | {
         facebook?: T;
-        youtube?: T;
         instagram?: T;
         telegram?: T;
+        youtube?: T;
       };
+  copyrightText?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

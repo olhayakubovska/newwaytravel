@@ -75,15 +75,15 @@
   letter-spacing: 1px;
   color: #ffffff;
   text-decoration: none;
-  background-color: #fb8c00;
+  background-color: #ea580c;
   border: 2px solid transparent;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
 
   &:hover {
-    background-color: #f9a035;
+    background-color: #b64407;
     transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 12px 25px rgba(249, 115, 22, 0.5);
+    // box-shadow: 0 12px 25px rgba(249, 115, 22, 0.5);
     color: #fff;
   }
 

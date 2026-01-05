@@ -1,11 +1,10 @@
 .hero {
   position: relative;
   width: 100%;
-  // Уменьшаем высоту, чтобы контент был ближе к началу экрана
   height: 60vh; 
   min-height: 480px; 
   max-height: 650px;
-  overflow: visible; // Разрешаем SearchBar выходить за пределы (наплыв)
+  overflow: visible;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,7 +34,6 @@
   position: absolute;
   inset: 0;
   z-index: 2;
-  // Делаем градиент более мягким, чтобы фото было видно лучше
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.4) 0%,
@@ -50,7 +48,6 @@
   width: 100%;
   max-width: 1240px;
   margin: 0 auto;
-  // Оставляем место снизу для SearchBar, который будет наплывать через margin-top
   padding: 0 20px 60px; 
   text-align: center;
   box-sizing: border-box;
@@ -80,7 +77,6 @@
 .title {
   margin: 0 auto 20px;
   max-width: 900px;
-  // Делаем заголовок чуть компактнее, чтобы он не занимал весь экран
   font-size: clamp(32px, 6vw, 72px); 
   font-weight: 800;
   text-transform: uppercase;
