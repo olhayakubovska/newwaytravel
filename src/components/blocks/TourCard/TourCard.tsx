@@ -108,14 +108,6 @@ export function TourCard({
             </div>
 
             <div className={styles.infoItem}>
-              <Calendar size={17} className={styles.icon} />
-              <div className={styles.dateWrapper}>
-                <span>{formatMonth(startDate)}</span>
-                <ChevronDown size={14} className={styles.chevron} />
-              </div>
-            </div>
-
-            <div className={styles.infoItem}>
               <UsersIcon size={17} className={styles.icon} />
               <span>{getText(groupSize)}</span>
             </div>

@@ -123,17 +123,11 @@ export function FeaturedTours({
                             <MapPin size={16} className={styles.icon} />
                             <span>{t(tour.location)}</span>
                           </div>
-                          <div className={styles.infoItem}>
-                            <Calendar size={16} className={styles.icon} />
-                            <div className={styles.dateRow}>
-                              <span>20.01 - 27.01.2026</span>
-                              <ChevronDown size={14} />
-                            </div>
-                          </div>
-                          <div className={styles.infoItem}>
+
+                          {/* <div className={styles.infoItem}>
                             <Calendar size={16} className={styles.icon} />
                             <span>{formatMonth(tour.startDate)}</span>
-                          </div>
+                          </div> */}
                           <div className={styles.infoItem}>
                             <Users size={16} className={styles.icon} />
                             <span>{t(tour.groupSize)}</span>

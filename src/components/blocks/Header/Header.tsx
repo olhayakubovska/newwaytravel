@@ -19,10 +19,6 @@ export const Header = ({ data, locale }: HeaderProps) => {
   const [localeOpen, setLocaleOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  /**
-   * Универсальная функция перевода.
-   * Т.к. мы используем PayloadHeaderType, TS знает, что field может быть объектом локалей.
-   */
   const t = (
     field: string | Record<string, string> | null | undefined,
     fallback: string,
@@ -49,6 +45,8 @@ export const Header = ({ data, locale }: HeaderProps) => {
   }
 
   const navigation = data?.navItems || []
+
+  console.log(data?.socialLinks, 'socialLinks')
 
   return (
     <>
@@ -97,7 +95,28 @@ export const Header = ({ data, locale }: HeaderProps) => {
                 </div>
               )}
             </div>
-
+            <div className={styles.desktopSocials}>
+              {data?.socialLinks?.facebook && (
+                <a href={data.socialLinks.facebook} target="_blank" rel="noopener noreferrer">
+                  <Facebook size={18} />
+                </a>
+              )}
+              {data?.socialLinks?.instagram && (
+                <a href={data.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
+                  <Instagram size={18} />
+                </a>
+              )}
+              {data?.socialLinks?.youtube && (
+                <a href={data.socialLinks.youtube} target="_blank" rel="noopener noreferrer">
+                  <Youtube size={18} />
+                </a>
+              )}
+              {data?.socialLinks?.telegram && (
+                <a href={data.socialLinks.telegram} target="_blank" rel="noopener noreferrer">
+                  <Send size={18} />
+                </a>
+              )}
+            </div>
             <button className={styles.burgerBtn} onClick={() => setIsMenuOpen(true)}>
               <Menu size={28} />
             </button>
@@ -139,17 +158,31 @@ export const Header = ({ data, locale }: HeaderProps) => {
           <div className={styles.mobileSocials}>
             {data?.socialLinks?.facebook && (
               <a href={data.socialLinks.facebook} target="_blank" rel="noopener noreferrer">
-                <Facebook size={24} />
+                <Facebook
+                  size={24}
+                  style={{ minWidth: '24px', minHeight: '24px', display: 'block' }}
+                />
               </a>
             )}
             {data?.socialLinks?.instagram && (
               <a href={data.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
-                <Instagram size={24} />
+                <Instagram
+                  size={24}
+                  style={{ minWidth: '24px', minHeight: '24px', display: 'block' }}
+                />
+              </a>
+            )}
+            {data?.socialLinks?.youtube && (
+              <a href={data.socialLinks.youtube} target="_blank" rel="noopener noreferrer">
+                <Youtube
+                  size={24}
+                  style={{ minWidth: '24px', minHeight: '24px', display: 'block' }}
+                />
               </a>
             )}
             {data?.socialLinks?.telegram && (
               <a href={data.socialLinks.telegram} target="_blank" rel="noopener noreferrer">
-                <Send size={24} />
+                <Send size={24} style={{ minWidth: '24px', minHeight: '24px', display: 'block' }} />
               </a>
             )}
           </div>
