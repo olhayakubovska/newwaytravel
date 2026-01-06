@@ -1,5 +1,4 @@
 import { CollectionConfig } from 'payload'
-import { autoTranslate } from '../hooks/autoTranslate'
 
 export const Tours: CollectionConfig = {
   slug: 'tours',
@@ -25,42 +24,39 @@ export const Tours: CollectionConfig = {
   hooks: {
     beforeValidate: [
       ({ data }) => {
-        if (data?.name && !data?.slug) {
-          return {
-            ...data,
-            slug: data.name
-              .toLowerCase()
-              .trim()
-              .replace(/[^\w\s-]/g, '')
-              .replace(/[\s_-]+/g, '-'),
+        const cleanData = (obj: any) => {
+          if (Array.isArray(obj)) {
+            obj.forEach(cleanData)
+          } else if (obj !== null && typeof obj === 'object') {
+            Object.keys(obj).forEach((key) => {
+              if (/[а-яА-Я]/.test(key)) {
+                console.log(`🧹 Видалено "привид": ${key}`)
+                delete obj[key]
+              } else {
+                cleanData(obj[key])
+              }
+            })
           }
         }
+
+        if (data) {
+          cleanData(data)
+        }
+
+        if (data?.name && !data?.slug) {
+          data.slug = data.name
+            .toLowerCase()
+            .trim()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/[\s_-]+/g, '-')
+        }
+
         return data
       },
-    ],
-
-    afterChange: [
-      autoTranslate([
-        'name',
-        'location',
-        'duration',
-        'groupSize',
-        'category',
-        'uiTexts',
-        'uiLabels',
-        'consultationCard',
-        'descriptionCard',
-        'tripDetailsCard',
-        'tripAdditionalInfoCard',
-        'additionalInfoCard',
-        'itinerary',
-        'leader',
-      ]),
     ],
   },
 
   fields: [
-    // ===================== ОСНОВНЫЕ ПОЛЯ =====================
     {
       name: 'name',
       type: 'text',
@@ -88,12 +84,11 @@ export const Tours: CollectionConfig = {
       defaultValue: 1000,
     },
 
-    // 🔥 КЛЮЧЕВОЕ ПОЛЕ ДЛЯ ПОИСКА ПО МЕСЯЦАМ
     {
       name: 'startDate',
       type: 'date',
       required: true,
-      label: 'Дата початку туру',
+      label: 'Дата початку туру для пошуку',
       admin: {
         date: {
           pickerAppearance: 'dayOnly',
@@ -102,7 +97,6 @@ export const Tours: CollectionConfig = {
       },
     },
 
-    // ===================== ТАБЫ =====================
     {
       type: 'tabs',
       tabs: [
@@ -202,30 +196,40 @@ export const Tours: CollectionConfig = {
                   label: 'Заголовок програми',
                   defaultValue: 'Програма туру',
                 },
-                {
-                  name: 'leaderTitle',
-                  type: 'text',
-                  localized: true,
-                  label: 'Заголовок турлідера',
-                  defaultValue: 'Ваш турлідер',
-                },
               ],
             },
 
             {
-              name: 'consultationCard',
+              name: 'tripAdditionalInfoCard',
               type: 'group',
-              label: 'Консультація',
+              label: 'У ВАРТІСТЬ ВКЛЮЧЕНО',
               fields: [
                 {
                   name: 'title',
                   type: 'text',
                   localized: true,
-                  defaultValue: 'Тільки найяскравіші враження!',
                 },
                 {
-                  name: 'text',
-                  type: 'textarea',
+                  name: 'content',
+                  type: 'richText',
+                  localized: true,
+                },
+              ],
+            },
+
+            {
+              name: 'additionalInfoCard',
+              type: 'group',
+              label: 'ДОДАТКОВО',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  localized: true,
+                },
+                {
+                  name: 'content',
+                  type: 'richText',
                   localized: true,
                 },
               ],
@@ -234,7 +238,7 @@ export const Tours: CollectionConfig = {
             {
               name: 'descriptionCard',
               type: 'group',
-              label: 'Опис туру',
+              label: 'Картка з кнопкою забронювати',
               fields: [
                 {
                   name: 'title',
@@ -253,52 +257,16 @@ export const Tours: CollectionConfig = {
             {
               name: 'tripDetailsCard',
               type: 'group',
-              label: 'Деталі подорожі',
+              label: 'Картка з кнопкою консультація',
               fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  localized: true,
+                  defaultValue: 'Тільки найяскравіші враження',
+                },
                 {
                   name: 'bookingConditions',
-                  type: 'richText',
-                  localized: true,
-                },
-                {
-                  name: 'bookingNote',
-                  type: 'text',
-                  localized: true,
-                  defaultValue: '*Передоплата 50%',
-                },
-              ],
-            },
-
-            {
-              name: 'tripAdditionalInfoCard',
-              type: 'group',
-              label: 'Що включено',
-              fields: [
-                {
-                  name: 'title',
-                  type: 'text',
-                  localized: true,
-                },
-                {
-                  name: 'content',
-                  type: 'richText',
-                  localized: true,
-                },
-              ],
-            },
-
-            {
-              name: 'additionalInfoCard',
-              type: 'group',
-              label: 'Що не включено',
-              fields: [
-                {
-                  name: 'title',
-                  type: 'text',
-                  localized: true,
-                },
-                {
-                  name: 'content',
                   type: 'richText',
                   localized: true,
                 },
@@ -342,19 +310,29 @@ export const Tours: CollectionConfig = {
           ],
         },
 
-        // ---------- ТУРЛИДЕР ----------
+        // ---------- ТУРЛІДЕР ----------
         {
           label: 'Турлідер',
           fields: [
+            {
+              name: 'leaderTitle',
+              type: 'text',
+              localized: true,
+              label: 'Заголовок секції турлідера',
+              defaultValue: 'Ваш турлідер',
+              admin: {
+                description: 'Цей текст буде відображатися як заголовок над карткою лідера',
+              },
+            },
             {
               name: 'leader',
               type: 'group',
               label: 'Інформація про турлідера',
               fields: [
-                { name: 'name', type: 'text', localized: true },
-                { name: 'role', type: 'text', localized: true },
-                { name: 'photo', type: 'upload', relationTo: 'media' },
-                { name: 'bio', type: 'textarea', localized: true },
+                { name: 'name', type: 'text', localized: true, label: "Ім'я" },
+                { name: 'role', type: 'text', localized: true, label: 'Роль/Посада' },
+                { name: 'photo', type: 'upload', relationTo: 'media', label: 'Фото' },
+                { name: 'bio', type: 'textarea', localized: true, label: 'Біографія' },
               ],
             },
           ],

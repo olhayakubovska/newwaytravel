@@ -25,6 +25,7 @@ function AllToursContent({ initialTours, searchBarData }: AllToursProps) {
   const searchParams = useSearchParams()
   const locale = (params?.locale as Locale) || 'uk'
 
+  // Хелпер для локализации
   const t = (
     field: string | Record<string, string> | null | undefined,
     fallback: string = '',
@@ -37,32 +38,67 @@ function AllToursContent({ initialTours, searchBarData }: AllToursProps) {
   }
 
   const finalSearchData = useMemo(() => {
-    return {
-      categoryLabel: t(searchBarData?.categoryLabel),
-      destinationLabel: t(searchBarData?.destinationLabel),
-      monthLabel: t(searchBarData?.monthLabel),
-      searchBtnLabel: t(searchBarData?.searchBtnLabel),
-      resetBtnLabel: t(searchBarData?.resetBtnLabel),
+    // 1. Собираем уникальные категории из туров
+    const toursCategories = Array.from(
+      new Set(initialTours.map((tour) => tour.category).filter(Boolean)),
+    ).map((cat) => ({ label: String(cat), value: String(cat) }))
 
-      categories:
-        searchBarData?.categories?.map((cat) => ({
-          label: t(cat.label),
-          value: cat.value,
-        })) || [],
+    // 2. Собираем уникальные направления из туров (поле location)
+    const toursDestinations = Array.from(
+      new Set(initialTours.map((tour) => t(tour.location)).filter(Boolean)),
+    ).map((loc) => ({ label: loc, value: loc }))
 
-      destinations:
-        searchBarData?.destinations?.map((dest) => ({
-          label: t(dest.label),
-          value: dest.value,
-        })) || [],
+    // 3. Собираем уникальные месяцы из дат туров
+    const toursMonths = Array.from(
+      new Set(
+        initialTours
+          .map((tour) => {
+            if (!tour.startDate) return null
+            return new Date(tour.startDate).getMonth() + 1
+          })
+          .filter(Boolean),
+      ),
+    )
+      .sort((a, b) => (a as number) - (b as number))
+      .map((m) => ({
+        label: new Date(2026, (m as number) - 1).toLocaleString(locale, { month: 'long' }),
+        value: String(m),
+      }))
 
-      months:
-        searchBarData?.months?.map((m) => ({
-          label: t(m.label),
-          value: m.value,
-        })) || [],
+    const mergeData = (manual: any[], auto: any[]) => {
+      const map = new Map()
+      auto.forEach((item) => map.set(item.value, item))
+      manual.forEach((item) => map.set(item.value, item))
+      return Array.from(map.values())
     }
-  }, [searchBarData, locale])
+
+    return {
+      categoryLabel: t(searchBarData?.categoryLabel, locale === 'uk' ? 'Категорія' : 'Category'),
+      destinationLabel: t(
+        searchBarData?.destinationLabel,
+        locale === 'uk' ? 'Напрямок' : 'Destination',
+      ),
+      monthLabel: t(searchBarData?.monthLabel, locale === 'uk' ? 'Місяць' : 'Month'),
+      searchBtnLabel: t(searchBarData?.searchBtnLabel, locale === 'uk' ? 'Шукати' : 'Search'),
+      resetBtnLabel: t(searchBarData?.resetBtnLabel, locale === 'uk' ? 'Скинути' : 'Reset'),
+
+      categories: mergeData(
+        searchBarData?.categories?.map((cat) => ({ label: t(cat.label), value: cat.value })) || [],
+        toursCategories,
+      ),
+
+      destinations: mergeData(
+        searchBarData?.destinations?.map((dest) => ({ label: t(dest.label), value: dest.value })) ||
+          [],
+        toursDestinations,
+      ),
+
+      months: mergeData(
+        searchBarData?.months?.map((m) => ({ label: t(m.label), value: m.value })) || [],
+        toursMonths,
+      ),
+    }
+  }, [searchBarData, initialTours, locale])
 
   const handleFilterChange = (filters: TourFilters) => {
     let result = [...initialTours]
@@ -79,8 +115,7 @@ function AllToursContent({ initialTours, searchBarData }: AllToursProps) {
       result = result.filter((tour) => {
         if (!tour.startDate) return false
         const date = new Date(tour.startDate)
-        const monthNum = date.getMonth() + 1
-        return monthNum === Number(filters.month)
+        return date.getMonth() + 1 === Number(filters.month)
       })
     }
 

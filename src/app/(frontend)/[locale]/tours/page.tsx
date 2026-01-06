@@ -17,7 +17,7 @@ export default async function ToursPage({ params }: Props) {
     collection: 'pages',
     where: { slug: { equals: 'tours' } },
     limit: 1,
-    depth: 2,
+    depth: 3,
     locale: locale,
   })
 
@@ -37,6 +37,7 @@ export default async function ToursPage({ params }: Props) {
   })
 
   const tours = toursData.docs
+  console.log(searchBarBlockData, 'searchBarData!!!!!!!!!!!!!!')
 
   return (
     <>

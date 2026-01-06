@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
@@ -12,54 +13,49 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 
 import styles from './VideoSection.module.scss'
-import { Config, Page, Media } from '@/payload-types'
 
-type Block = NonNullable<Page['layout']>[number]
-type VideoSectionBlock = Extract<Block, { blockType: 'videoSection' }>
-type VideoObject = Exclude<VideoSectionBlock['videos'][number], string>
-
-type Locale = Config['locale']
-
-interface VideoSectionProps {
-  title?: string | Record<string, string> | null
-  videos?: VideoSectionBlock['videos'] | null
-}
-
-export function VideoSection({ title, videos }: VideoSectionProps) {
+export function VideoSection({ title, videos }: { title?: any; videos?: any[] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const [isPaused, setIsPaused] = useState(false)
+  const [isRelatedClosed, setIsRelatedClosed] = useState(false)
   const [mounted, setMounted] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
 
   const params = useParams()
-  const locale = (params?.locale as Locale) || 'uk'
+  const locale = (params?.locale as string) || 'uk'
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
   useEffect(() => {
-    if (activeIndex !== null && videoRef.current) {
-      videoRef.current.play().catch((err) => console.warn('Autoplay blocked:', err))
+    if (activeIndex !== null) {
+      setIsPaused(false)
+      setIsRelatedClosed(false)
     }
   }, [activeIndex])
 
-  const t = (field: string | Record<string, string> | null | undefined): string => {
+  const t = (field: any) => {
     if (!field) return ''
-    if (typeof field === 'object') {
-      return field[locale] || field.uk || field.en || Object.values(field)[0] || ''
-    }
+    if (typeof field === 'object') return field[locale] || field.uk || Object.values(field)[0] || ''
     return String(field)
   }
 
-  const getMediaUrl = (media: string | Media | null | undefined): string => {
-    if (!media) return '/placeholder.jpg'
-    return typeof media === 'object' ? media.url || '' : media
+  const getMediaUrl = (media: any) => {
+    if (!media) return null
+    if (typeof media === 'object' && media.url) return media.url
+    return typeof media === 'string' ? media : null
+  }
+
+  const handlePlayVideo = () => {
+    videoRef.current?.play()
+    setIsPaused(false)
+    setIsRelatedClosed(false)
   }
 
   if (!mounted || !videos?.length) return null
 
-  const rawActiveVideo = activeIndex !== null ? videos[activeIndex] : null
-  const activeVideo = typeof rawActiveVideo === 'object' ? (rawActiveVideo as VideoObject) : null
+  const activeVideo = activeIndex !== null ? videos[activeIndex] : null
 
   return (
     <section className={styles.section}>
@@ -67,6 +63,11 @@ export function VideoSection({ title, videos }: VideoSectionProps) {
         {title && <h2 className={styles.mainTitle}>{t(title)}</h2>}
 
         <div className={styles.swiperContainer}>
+          {/* Стрелки по бокам */}
+          <button className={`${styles.navBtn} ${styles.prevBtn}`}>
+            <ChevronLeft size={24} />
+          </button>
+
           <Swiper
             modules={[Pagination, Navigation]}
             spaceBetween={20}
@@ -88,45 +89,31 @@ export function VideoSection({ title, videos }: VideoSectionProps) {
             }}
             className={styles.mySwiper}
           >
-            {videos.map((video, index) => {
-              if (typeof video === 'string') return null
-
-              return (
-                <SwiperSlide key={video.id || index}>
-                  <motion.div
-                    className={styles.card}
-                    whileHover={{ scale: 1.02 }}
-                    onClick={() => setActiveIndex(index)}
-                  >
-                    <div className={styles.imageContainer}>
-                      <img
-                        src={getMediaUrl(video.thumbnail)}
-                        className={styles.thumbnail}
-                        alt={t(video.title)}
-                      />
-                      <div className={styles.playOverlay}>
-                        <div className={styles.playIconCircle}>
-                          <Play size={28} fill="white" color="white" />
-                        </div>
+            {videos.map((video: any, index: number) => (
+              <SwiperSlide key={video.id || index}>
+                <motion.div className={styles.card} onClick={() => setActiveIndex(index)}>
+                  <div className={styles.imageContainer}>
+                    <img src={getMediaUrl(video.thumbnail)} className={styles.thumbnail} alt="" />
+                    <div className={styles.playOverlay}>
+                      <div className={styles.playIconCircle}>
+                        <Play size={28} fill="white" color="white" />
                       </div>
                     </div>
-                    <div className={styles.cardInfo}>
-                      <p className={styles.videoTitle}>{t(video.title)}</p>
-                    </div>
-                  </motion.div>
-                </SwiperSlide>
-              )
-            })}
+                  </div>
+                  <div className={styles.cardInfo}>
+                    <p className={styles.videoTitle}>{t(video.title)}</p>
+                  </div>
+                </motion.div>
+              </SwiperSlide>
+            ))}
           </Swiper>
 
+          <button className={`${styles.navBtn} ${styles.nextBtn}`}>
+            <ChevronRight size={24} />
+          </button>
+
           <div className={styles.controlsContainer}>
-            <button className={`${styles.navBtn} ${styles.prevBtn}`}>
-              <ChevronLeft size={24} />
-            </button>
             <div className={styles.paginationWrapper}></div>
-            <button className={`${styles.navBtn} ${styles.nextBtn}`}>
-              <ChevronRight size={24} />
-            </button>
           </div>
         </div>
       </div>
@@ -147,15 +134,73 @@ export function VideoSection({ title, videos }: VideoSectionProps) {
                   <X size={28} />
                 </button>
               </div>
+
               <div className={styles.videoWrapper}>
                 <video
                   ref={videoRef}
                   src={getMediaUrl(activeVideo.videoFile)}
                   controls
-                  playsInline
+                  autoPlay
                   className={styles.mainVideo}
+                  onPause={() => setIsPaused(true)}
+                  onPlay={() => {
+                    setIsPaused(false)
+                    setIsRelatedClosed(false)
+                  }}
                 />
+
+                {isPaused && (
+                  <div className={styles.centerPlayBtn} onClick={handlePlayVideo}>
+                    <div className={styles.playIconCircleLarge}>
+                      <Play size={40} fill="white" color="white" />
+                    </div>
+                  </div>
+                )}
               </div>
+
+              {activeVideo.relatedVideos?.length > 0 && (
+                <div
+                  className={`${styles.relatedVideosBlock} ${isPaused && !isRelatedClosed ? styles.visibleOnPause : ''}`}
+                >
+                  <div className={styles.relatedHeader}>
+                    <p className={styles.relatedLabel}>Пов’язані відео</p>
+                    <button
+                      className={styles.closeRelatedBtn}
+                      onClick={() => setIsRelatedClosed(true)}
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
+
+                  <div className={styles.relatedGrid}>
+                    {activeVideo.relatedVideos.map((rel: any) => {
+                      if (typeof rel === 'string') return null
+                      return (
+                        <div
+                          key={rel.id}
+                          className={styles.relatedItem}
+                          onClick={() => {
+                            const idx = videos.findIndex((v: any) => v.id === rel.id)
+                            if (idx !== -1) setActiveIndex(idx)
+                          }}
+                        >
+                          <div className={styles.relThumbWrapper}>
+                            <img
+                              src={getMediaUrl(rel.thumbnail)}
+                              className={styles.relThumbImg}
+                              alt=""
+                            />
+                            <div className={styles.relPlayOverlay}>
+                              <Play size={16} fill="white" />
+                            </div>
+                          </div>
+                          <p className={styles.relTitle}>{t(rel.title)}</p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           </motion.div>
         )}

@@ -345,47 +345,6 @@ export interface Tour {
     | null;
   uiLabels?: {
     itineraryTitle?: string | null;
-    leaderTitle?: string | null;
-  };
-  consultationCard?: {
-    title?: string | null;
-    text?: string | null;
-  };
-  descriptionCard?: {
-    title?: string | null;
-    content?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-  };
-  tripDetailsCard?: {
-    bookingConditions?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    bookingNote?: string | null;
   };
   tripAdditionalInfoCard?: {
     title?: string | null;
@@ -408,6 +367,42 @@ export interface Tour {
   additionalInfoCard?: {
     title?: string | null;
     content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  descriptionCard?: {
+    title?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  tripDetailsCard?: {
+    title?: string | null;
+    bookingConditions?: {
       root: {
         type: string;
         children: {
@@ -450,6 +445,10 @@ export interface Tour {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Цей текст буде відображатися як заголовок над карткою лідера
+   */
+  leaderTitle?: string | null;
   leader?: {
     name?: string | null;
     role?: string | null;
@@ -800,25 +799,6 @@ export interface ToursSelect<T extends boolean = true> {
     | T
     | {
         itineraryTitle?: T;
-        leaderTitle?: T;
-      };
-  consultationCard?:
-    | T
-    | {
-        title?: T;
-        text?: T;
-      };
-  descriptionCard?:
-    | T
-    | {
-        title?: T;
-        content?: T;
-      };
-  tripDetailsCard?:
-    | T
-    | {
-        bookingConditions?: T;
-        bookingNote?: T;
       };
   tripAdditionalInfoCard?:
     | T
@@ -831,6 +811,18 @@ export interface ToursSelect<T extends boolean = true> {
     | {
         title?: T;
         content?: T;
+      };
+  descriptionCard?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+      };
+  tripDetailsCard?:
+    | T
+    | {
+        title?: T;
+        bookingConditions?: T;
       };
   itinerary?:
     | T
@@ -845,6 +837,7 @@ export interface ToursSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  leaderTitle?: T;
   leader?:
     | T
     | {

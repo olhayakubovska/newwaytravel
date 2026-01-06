@@ -50,7 +50,7 @@ export const HeaderConfig: GlobalConfig = {
     {
       name: 'telegramChatLink',
       type: 'text',
-      label: 'Посилання для кнопки Чат (Telegram)',
+      label: 'Telegram Chat Link',
       defaultValue: 'https://t.me/your_account',
     },
     {

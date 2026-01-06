@@ -40,20 +40,6 @@ export default function TripDetails({ tour, locale }: Props) {
             <span className={styles.label}>{locale === 'en' ? 'GROUP SIZE' : 'РОЗМІР ГРУПИ'}</span>
             <div className={styles.value}>{t(tour.groupSize)}</div>
           </div>
-
-          <div className={`${styles.infoBlock} ${styles.bookingSection}`}>
-            <span className={styles.label} style={{ color: '#fcb12d' }}>
-              {locale === 'en' ? 'BOOKING*' : 'БРОНЬ ТУРА*'}
-            </span>
-            <div className={styles.bookingText}>
-              {details?.bookingConditions && (
-                <RichText
-                  content={details.bookingConditions[locale] || details.bookingConditions}
-                />
-              )}
-              {details?.bookingNote && <small>{t(details.bookingNote)}</small>}
-            </div>
-          </div>
         </div>
       </div>
     </div>
