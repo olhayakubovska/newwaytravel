@@ -66,9 +66,9 @@ export default function TourDetailClient({ tour, locale }: Props) {
     bookBtn: t(tour.uiTexts?.bookBtn) || 'Забронювати',
     consultBtn: t(tour.uiTexts?.consultBtn) || 'Консультація',
     itineraryTitle: t(tour.uiLabels?.itineraryTitle),
+    leaderTitle: t(tour.uiLabels?.leaderTitle) || 'Організатор туру',
     descriptionTitle: t(tour.descriptionCard?.title),
     mapTitle: locale === 'en' ? 'Travel Route' : 'Маршрут подорожі',
-    leaderTitle: t(tour.uiLabels?.leaderTitle) || 'Організатор туру',
   }
 
   const getMapSrc = (input: string) => {
@@ -100,57 +100,82 @@ export default function TourDetailClient({ tour, locale }: Props) {
         </div>
       </section>
 
-      {/* INFO + GALLERY */}
-      <section className={`${styles.section} animate-section`}>
-        <div className={styles.infoGrid}>
-          {/* LEFT — STICKY INFO CARD */}
-          <div className={styles.stickyWrapper}>
-            <div className={styles.infoCard}>
-              {labels.descriptionTitle && <h3>{labels.descriptionTitle}</h3>}
-              {tour.descriptionCard?.content && (
-                <RichText content={t(tour.descriptionCard.content)} />
-              )}
-              <button className={styles.primaryBtn} onClick={() => setBookingOpen(true)}>
-                {labels.bookBtn}
-              </button>
+      {/* === TRIP DETAILS GRID — ВОЗВРАЩЕНО ПОЛНОСТЬЮ === */}
+      <section className={`${styles.section} ${styles.detailsGridSection} animate-section`}>
+        <div className={styles.topInfoGrid}>
+          <div className={styles.columnLeft}>
+            <div className={styles.whiteCard}>
+              <span className={styles.labelCap}>ДАТИ</span>
+              <div className={styles.dateRow}>
+                <span>{t(tour.duration)}</span>
+              </div>
+            </div>
+
+            <div className={`${styles.whiteCard} ${styles.priceCard}`}>
+              <span className={styles.labelCap}>ВАРТІСТЬ</span>
+              <div className={styles.priceValue}>{tour.price}€</div>
+            </div>
+
+            <div className={styles.whiteCard}>
+              <span className={styles.labelCap}>РОЗМІР ГРУПИ</span>
+              <div className={styles.valueLarge}>{t(tour.groupSize)}</div>
+            </div>
+
+            <div className={styles.whiteCard}>
+              <span className={styles.labelCap}>БРОНЬ ТУРА*</span>
+              <p>*Предоплата не повертається</p>
             </div>
           </div>
 
-          {/* RIGHT — GALLERY */}
-          {tour.gallery && (
-            <div className={styles.galleryWrapper}>
-              {tour.gallery.slice(0, 4).map((item: any, i: number) => (
-                <div key={i} className={styles.galleryCard}>
-                  <Image
-                    src={getImageUrl(item.image)}
-                    alt={getImageAlt(item.image)}
-                    width={500}
-                    height={400}
-                  />
-                </div>
-              ))}
+          <div className={styles.columnCenter}>
+            <div className={styles.whiteCardFull}>
+              <h3>У ВАРТІСТЬ ВКЛЮЧЕНО:</h3>
+              {tour.tripAdditionalInfoCard?.content && (
+                <RichText content={tour.tripAdditionalInfoCard.content} />
+              )}
             </div>
-          )}
+          </div>
+
+          <div className={styles.columnRight}>
+            <div className={styles.whiteCardFull}>
+              <h3>ДОДАТКОВО:</h3>
+              {tour.additionalInfoCard?.content && (
+                <RichText content={tour.additionalInfoCard.content} />
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ITINERARY */}
+      {/* === INFO + GALLERY === */}
       <section className={`${styles.section} animate-section`}>
-        {labels.itineraryTitle && <h2 className={styles.sectionTitle}>{labels.itineraryTitle}</h2>}
-        <div className={styles.programLayout}>
-          {/* LEFT — STICKY CONSULT */}
+        <div className={styles.infoGrid}>
           <div className={styles.stickyWrapper}>
-            <div className={styles.consultCard}>
-              {tour.tripDetailsCard?.bookingConditions && (
-                <RichText content={t(tour.tripDetailsCard.bookingConditions)} />
-              )}
-              <button className={styles.orangeBtn} onClick={() => setConsultationOpen(true)}>
-                {labels.consultBtn}
-              </button>
+            <div className={styles.infoCard}>
+              <h3>{labels.descriptionTitle}</h3>
+              <RichText content={t(tour.descriptionCard?.content)} />
             </div>
           </div>
 
-          {/* RIGHT — DAYS */}
+          <div className={styles.galleryWrapper}>
+            {tour.gallery?.slice(0, 4).map((item, i) => (
+              <div key={i} className={styles.galleryCard}>
+                <Image src={getImageUrl(item.image)} alt="" width={500} height={400} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* === PROGRAM === */}
+      <section className={`${styles.section} animate-section`}>
+        <div className={styles.programLayout}>
+          <div className={styles.stickyWrapper}>
+            <div className={styles.consultCard}>
+              <RichText content={t(tour.tripDetailsCard?.bookingConditions)} />
+            </div>
+          </div>
+
           <div className={styles.itineraryList}>
             {(tour.itinerary as any[])?.map((day, idx) => (
               <ItineraryAccordion key={idx} day={day} dayNumber={idx + 1} t={t} />
