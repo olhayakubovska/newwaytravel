@@ -328,14 +328,26 @@ export interface Tour {
   slug: string;
   price: number;
   startDate: string;
+  mapType?: ('iframe' | 'link') | null;
+  mapIframe?: string | null;
+  mapUrl?: string | null;
   uiTexts?: {
     bookBtn?: string | null;
     consultBtn?: string | null;
   };
   location?: string | null;
-  duration?: string | null;
-  groupSize?: string | null;
   category?: string | null;
+  subtitle?: string | null;
+  shortDescription?: string | null;
+  duration: number;
+  tourDates?:
+    | {
+        dateRange?: string | null;
+        isFull?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  groupSize?: string | null;
   mainImage?: (string | null) | Media;
   gallery?:
     | {
@@ -445,9 +457,6 @@ export interface Tour {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Цей текст буде відображатися як заголовок над карткою лідера
-   */
   leaderTitle?: string | null;
   leader?: {
     name?: string | null;
@@ -778,6 +787,9 @@ export interface ToursSelect<T extends boolean = true> {
   slug?: T;
   price?: T;
   startDate?: T;
+  mapType?: T;
+  mapIframe?: T;
+  mapUrl?: T;
   uiTexts?:
     | T
     | {
@@ -785,9 +797,18 @@ export interface ToursSelect<T extends boolean = true> {
         consultBtn?: T;
       };
   location?: T;
-  duration?: T;
-  groupSize?: T;
   category?: T;
+  subtitle?: T;
+  shortDescription?: T;
+  duration?: T;
+  tourDates?:
+    | T
+    | {
+        dateRange?: T;
+        isFull?: T;
+        id?: T;
+      };
+  groupSize?: T;
   mainImage?: T;
   gallery?:
     | T

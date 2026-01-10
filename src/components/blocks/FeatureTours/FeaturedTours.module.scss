@@ -1,5 +1,3 @@
-
-
 .section {
   padding: 80px 0;
   background-color: #f8fafc;
@@ -31,12 +29,25 @@
   }
 }
 
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .title {
   font-size: clamp(28px, 4vw, 42px);
   font-weight: 900;
-  color: #0f172a;
+  color: #3B3D83; // Твой основной синий
   margin: 0;
   letter-spacing: -0.5px;
+}
+
+.titleUnderline {
+  width: 60px;
+  height: 5px;
+  background-color: #f97316; // ЗАМЕНЕНО: Оранжевый
+  margin-top: 8px;
+  border-radius: 2px;
 }
 
 .allToursLink {
@@ -44,67 +55,36 @@
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-
-  color: #0f172a;
+  color: #ffffff;
+  background-color: #3B3D83;
+  border-radius: 14px;
   text-decoration: none;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 14px;
   transition: all 0.3s ease;
-  position: relative;
-
-  span {
-    position: relative;
-    z-index: 1;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30px;
-    height: 3px;
-    background-color: #f97316;
-    border-radius: 2px;
-    transition: all 0.3s ease;
-  }
 
   &:hover {
-    background-color: #0f172a;
+    background-color: #f97316; // ЗАМЕНЕНО: Оранжевый на ховер
     color: #ffffff;
-    &::after {
-      width: 0;
-      opacity: 0;
-    }
   }
-
-  @media (max-width: 640px) {
-    justify-content: center;
-    width: 100%;
-  }
-}
-
-.cardLink {
-  text-decoration: none;
-  display: block;
-  height: 100%;
 }
 
 .card {
   background: #ffffff;
   border-radius: 28px;
   overflow: hidden;
-  border: 1px solid #f1f5f9;
+  border: none; // УБРАНО: бордер удален
   transition: all 0.4s ease;
   height: 100%;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 10px 30px rgba(59, 61, 131, 0.08); // Мягкая тень
 
   &:hover {
     transform: translateY(-10px);
-    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.1);
-    border-color: #e2e8f0;
+    box-shadow: 0 30px 60px rgba(59, 61, 131, 0.15);
+    // border-color: #3B3D83; // Убрано, так как бордера нет
+
     .image {
       transform: scale(1.08);
     }
@@ -129,20 +109,20 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 30px 24px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 20px 16px;
+  background: linear-gradient(to top, rgba(59, 61, 131, 0.9), transparent);
 }
 
 .cardTitle {
   color: #ffffff;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   margin: 0;
   line-height: 1.2;
 }
 
 .content {
-  padding: 24px;
+  padding: 20px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -151,77 +131,147 @@
 .category {
   font-size: 11px;
   font-weight: 900;
-  color: #f97316;
+  color: #ffffff; // Белый текст на оранжевом лучше читается
+  background: #f97316; // ЗАМЕНЕНО: Оранжевый
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  width: fit-content;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #475569;
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 
 .shortDesc {
   font-size: 14px;
   color: #64748b;
   line-height: 1.6;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .infoGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); 
-  padding-top: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  padding-top: 15px;
   border-top: 1px solid #f1f5f9;
-  margin-bottom: 24px;
-  gap: 20px;
+  margin-bottom: 16px;
+  gap: 12px;
 }
 
 .infoItem {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   color: #334155;
   font-size: 13px;
   font-weight: 600;
 
-  .icon {
-    color: #f97316;
+  svg {
+    color: #f97316; // ЗАМЕНЕНО: Иконки оранжевые
     flex-shrink: 0;
   }
 }
 
-.detailsBtn {
+.datesWrapper {
+  position: relative;
   width: 100%;
-  padding: 16px;
-  background: #f97316;
+}
+
+.datesToggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background: #f8fafc;
   border: 1px solid #e2e8f0;
-  border-radius: 16px;
+  border-radius: 12px;
+  font-size: 12px;
   font-weight: 700;
-  color: #ffffff;
-  transition: 0.3s;
+  color: #3B3D83;
   cursor: pointer;
 
   &:hover {
-    background: #0f172a;
+    border-color: #f97316; // ЗАМЕНЕНО: Оранжевый ховер
+  }
+}
+
+.rotate {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+
+.datesDropdown {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #f97316; // ЗАМЕНЕНО: Оранжевый
+  border-radius: 14px;
+  padding: 10px;
+  z-index: 50;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.dateOption {
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s;
+  font-size: 13px;
+
+  &:hover {
+    background: #fff7ed;
+    color: #f97316;
+  }
+}
+
+.priceSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.priceValue {
+  font-size: 24px;
+  font-weight: 900;
+  color: #3B3D83;
+}
+
+.detailsBtn {
+  background: #f97316; // ЗАМЕНЕНО: Оранжевый
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s;
+
+  &:hover {
+    background: #3B3D83;
     color: #ffffff;
   }
 }
 
-.swiper {
-  padding-bottom: 70px !important;
-  overflow: visible !important;
+.swiper :global(.swiper-pagination-bullet-active) {
+  background: #f97316 !important; // ЗАМЕНЕНО: Оранжевый
+  width: 30px !important;
 }
 
-.swiper :global {
-  .swiper-pagination-bullet {
-    width: 10px !important;
-    height: 10px !important;
-    background: #cbd5e1 !important;
-    opacity: 1 !important;
-    margin: 0 6px !important;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-  }
-
-  .swiper-pagination-bullet-active {
-    background: #f97316 !important;
-    width: 35px !important;
-    border-radius: 10px !important;
-  }
+.iconCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

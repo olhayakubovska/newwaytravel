@@ -2,13 +2,15 @@
 // import { motion } from 'framer-motion'
 // import { useParams } from 'next/navigation'
 // import styles from './ConsultationSection.module.scss'
-// import { Media } from '@/payload-types'
+// import { Media, Config } from '@/payload-types'
+
+// type Locale = Config['locale']
 
 // interface ConsultationProps {
-//   title?: string | { [key: string]: string } | null
-//   text?: string | { [key: string]: string } | null
-//   buttonText?: string | { [key: string]: string } | null
-//   phoneNumber?: string | { [key: string]: string } | null
+//   title?: string | Record<string, string> | null
+//   text?: string | Record<string, string> | null
+//   buttonText?: string | Record<string, string> | null
+//   phoneNumber?: string | Record<string, string> | null
 //   backgroundImage?: string | Media | null
 // }
 
@@ -20,12 +22,12 @@
 //   phoneNumber,
 // }: ConsultationProps) {
 //   const params = useParams()
-//   const locale = (params?.locale as string) || 'uk'
+//   const locale = (params?.locale as Locale) || 'uk'
 
-//   const t = (field: any): string => {
+//   const t = (field: string | Record<string, string> | null | undefined): string => {
 //     if (!field) return ''
 //     if (typeof field === 'object') {
-//       return field[locale] || field['uk'] || Object.values(field)[0] || ''
+//       return field[locale] || field['uk'] || field['en'] || Object.values(field)[0] || ''
 //     }
 //     return String(field)
 //   }
@@ -33,7 +35,6 @@
 //   const imageUrl = typeof backgroundImage === 'object' ? backgroundImage?.url : backgroundImage
 
 //   const phoneString = t(phoneNumber)
-
 //   const cleanNumber = phoneString ? phoneString.replace(/\s+/g, '') : ''
 
 //   return (
@@ -81,10 +82,10 @@ import { Media, Config } from '@/payload-types'
 type Locale = Config['locale']
 
 interface ConsultationProps {
-  title?: string | Record<string, string> | null
-  text?: string | Record<string, string> | null
-  buttonText?: string | Record<string, string> | null
-  phoneNumber?: string | Record<string, string> | null
+  title?: any // Используем any для гибкости входящих данных из Payload
+  text?: any
+  buttonText?: any
+  phoneNumber?: any
   backgroundImage?: string | Media | null
 }
 
@@ -98,8 +99,10 @@ export function ConsultationSection({
   const params = useParams()
   const locale = (params?.locale as Locale) || 'uk'
 
-  const t = (field: string | Record<string, string> | null | undefined): string => {
+  // Универсальная функция перевода
+  const t = (field: any): string => {
     if (!field) return ''
+    if (typeof field === 'string') return field
     if (typeof field === 'object') {
       return field[locale] || field['uk'] || field['en'] || Object.values(field)[0] || ''
     }
@@ -124,10 +127,10 @@ export function ConsultationSection({
 
       <div className={styles.content}>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
           className={styles.inner}
         >
           <h2 className={styles.title}>
@@ -136,11 +139,9 @@ export function ConsultationSection({
 
           {text && <p className={styles.text}>{t(text)}</p>}
 
-          {cleanNumber && (
-            <a href={`tel:${cleanNumber}`} className={styles.button}>
-              {t(buttonText) || (locale === 'en' ? 'Contact us' : 'Зв’язатися з нами')}
-            </a>
-          )}
+          <a href={cleanNumber ? `tel:${cleanNumber}` : '#'} className={styles.button}>
+            {t(buttonText) || (locale === 'en' ? 'Contact us' : 'Зв’язатися з нами')}
+          </a>
         </motion.div>
       </div>
     </section>

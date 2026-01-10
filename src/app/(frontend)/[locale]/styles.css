@@ -172,7 +172,7 @@ svg {
 html, body {
   width: 100%;
   max-width: 100vw;
-  overflow-x: hidden; 
+  /* overflow-x: hidden;  */
   background-color: #f8fafc;
   color: #1a2b48;
   -webkit-font-smoothing: antialiased;

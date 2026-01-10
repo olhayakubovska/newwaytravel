@@ -1,30 +1,24 @@
 'use client'
 
-import React from 'react'
-import { motion } from 'framer-motion'
-import { MapPin, Calendar, Clock, ArrowRight, Users, ShoppingCart, ChevronDown } from 'lucide-react'
-import styles from './FeaturedTours.module.scss'
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { MapPin, Calendar, Clock, Users, ArrowRight, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import styles from './FeaturedTours.module.scss'
 import { Tour, Media, Config } from '@/payload-types'
 
 type Locale = Config['locale']
 
-interface LocalizedString {
-  uk?: string
-  en?: string
-  ru?: string
-}
-
 interface FeaturedToursProps {
-  title?: LocalizedString
+  title?: any
   selectedTours: (string | Tour)[]
-  allToursLabel?: LocalizedString
-  detailsLabel?: LocalizedString
+  allToursLabel?: any
+  detailsLabel?: any
 }
 
 export function FeaturedTours({
@@ -36,29 +30,28 @@ export function FeaturedTours({
   const params = useParams()
   const locale = (params?.locale as Locale) || 'uk'
 
-  const t = (field?: LocalizedString | string | null): string => {
+  const [openDatesId, setOpenDatesId] = useState<string | null>(null)
+  const [selectedDate, setSelectedDate] = useState<{ [key: string]: string }>({})
+
+  // Функция для безопасного извлечения строки из локализованного объекта
+  const t = (field: any): string => {
     if (!field) return ''
+    if (typeof field === 'string') return field
     if (typeof field === 'object') {
-      return field[locale] || field['uk'] || Object.values(field)[0] || ''
+      return field[locale] || field['uk'] || field['en'] || ''
     }
     return String(field)
   }
 
   const getImageUrl = (image?: string | Media | null) => {
-    if (!image) return '/placeholder-tour.jpg'
-    if (typeof image === 'string') return image
+    if (!image || typeof image === 'string') return '/placeholder-tour.jpg'
     return image.url || '/placeholder-tour.jpg'
-  }
-
-  const formatMonth = (dateString?: string) => {
-    if (!dateString) return ''
-    const date = new Date(dateString)
-    return new Intl.DateTimeFormat(locale, { month: 'short' }).format(date)
   }
 
   return (
     <section className={styles.section}>
       <div className={styles.container}>
+        {/* Хедер секции */}
         <div className={styles.header}>
           <div className={styles.titleWrapper}>
             <h2 className={styles.title}>{t(title)}</h2>
@@ -84,72 +77,115 @@ export function FeaturedTours({
             1024: { slidesPerView: 3 },
           }}
         >
-          {selectedTours.map((tourItem, index) => {
+          {selectedTours.map((tourItem) => {
             if (typeof tourItem === 'string') return null
             const tour = tourItem as Tour
+            const isDropdownOpen = openDatesId === tour.id
+            const currentSelectedDate = selectedDate[tour.id] || ''
 
             return (
               <SwiperSlide key={tour.id}>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Link href={`/${locale}/tours/${tour.id}`} className={styles.cardLink}>
-                    <div className={styles.card}>
-                      <div className={styles.imageWrapper}>
-                        <img
-                          src={getImageUrl(tour.mainImage)}
-                          alt={t(tour.name)}
-                          className={styles.image}
-                        />
-                        <div className={styles.titleOverlay}>
-                          <h3 className={styles.cardTitle}>{t(tour.name)}</h3>
-                        </div>
-                      </div>
-
-                      <div className={styles.content}>
-                        <div className={styles.category}>{t(tour.category)}</div>
-
-                        <p className={styles.shortDesc}>
-                          {locale === 'en'
-                            ? 'Unforgettable adventures and nature'
-                            : 'Природа поза часом та неймовірні пригоди'}
-                        </p>
-
-                        <div className={styles.infoGrid}>
-                          <div className={styles.infoItem}>
-                            <MapPin size={16} className={styles.icon} />
-                            <span>{t(tour.location)}</span>
-                          </div>
-
-                          {/* <div className={styles.infoItem}>
-                            <Calendar size={16} className={styles.icon} />
-                            <span>{formatMonth(tour.startDate)}</span>
-                          </div> */}
-                          <div className={styles.infoItem}>
-                            <Users size={16} className={styles.icon} />
-                            <span>{t(tour.groupSize)}</span>
-                          </div>
-                          <div className={styles.infoItem}>
-                            <Clock size={16} className={styles.icon} />
-                            <span>{t(tour.duration)}</span>
-                          </div>
-                          <div className={styles.infoItem}>
-                            <ShoppingCart size={16} className={styles.icon} />
-                            <span>{tour.price}€</span>
-                          </div>
-                        </div>
-
-                        <div className={styles.footer}>
-                          <button className={styles.detailsBtn}>
-                            {t(detailsLabel) || (locale === 'en' ? 'Details' : 'Деталі')}
-                          </button>
-                        </div>
+                <motion.div className={styles.card}>
+                  {/* Картинка */}
+                  <Link href={`/${locale}/tours/${tour.slug}`} className={styles.imageLink}>
+                    <div className={styles.imageWrapper}>
+                      <img
+                        src={getImageUrl(tour.mainImage)}
+                        alt={t(tour.name)}
+                        className={styles.image}
+                      />
+                      <div className={styles.titleOverlay}>
+                        <h3 className={styles.cardTitle}>{t(tour.name)}</h3>
                       </div>
                     </div>
                   </Link>
+
+                  <div className={styles.content}>
+                    <div className={styles.category}>{t(tour.category)}</div>
+                    <div className={styles.subtitle}>{t(tour.subtitle)}</div>
+                    <p className={styles.shortDesc}>{t(tour.shortDescription)}</p>
+
+                    <div className={styles.infoGrid}>
+                      <div className={styles.infoItem}>
+                        <MapPin size={16} />
+                        <span>{t(tour.location)}</span>
+                      </div>
+
+                      <div className={styles.infoItem}>
+                        <Clock size={16} />
+                        <span>
+                          {t((tour as any).duration) || '—'} {locale === 'en' ? 'days' : 'дн.'}
+                        </span>
+                      </div>
+
+                      <div className={styles.infoItem}>
+                        <Users size={16} />
+                        <span>{t(tour.groupSize)}</span>
+                      </div>
+
+                      {/* Селектор дат */}
+                      <div className={styles.infoItem}>
+                        <Calendar size={16} />
+                        <div className={styles.datesWrapper}>
+                          <button
+                            className={styles.datesToggle}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              setOpenDatesId(isDropdownOpen ? null : tour.id)
+                            }}
+                          >
+                            <span>
+                              {currentSelectedDate
+                                ? currentSelectedDate.split(' - ')[0]
+                                : locale === 'en'
+                                  ? 'Dates'
+                                  : 'Дати'}
+                            </span>
+                            <ChevronDown
+                              size={14}
+                              className={isDropdownOpen ? styles.rotate : ''}
+                            />
+                          </button>
+
+                          <AnimatePresence>
+                            {isDropdownOpen && (
+                              <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className={styles.datesDropdown}
+                              >
+                                {tour.tourDates?.map((dateObj: any, idx: number) => {
+                                  const dateText = t(dateObj.dateRange)
+                                  return (
+                                    <div
+                                      key={idx}
+                                      className={styles.dateOption}
+                                      onClick={() => {
+                                        setSelectedDate({ ...selectedDate, [tour.id]: dateText })
+                                        setOpenDatesId(null)
+                                      }}
+                                    >
+                                      <span>{dateText}</span>
+                                    </div>
+                                  )
+                                })}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className={styles.footer}>
+                      <div className={styles.priceSection}>
+                        <span className={styles.priceValue}>{tour.price}€</span>
+                        <Link href={`/${locale}/tours/${tour.slug}`} className={styles.detailsBtn}>
+                          {t(detailsLabel) || (locale === 'en' ? 'Details' : 'Деталі')}
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
               </SwiperSlide>
             )
@@ -159,5 +195,3 @@ export function FeaturedTours({
     </section>
   )
 }
-
-//                            {t(detailsLabel) || (locale === 'en' ? 'Details' : 'Деталі')}

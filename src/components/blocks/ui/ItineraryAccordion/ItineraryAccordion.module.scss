@@ -1,0 +1,66 @@
+.accordionItem {
+  background: #ffffff;
+  border-radius: 8px; // Более острые углы как на скрине
+  border: 1px solid #f1f5f9;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+
+  &.active {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.accordionHeader {
+  width: 100%;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+
+  .dayTitle {
+    font-size: 16px;
+    font-weight: 700; // Жирный как на макете
+    color: #000000;
+    margin: 0;
+  }
+
+  .arrow {
+    transition: transform 0.3s ease;
+    color: #000000;
+    display: flex;
+    align-items: center;
+
+    &.arrowUp {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.contentInner {
+  padding: 0 24px 24px 24px; // Равномерные отступы со всех сторон
+
+  .dayImageWrapper {
+    margin-bottom: 16px;
+    border-radius: 4px;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+
+  .dayDescription {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #334155;
+
+    // Стилизация RichText внутри если нужно
+    p { margin-bottom: 12px; }
+  }
+}

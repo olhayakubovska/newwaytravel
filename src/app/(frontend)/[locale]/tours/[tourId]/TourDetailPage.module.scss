@@ -1,294 +1,209 @@
+/* =====================================================
+   BASE
+===================================================== */
 .wrapper {
-  // Переменные
-  --primary: #fcb12d;
-  --primary-hover: #e69b1f;
-  --navy: #0b2239;
-  --text-main: #2d3748;
-  --text-muted: #718096;
-  --bg-light: #f8fafc;
-  --white: #ffffff;
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 10px 25px rgba(11, 34, 57, 0.08);
-  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
-  --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-
-  min-height: 100vh;
-  background-color: var(--bg-light);
-  color: var(--text-main);
+  background: #eef3f7;
+  color: #1a3354;
   font-family: 'Inter', sans-serif;
-  padding-bottom: 80px;
+  padding-bottom: 120px;
 }
 
-// Общие стили секций
 .section {
-  max-width: 1440px;
-  margin: 0 auto 100px;
-  padding: 0 100px;
-  overflow: hidden; 
-
-  @media (max-width: 1200px) { padding: 0 40px; }
-  @media (max-width: 768px) { padding: 0 20px; margin-bottom: 60px; }
+  max-width: 1200px;
+  margin: 80px auto 0;
+  padding: 0 20px;
 }
 
+/* =====================================================
+   TITLES
+===================================================== */
 .sectionTitle {
-  font-size: clamp(28px, 5vw, 38px);
+  font-size: 36px;
   font-weight: 900;
   text-transform: uppercase;
-  text-align: center;
-  color: var(--navy);
-  margin-bottom: 50px;
-  letter-spacing: -0.5px;
-
-  &::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 4px;
-    background: var(--primary);
-    margin: 15px auto 0;
-    border-radius: 2px;
-  }
+  margin-bottom: 40px;
 }
 
-/* HERO SECTION */
-// .hero {
-//   position: relative;
-//   height: 500px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   margin-bottom: 80px;
-// }
-
-// .heroActions {
-//   position: absolute;
-//   bottom: 80px;
-//   left: 50%;
-//   transform: translateX(-50%);
-//   display: flex;
-//   gap: 20px;
-//   padding: 15px 30px;
-//   background: rgba(255, 255, 255, 0.1);
-//   backdrop-filter: blur(8px);
-//   border: 1px solid rgba(255, 255, 255, 0.2);
-//   border-radius: 24px;
-//   z-index: 2;
-// }
-
-/* КНОПКИ */
-.primaryBtn, .orangeBtn, .secondaryBtn {
-  padding: 16px 36px;
-  border-radius: 12px;
+.sectionTitleSmall {
+  font-size: 22px;
   font-weight: 800;
   text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  transition: var(--transition);
+  margin-bottom: 24px;
 }
 
-.primaryBtn, .orangeBtn {
-  background: var(--primary);
-  color: var(--navy);
-  box-shadow: 0 4px 15px rgba(252, 177, 45, 0.4);
-
-  &:hover {
-    transform: translateY(-3px);
-    background: var(--primary-hover);
-    box-shadow: 0 8px 25px rgba(252, 177, 45, 0.6);
-  }
-}
-
-.secondaryBtn {
-  background: transparent;
-  border: 2px solid var(--primary);
-  color: var(--white);
-
-  &:hover {
-    background: var(--primary);
-    color: var(--navy);
-  }
-}
-
-/* СЕТКИ И КАРТОЧКИ */
-.cardWrapper {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-}
-
-.infoGrid {
-  display: grid;
-  grid-template-columns: 350px 1fr;
-  gap: 50px;
-
-  @media (max-width: 1024px) { grid-template-columns: 1fr; }
-}
-
-.infoCard {
-  background: var(--white);
-  padding: 40px;
-  border-radius: 24px;
-  border: 1px solid rgba(252, 177, 45, 0.2);
-  height: fit-content;
-  position: sticky;
-  top: 40px;
-  box-shadow: var(--shadow-md);
-
-  h3 {
-    font-size: 24px;
-    font-weight: 900;
-    color: var(--navy);
-    margin-bottom: 25px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    &::before {
-      content: '';
-      width: 6px;
-      height: 24px;
-      background: var(--primary);
-      border-radius: 4px;
-    }
-  }
-}
-
-/* ГАЛЕРЕЯ */
-.galleryWrapper {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-auto-rows: 240px;
-  gap: 16px;
-
-  @media (max-width: 600px) { grid-template-columns: 1fr; }
-}
-
-.galleryCard {
-  position: relative;
-  overflow: hidden;
-  border-radius: 16px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-  }
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-    img { transform: scale(1.08); }
-  }
-
-  &:first-child { grid-row: span 2; }
-}
-
-/* ПРОГРАММА И КОНСУЛЬТАЦИЯ */
-.programLayout {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 50px;
-  @media (max-width: 1024px) { grid-template-columns: 1fr; }
-}
-
-.consultCard {
-  @extend .infoCard;
-  position: sticky;
-  top: 40px;
-  text-align: center;
-}
-
-/* ТУРЛИДЕР */
-.sectionLeader { @extend .section; }
-
-.leaderCardWrapper {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  background: var(--white);
-  padding: 40px;
-  border-radius: 32px;
-  box-shadow: var(--shadow-md);
-  max-width: 850px;
-  margin: 0 auto;
-  transition: var(--transition);
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  &:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-}
-
-.leaderImageWrapper {
-  flex: 0 0 200px;
-  height: 200px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 4px solid var(--primary);
-}
-
-.leaderImage { width: 100%; height: 100%; object-fit: cover; }
-
-.leaderText {
-  flex: 1;
-  .leaderName { font-size: 1.8rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
-  .leaderRole { font-size: 1.1rem; color: var(--primary); font-weight: 600; margin-bottom: 12px; }
-  .leaderBio { font-size: 1rem; line-height: 1.6; color: var(--text-muted); }
-}
-
-
-
-/* HERO SECTION */
+/* =====================================================
+   HERO
+===================================================== */
 .hero {
   position: relative;
-  height: 80vh; // Немного увеличим высоту для эффекта
-  min-height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 60px;
-  overflow: hidden;
 }
 
 .heroActions {
   position: absolute;
+  right: 80px;
   bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   gap: 16px;
-  padding: 12px;
-  /* Убираем лишние рамки и делаем легкое размытие только под кнопками, если нужно */
-  background: transparent; 
   z-index: 10;
+}
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    width: 90%;
-    bottom: 40px;
-  }
+/* =====================================================
+   BUTTONS
+===================================================== */
+.primaryBtn,
+.secondaryBtn,
+.orangeBtn {
+  padding: 18px 36px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.primaryBtn {
+  background: #1a3354;
+  color: #fff;
 }
 
 .secondaryBtn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  padding: 16px 36px;
-  border-radius: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
-  border: 2px solid rgba(255, 255, 255, 0.5); // Белая полупрозрачная рамка
-  cursor: pointer;
-  transition: var(--transition);
-  backdrop-filter: blur(4px);
+  background: #fff;
+  color: #1a3354;
+  border: 1.5px solid #e2e8f0;
+}
 
-  &:hover {
-    background: #ffffff;
-    color: var(--navy);
-    border-color: #ffffff;
+.orangeBtn {
+  background: #f59e0b;
+  color: #fff;
+  width: 100%;
+}
+
+/* =====================================================
+   TOP INFO GRID
+===================================================== */
+.topInfoGrid {
+  display: grid;
+  grid-template-columns: 320px 1fr 1fr;
+  gap: 24px;
+}
+
+/* =====================================================
+   PREMIUM CARD — БАЗА ДЛЯ ВСЕХ
+===================================================== */
+.premiumCard {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 28px;
+  padding: 40px 36px;
+  border: 1px solid #e6edf3;
+
+  box-shadow:
+    0 10px 30px rgba(26, 51, 84, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* =====================================================
+   STICKY ОБЁРТКА — ВАЖНО
+===================================================== */
+.stickyWrapper {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+}
+
+/* =====================================================
+   INFO + GALLERY
+===================================================== */
+.infoGrid {
+  display: grid;
+  grid-template-columns: 460px 1fr;
+  gap: 48px;
+  align-items: start;
+  overflow: visible;
+}
+
+/* INFO CARD — ИДЕНТИЧНА CONSULT */
+.infoCard {
+  @extend .premiumCard;
+  width: 360px;
+}
+
+/* =====================================================
+   GALLERY
+===================================================== */
+.galleryWrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+
+  width: 900px;
+  margin-left: auto;
+  margin-right: -180px;
+}
+
+.galleryCard {
+  height: 420px;
+  overflow: hidden;
+  background: #e5edf5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.galleryCard img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* =====================================================
+   PROGRAM
+===================================================== */
+.programLayout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 40px;
+}
+
+/* CONSULT CARD — ИДЕНТИЧНА INFO */
+.consultCard {
+  @extend .premiumCard;
+}
+
+/* =====================================================
+   LEADER CARD
+===================================================== */
+.leaderCardBlue {
+  background: #ffffff;
+  color: #1a3354;
+  border-radius: 24px;
+  padding: 48px 40px;
+  text-align: center;
+  border: 1px solid #e6edf3;
+  box-shadow: 0 20px 40px rgba(26, 51, 84, 0.08);
+}
+
+.leaderCardBlue img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media (max-width: 1024px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .stickyWrapper {
+    position: static;
   }
 }
