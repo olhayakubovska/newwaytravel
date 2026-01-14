@@ -1,0 +1,167 @@
+/* CarouselGallery.module.css */
+
+.carouselContainer {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  background-color: #0f172a;
+}
+
+.mainImageContainer {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+}
+
+.mainImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  color: white;
+  transition: background-color 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.navButton:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.navButton:first-of-type {
+  left: 1rem;
+}
+
+.navButton:last-of-type {
+  right: 1rem;
+}
+
+.navIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.counter {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  color: white;
+  font-size: 0.875rem;
+}
+
+.thumbnailsContainer {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.thumbnail {
+  flex-shrink: 0;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.activeThumbnail {
+  box-shadow: 0 0 0 2px #fbbf24;
+  transform: scale(1.05);
+}
+
+.inactiveThumbnail {
+  opacity: 0.6;
+}
+
+.inactiveThumbnail:hover {
+  opacity: 1;
+}
+
+.thumbnailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fullscreenOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: black;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  color: white;
+  z-index: 10;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.closeIcon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.fullscreenNavButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: background-color 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.fullscreenNavButton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.fullscreenNavButtonLeft {
+  left: 1rem;
+}
+
+.fullscreenNavButtonRight {
+  right: 1rem;
+}
+
+.fullscreenNavIcon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.fullscreenImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}

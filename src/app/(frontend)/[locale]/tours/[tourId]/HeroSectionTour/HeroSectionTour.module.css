@@ -1,0 +1,399 @@
+/* HeroSectionTour.module.css */
+
+.section {
+  position: relative;
+  /* height: 85vh; */
+  /* min-height: 600px; */
+  overflow: hidden;
+}
+
+.backgroundImage {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
+}
+
+/* Animated Plane */
+.animatedPlane {
+  position: absolute;
+  top: 5rem;
+  left: 5rem;
+  color: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+}
+
+.planeIcon {
+  width: 3rem;
+  height: 3rem;
+  transform: rotate(45deg);
+}
+
+.content {
+  position: relative;
+  height: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 4rem;
+  z-index: 10;
+}
+
+@media (min-width: 640px) {
+  .content {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* .motionDiv {
+  max-width: 48rem;
+} */
+
+/* Hero Content Styles */
+.heroSubtitle {
+  font-size: 1.125rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.heroTitle {
+  font-size: 6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-top: 4rem;
+  color: #fff;
+}
+
+/* @media (min-width: 768px) {
+  .heroTitle {
+    font-size: 6rem;
+  }
+} */
+
+.heroButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 6rem;
+  /* margin: 0 auto; */
+}
+
+.heroButtonBook {
+  background-color: #059669;
+  color: #fff;
+  padding: 1.5rem 2rem;
+  font-size: 1.125rem;
+  border-radius: 9999px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.heroButtonBook:hover {
+  background-color: #047857;
+  transform: scale(1.05);
+}
+
+.heroButtonConsult {
+  border: 2px solid #fff;
+  color: #fff;
+  background-color: transparent;
+  padding: 1.5rem 2rem;
+  font-size: 1.125rem;
+  border-radius: 9999px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.heroButtonConsult:hover {
+  background-color: #fff;
+  color: #0f172a;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.badgeBestseller {
+  background-color: rgba(16, 185, 129, 0.9);
+  color: #fff;
+  border: 0;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.badgeGroup {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(4px);
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.title {
+  font-size: 2.25rem;
+  font-weight: 300;
+  color: #fff;
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+}
+
+@media (min-width: 640px) {
+  .title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-size: 3.75rem;
+  }
+}
+
+.titleSpan {
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+  font-weight: 300;
+  max-width: 42rem;
+}
+
+@media (min-width: 640px) {
+  .subtitle {
+    font-size: 1.25rem;
+  }
+}
+
+.quickInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.infoText {
+  font-size: 0.875rem;
+}
+
+.priceSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .priceSection {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.priceLabel {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.price {
+  font-size: 2.25rem;
+  font-weight: 300;
+  color: #fff;
+}
+
+.pricePerPerson {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.buttonBook {
+  background-color: #d97706;
+  color: #fff;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.buttonBook:hover {
+  background-color: #b45309;
+  transform: scale(1.05);
+}
+
+.buttonConsult {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  background-color: transparent;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  backdrop-filter: blur(4px);
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.buttonConsult:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.scrollIndicator {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.5rem;
+  height: 2.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
+
+.scrollIndicatorInner {
+  width: 0.25rem;
+  height: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 9999px;
+}
+
+/* Price Section */
+.priceGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .priceGrid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.priceCard {
+  background: linear-gradient(to bottom right, #059669, #0d9488, #0f766e);
+  color: #fff;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 1024px) {
+  .priceCard {
+    grid-column: span 2;
+  }
+}
+
+.priceCardLabel {
+  color: #a7f3d0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.priceCardAmount {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.priceCardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.priceCardInfoItem {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  padding: 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.priceCardIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #fbbf24;
+  flex-shrink: 0;
+}
+
+.priceCardInfoLabel {
+  font-size: 0.625rem;
+  color: #a7f3d0;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 0.125rem;
+}
+
+.priceCardInfoValue {
+  font-size: 1.125rem;
+  font-weight: 600;
+}

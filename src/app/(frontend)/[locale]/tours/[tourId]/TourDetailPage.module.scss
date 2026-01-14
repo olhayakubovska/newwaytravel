@@ -1,5 +1,340 @@
+// /* =====================================================
+//    BASE
+// ===================================================== */
+// .wrapper {
+//   background: #eef3f7;
+//   color: #1a3354;
+//   font-family: 'Inter', sans-serif;
+//   padding-bottom: 120px;
+// }
+
+// .section {
+//   max-width: 1400px;
+//   margin: 80px auto 0;
+//   padding: 0 20px;
+// }
+
+// .detailsGridSection {
+//   max-width: 1450px;
+//   margin: 60px auto 0;
+//   display: flex;
+//   justify-content: center;
+// }
+
+// /* =====================================================
+//    TITLES
+// ===================================================== */
+// .sectionTitle {
+//   font-size: 36px;
+//   font-weight: 900;
+//   text-transform: uppercase;
+//   margin-bottom: 40px;
+// }
+
+// .sectionTitleSmall {
+//   font-size: 22px;
+//   font-weight: 800;
+//   text-transform: uppercase;
+//   margin-bottom: 24px;
+// }
+
+// /* =====================================================
+//    HERO & BUTTONS
+// ===================================================== */
+// .hero { position: relative; }
+// .heroActions {
+//   position: absolute;
+//   right: 80px;
+//   bottom: 60px;
+//   display: flex;
+//   gap: 16px;
+//   z-index: 10;
+// }
+
+// .primaryBtn, .secondaryBtn, .orangeBtn {
+//   padding: 18px 36px;
+//   border-radius: 14px;
+//   font-size: 14px;
+//   font-weight: 800;
+//   text-transform: uppercase;
+//   border: none;
+//   cursor: pointer;
+//   transition: all 0.25s ease;
+// }
+
+// .primaryBtn { background: #1a3354; color: #fff; }
+// .secondaryBtn { background: #fff; color: #1a3354; border: 1.5px solid #e2e8f0; }
+// .orangeBtn { background: #f59e0b; color: #fff; width: 100%; }
+
+// /* =====================================================
+//    GRID SYSTEM
+// ==================================================== */
+// // .topInfoGrid {
+// //   display: flex;
+// //   flex-wrap: wrap;
+// //   gap: 24px;
+// //   width: 100%;
+// //   align-items: stretch;
+// // }
+
+// // .columnLeft {
+// //   flex: 0 0 320px;
+// //   display: flex;
+// //   flex-direction: column;
+// //   gap: 16px;
+// // }
+
+// // .columnCenter {
+// //   flex: 2 1 fit-content;
+// //   display: flex;
+// // }
+
+// // .columnRight {
+// //   flex: 1 1 fit-content;
+// //   display: flex;
+// //   // height: auto;
+// // }
+
+// // /* =====================================================
+// //    WHITE CARDS (Левая панель)
+// // ===================================================== */
+.whiteCard {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid #e6edf3;
+  box-shadow: 0 6px 20px rgba(26, 51, 84, 0.04);
+}
+
+.highlightCard {
+  border-left: 5px solid #f97316;
+}
+
+.labelCap {
+  font-size: 11px;
+  font-weight: 800;
+  color: #8a98ab;
+  margin-bottom: 10px;
+  display: block;
+  text-transform: uppercase;
+}
+
+.valueLarge {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a3354;
+}
+
+.priceValue {
+  font-size: 34px;
+  font-weight: 900;
+  color: #f97316;
+}
+
+.smallNote {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+
+.detailsGridSection {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.topInfoGrid {
+  display: grid;
+  // Сетка: левая колонка фиксированная/узкая, остальные делят место
+  grid-template-columns: 320px 1fr 1fr; 
+  gap: 24px;
+  align-items: stretch;
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr 1fr; // Планшет: левая колонка сверху или сбоку
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; // Мобильные: всё в одну колонку
+  }
+}
+
+// // --- ЛЕВАЯ КОЛОНКА С КАРТОЧКАМИ ---
+// .columnLeft {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 16px;
+
+//   .whiteCard {
+//     background: #fff;
+//     padding: 20px;
+//     border-radius: 16px;
+//     border: 1px solid #eee;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     transition: transform 0.2s ease;
+
+//     &:hover {
+//       transform: translateY(-2px);
+//     }
+
+//     .labelCap {
+//       font-size: 11px;
+//       font-weight: 700;
+//       color: #999;
+//       text-transform: uppercase;
+//       letter-spacing: 0.05em;
+//       margin-bottom: 6px;
+//     }
+
+//     .valueLarge {
+//       font-size: 18px;
+//       font-weight: 600;
+//       color: #1a1a1a;
+//     }
+
+//     .smallNote {
+//       font-size: 12px;
+//       color: #777;
+//       margin: 4px 0 0;
+//       line-height: 1.4;
+//     }
+//   }
+
+//   // Стили для карточки с ценой
+//   .highlightCard {
+//     background: #2a52be; // Основной синий
+//     border-color: #2a52be;
+//     color: #fff;
+
+//     .labelCap {
+//       color: rgba(255, 255, 255, 0.7);
+//     }
+
+//     .priceValue {
+//       font-size: 28px;
+//       font-weight: 800;
+//       color: #fff;
+//     }
+//   }
+// }
+
+// // --- ЦЕНТРАЛЬНАЯ И ПРАВАЯ КОЛОНКИ (СПИСКИ) ---
+// .columnCenter, .columnRight {
+//   display: flex;
+//   flex-direction: column;
+//   height: 100%;
+
+//   // Внутренний компонент AdditionalInfoCard должен занимать всю высоту
+//   & > div {
+//     height: 100%;
+//     background: #fff;
+//     border-radius: 16px;
+//     border: 1px solid #eee;
+//     padding: 24px;
+    
+//     // Если внутри AdditionalInfoCard есть заголовок
+//     h4, .cardTitle {
+//       font-size: 16px;
+//       font-weight: 700;
+//       margin-bottom: 16px;
+//       text-transform: uppercase;
+//       color: #1a1a1a;
+//     }
+
+//     // Стили для списков внутри контента (RichText)
+//     ul {
+//       padding-left: 18px;
+//       margin: 0;
+      
+//       li {
+//         margin-bottom: 10px;
+//         color: #444;
+//         line-height: 1.5;
+//         font-size: 15px;
+
+//         &::marker {
+//           color: #2a52be; // Цвет буллитов
+//         }
+//       }
+//     }
+//   }
+// }
+
+// // Убираем дублирование или настраиваем вторую правую колонку, если она нужна
+// .columnRight + .columnRight {
+//   @media (max-width: 1100px) {
+//     grid-column: span 2; // На планшете растягиваем на всю ширину
+//   }
+//   @media (max-width: 768px) {
+//     grid-column: span 1;
+//   }
+// }
+
 /* =====================================================
-   BASE
+   INFO, GALLERY, PROGRAM
+===================================================== */
+.infoGrid {
+  display: grid;
+  grid-template-columns: 460px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.galleryWrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.galleryCard { 
+  height: 420px; 
+  overflow: hidden; 
+  background: #e5edf5; 
+  border-radius: 20px;
+}
+.galleryCard img { width: 100%; height: 100%; object-fit: cover; }
+
+.programLayout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 40px;
+}
+
+.itineraryList { display: flex; flex-direction: column; gap: 16px; }
+
+.stickyWrapper {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+}
+
+.infoCard, .consultCard {
+  background: #fff;
+  border-radius: 28px;
+  padding: 40px 36px;
+  border: 1px solid #e6edf3;
+  box-shadow: 0 10px 30px rgba(26, 51, 84, 0.08);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+  .topInfoGrid { flex-direction: column; }
+  .columnLeft { 
+    flex: 1; 
+    width: 100%; 
+    flex-direction: row; 
+    flex-wrap: wrap;
+    .whiteCard { flex: 1; min-width: 200px; }
+  }
+  .infoGrid, .programLayout { grid-template-columns: 1fr; }
+  .stickyWrapper { position: static; }
+}
+
+
+
+/* =====================================================
+   BASE & LAYOUT
 ===================================================== */
 .wrapper {
   background: #eef3f7;
@@ -9,239 +344,280 @@
 }
 
 .section {
-  max-width: 1200px;
-  margin: 80px auto 0;
+  max-width: 1400px;
+  margin: 60px auto 0;
   padding: 0 20px;
 }
 
-/* =====================================================
-   TITLES
-===================================================== */
-.sectionTitle {
-  font-size: 36px;
-  font-weight: 900;
-  text-transform: uppercase;
-  margin-bottom: 40px;
-}
-
-.sectionTitleSmall {
-  font-size: 22px;
-  font-weight: 800;
-  text-transform: uppercase;
-  margin-bottom: 24px;
+.detailsGridSection {
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
 /* =====================================================
-   HERO
-===================================================== */
-.hero {
-  position: relative;
-}
-
-.heroActions {
-  position: absolute;
-  right: 80px;
-  bottom: 60px;
-  display: flex;
-  gap: 16px;
-  z-index: 10;
-}
-
-/* =====================================================
-   BUTTONS
-===================================================== */
-.primaryBtn,
-.secondaryBtn,
-.orangeBtn {
-  padding: 18px 36px;
-  border-radius: 14px;
-  font-size: 14px;
-  font-weight: 800;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.primaryBtn {
-  background: #1a3354;
-  color: #fff;
-}
-
-.secondaryBtn {
-  background: #fff;
-  color: #1a3354;
-  border: 1.5px solid #e2e8f0;
-}
-
-.orangeBtn {
-  background: #f59e0b;
-  color: #fff;
-  width: 100%;
-}
-
-/* =====================================================
-   TOP INFO GRID
+   GRID SYSTEM (Trip Details)
 ===================================================== */
 .topInfoGrid {
   display: grid;
-  grid-template-columns: 320px 1fr 1fr;
+  // Левая колонка фиксированная, центр и право делят остаток
+  grid-template-columns: 320px 1.2fr 1fr; 
   gap: 24px;
-}
+  align-items: stretch;
 
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr 1fr; // Планшет
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; // Мобильные
+  }
+}
+ё
 .columnLeft {
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  @media (max-width: 1200px) {
+    grid-column: span 2;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    grid-column: span 1;
+  }
+
+  .whiteCard {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 20px;
+    border: 1px solid #e6edf3;
+    box-shadow: 0 6px 20px rgba(26, 51, 84, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100px;
+    transition: transform 0.25s ease;
+
+    @media (max-width: 1200px) {
+      flex: 1 1 calc(50% - 16px); // По 2 в ряд на планшете
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+    }
+
+    .labelCap {
+      font-size: 11px;
+      font-weight: 800;
+      color: #8a98ab;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .valueLarge {
+      font-size: 19px;
+      font-weight: 700;
+      color: #1a3354;
+    }
+
+    .smallNote {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    // Особенный стиль для цены
+    &.highlightCard {
+      background: #1a3354; // Темно-синий из вашей палитры
+      border-color: #1a3354;
+      
+      .labelCap { color: rgba(255, 255, 255, 0.6); }
+      .priceValue {
+        font-size: 32px;
+        font-weight: 900;
+        color: #f59e0b; // Золотисто-оранжевый
+      }
+    }
+  }
 }
 
-/* =====================================================
-   WHITE CARDS (ORIGINAL)
-===================================================== */
-.whiteCard,
-.whiteCardFull {
-  background: #fff;
-  border-radius: 20px;
-  padding: 32px;
-  border: 1px solid #e6edf3;
-  box-shadow: 0 6px 20px rgba(26, 51, 84, 0.06);
-}
 
-/* =====================================================
-   UNIFIED PREMIUM CARD STYLE (NEW)
-===================================================== */
-.consultCard,
-.infoCard,
-.premiumCard {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  border-radius: 28px;
-  padding: 40px 36px;
-  border: 1px solid #e6edf3;
-  box-shadow:
-    0 10px 30px rgba(26, 51, 84, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-/* =====================================================
-   STICKY FIX (NEW, НИЧЕГО НЕ ЛОМАЕТ)
-===================================================== */
-.stickyWrapper {
-  position: sticky;
-  top: 120px;
-  align-self: start;
-}
-
-/* =====================================================
-   INFO + GALLERY
-===================================================== */
 .infoGrid {
   display: grid;
   grid-template-columns: 460px 1fr;
   gap: 48px;
   align-items: start;
-  overflow: visible;
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* =====================================================
-   GALLERY
-===================================================== */
 .galleryWrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 16px;
 
-  width: 900px;
-  margin-left: auto;
-  margin-right: -180px;
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .galleryCard {
-  height: 420px;
-  overflow: hidden;
-  background: #e5edf5;
-}
-
-.galleryCard img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* =====================================================
-   PROGRAM
-===================================================== */
-.programLayout {
-  display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 40px;
-}
-
-.stickyCol {
-  position: sticky;
-  top: 120px;
-}
-
-/* =====================================================
-   ITINERARY
-===================================================== */
-.itineraryList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* =====================================================
-   MAP + LEADER (НИЧЕГО НЕ УБРАНО)
-===================================================== */
-.leaderCardBlue {
-  background: #ffffff;
-  color: #1a3354;
+  height: 400px;
   border-radius: 24px;
-  padding: 48px 40px;
-  text-align: center;
-  border: 1px solid #e6edf3;
-  box-shadow: 0 20px 40px rgba(26, 51, 84, 0.08);
-}
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 
-.leaderCardBlue img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin-bottom: 20px;
-}
-
-.leaderCardBlue h3 {
-  font-size: 22px;
-  font-weight: 800;
-  margin-bottom: 12px;
-}
-
-.leaderCardBlue p {
-  font-size: 15px;
-  line-height: 1.6;
-  color: #4a5d73;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
 }
 
 /* =====================================================
-   RESPONSIVE
+   STICKY ELEMENTS
 ===================================================== */
-@media (max-width: 1024px) {
-  .infoGrid,
-  .programLayout,
-  .topInfoGrid {
-    grid-template-columns: 1fr;
-  }
+.stickyWrapper {
+  position: sticky;
+  top: 100px;
+  z-index: 10;
 
-  .galleryWrapper {
-    width: 100%;
-    margin: 0;
-  }
-
-  .stickyWrapper,
-  .stickyCol {
+  @media (max-width: 1100px) {
     position: static;
+    margin-bottom: 30px;
+  }
+}
+
+.infoCard, .consultCard {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 40px;
+  border: 1px solid #e6edf3;
+  box-shadow: 0 20px 40px rgba(26, 51, 84, 0.1);
+}
+
+/* =====================================================
+   BUTTONS (Common)
+===================================================== */
+.primaryBtn, .secondaryBtn, .orangeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 36px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.primaryBtn { 
+  background: #1a3354; 
+  color: #fff;
+  &:hover { background: #2d4a77; transform: translateY(-2px); }
+}
+
+.orangeBtn { 
+  background: #f59e0b; 
+  color: #fff;
+  width: 100%;
+  &:hover { background: #d97706; box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3); }
+}
+
+
+
+/* Контейнер картки */
+.infoCardWrapper {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0fdf4; /* Світло-зелений відтінок як на скрині */
+  height: fit-content;
+  margin-bottom: 24px;
+}
+
+/* Шапка картки з іконкою */
+.infoCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* Квадрат під іконку */
+.iconBox {
+  background-color: #e8f7ee; /* М'який зелений фон */
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  color: #2d6a4f; /* Колір іконки */
+}
+
+.infoCardTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* Текст та кнопка */
+.infoCardText {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #4a4a4a;
+  margin-bottom: 24px;
+}
+
+.consultBtn {
+  width: 100%;
+  background-color: #f1a944; /* Ваш помаранчевий колір */
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.consultBtn:hover {
+  background-color: #e6982d;
+  transform: translateY(-2px);
+}
+
+/* Адаптація під акордеон (сітка) */
+.contentGrid {
+  display: grid;
+  grid-template-columns: 350px 1fr; /* Ліва колонка для карток, права для програми */
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
   }
 }

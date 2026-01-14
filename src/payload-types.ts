@@ -328,9 +328,6 @@ export interface Tour {
   slug: string;
   price: number;
   startDate: string;
-  mapType?: ('iframe' | 'link') | null;
-  mapIframe?: string | null;
-  mapUrl?: string | null;
   uiTexts?: {
     bookBtn?: string | null;
     consultBtn?: string | null;
@@ -355,9 +352,6 @@ export interface Tour {
         id?: string | null;
       }[]
     | null;
-  uiLabels?: {
-    itineraryTitle?: string | null;
-  };
   tripAdditionalInfoCard?: {
     title?: string | null;
     content?: {
@@ -394,7 +388,7 @@ export interface Tour {
       [k: string]: unknown;
     } | null;
   };
-  descriptionCard?: {
+  optionalInfoCard?: {
     title?: string | null;
     content?: {
       root: {
@@ -411,6 +405,18 @@ export interface Tour {
       };
       [k: string]: unknown;
     } | null;
+  };
+  bookingDetailsCard?: {
+    title?: string | null;
+    prepayment?: string | null;
+    installmentTitle?: string | null;
+    installmentList?:
+      | {
+          text?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    note?: string | null;
   };
   tripDetailsCard?: {
     title?: string | null;
@@ -430,6 +436,8 @@ export interface Tour {
       [k: string]: unknown;
     } | null;
   };
+  mapType?: ('iframe' | 'link') | null;
+  mapIframe?: string | null;
   itinerary?:
     | {
         dayTitle?: string | null;
@@ -787,9 +795,6 @@ export interface ToursSelect<T extends boolean = true> {
   slug?: T;
   price?: T;
   startDate?: T;
-  mapType?: T;
-  mapIframe?: T;
-  mapUrl?: T;
   uiTexts?:
     | T
     | {
@@ -816,11 +821,6 @@ export interface ToursSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
-  uiLabels?:
-    | T
-    | {
-        itineraryTitle?: T;
-      };
   tripAdditionalInfoCard?:
     | T
     | {
@@ -833,11 +833,25 @@ export interface ToursSelect<T extends boolean = true> {
         title?: T;
         content?: T;
       };
-  descriptionCard?:
+  optionalInfoCard?:
     | T
     | {
         title?: T;
         content?: T;
+      };
+  bookingDetailsCard?:
+    | T
+    | {
+        title?: T;
+        prepayment?: T;
+        installmentTitle?: T;
+        installmentList?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        note?: T;
       };
   tripDetailsCard?:
     | T
@@ -845,6 +859,8 @@ export interface ToursSelect<T extends boolean = true> {
         title?: T;
         bookingConditions?: T;
       };
+  mapType?: T;
+  mapIframe?: T;
   itinerary?:
     | T
     | {

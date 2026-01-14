@@ -63,9 +63,7 @@
 //       required: true,
 //       localized: true,
 //       label: 'Назва туру',
-//       admin: {
-//         placeholder: 'Наприклад: Магія Ісландії',
-//       },
+//       admin: { placeholder: 'Наприклад: Магія Ісландії' },
 //     },
 //     {
 //       name: 'slug',
@@ -82,20 +80,51 @@
 //       defaultValue: 1000,
 //     },
 //     {
-//       name: 'startDate', // Используется для внутренней сортировки/поиска
+//       name: 'startDate',
 //       type: 'date',
 //       required: true,
-//       label: 'Технічна дата початку (для пошуку)',
+//       label: 'Технічна дата початку (для сортування)',
 //       admin: {
-//         date: {
-//           pickerAppearance: 'dayOnly',
-//           displayFormat: 'dd.MM.yyyy',
-//         },
+//         date: { pickerAppearance: 'dayOnly', displayFormat: 'dd.MM.yyyy' },
 //       },
 //     },
 //     {
 //       type: 'tabs',
 //       tabs: [
+//         // Внутри tabs: [...]
+//         {
+//           label: 'Карта',
+//           fields: [
+//             {
+//               name: 'mapType',
+//               type: 'select',
+//               label: 'Тип карти',
+//               defaultValue: 'iframe',
+//               options: [
+//                 { label: 'Google Maps Iframe (вставка коду)', value: 'iframe' },
+//                 { label: 'Координати або Посилання', value: 'link' },
+//               ],
+//             },
+//             {
+//               name: 'mapIframe',
+//               type: 'textarea',
+//               label: 'Код Iframe',
+//               admin: {
+//                 condition: (data, siblingData) => siblingData.mapType === 'iframe',
+//                 placeholder: '<iframe src="https://www.google.com/maps/embed?..." ...></iframe>',
+//               },
+//             },
+//             {
+//               name: 'mapUrl',
+//               type: 'text',
+//               label: 'Посилання на Google Maps або Координати',
+//               admin: {
+//                 condition: (data, siblingData) => siblingData.mapType === 'link',
+//                 placeholder: 'https://goo.gl/maps/... або 12.5, 53.5',
+//               },
+//             },
+//           ],
+//         },
 //         {
 //           label: 'Контент туру',
 //           fields: [
@@ -148,13 +177,17 @@
 //               label: 'Короткий опис для картки',
 //             },
 //             {
+//               name: 'duration',
+//               type: 'number',
+//               label: 'Кількість днів',
+//               required: true,
+//             },
+
+//             {
 //               name: 'tourDates',
 //               type: 'array',
 //               label: 'Доступні дати (для випадаючого списку)',
-//               labels: {
-//                 singular: 'Дата',
-//                 plural: 'Дати',
-//               },
+//               labels: { singular: 'Дата', plural: 'Дати' },
 //               fields: [
 //                 {
 //                   name: 'dateRange',
@@ -162,12 +195,7 @@
 //                   localized: true,
 //                   label: 'Період (напр. 16.03.2026 - 18.03.2026)',
 //                 },
-//                 {
-//                   name: 'isFull',
-//                   type: 'checkbox',
-//                   label: 'Група набрана',
-//                   defaultValue: false,
-//                 },
+//                 { name: 'isFull', type: 'checkbox', label: 'Група набрана', defaultValue: false },
 //               ],
 //             },
 //             {
@@ -177,23 +205,12 @@
 //               label: 'Розмір групи',
 //               admin: { placeholder: 'до 12 осіб' },
 //             },
-//             {
-//               name: 'mainImage',
-//               type: 'upload',
-//               relationTo: 'media',
-//               label: 'Головне зображення',
-//             },
+//             { name: 'mainImage', type: 'upload', relationTo: 'media', label: 'Головне зображення' },
 //             {
 //               name: 'gallery',
 //               type: 'array',
 //               label: 'Галерея',
-//               fields: [
-//                 {
-//                   name: 'image',
-//                   type: 'upload',
-//                   relationTo: 'media',
-//                 },
-//               ],
+//               fields: [{ name: 'image', type: 'upload', relationTo: 'media' }],
 //             },
 //           ],
 //         },
@@ -223,6 +240,27 @@
 //                 { name: 'content', type: 'richText', localized: true },
 //               ],
 //             },
+
+//             {
+//               name: 'optionalInfoCard',
+//               type: 'group',
+//               label: 'ЗА БАЖАННЯМ',
+//               fields: [
+//                 {
+//                   name: 'title',
+//                   type: 'text',
+//                   localized: true,
+//                   label: 'Заголовок',
+//                   defaultValue: 'За бажанням',
+//                 },
+//                 {
+//                   name: 'content',
+//                   type: 'richText',
+//                   localized: true,
+//                   label: 'Контент (список послуг)',
+//                 },
+//               ],
+//             },
 //             {
 //               name: 'additionalInfoCard',
 //               type: 'group',
@@ -246,6 +284,20 @@
 //                 { name: 'content', type: 'richText', localized: true },
 //               ],
 //             },
+//             // {
+//             //   name: 'bookingDetailsCard',
+//             //   type: 'group',
+//             //   label: 'Картка Бронювання (з розстрочкою)'',
+//             //   fields: [
+//             //     {
+//             //       name: 'title',
+//             //       type: 'text',
+//             //       localized: true,
+//             //       defaultValue: 'Інформація про тур',
+//             //     },
+//             //     { name: 'content', type: 'richText', localized: true },
+//             //   ],
+//             // },
 //             {
 //               name: 'tripDetailsCard',
 //               type: 'group',
@@ -402,40 +454,6 @@ export const Tours: CollectionConfig = {
     {
       type: 'tabs',
       tabs: [
-        // Внутри tabs: [...]
-        {
-          label: 'Карта',
-          fields: [
-            {
-              name: 'mapType',
-              type: 'select',
-              label: 'Тип карти',
-              defaultValue: 'iframe',
-              options: [
-                { label: 'Google Maps Iframe (вставка коду)', value: 'iframe' },
-                { label: 'Координати або Посилання', value: 'link' },
-              ],
-            },
-            {
-              name: 'mapIframe',
-              type: 'textarea',
-              label: 'Код Iframe',
-              admin: {
-                condition: (data, siblingData) => siblingData.mapType === 'iframe',
-                placeholder: '<iframe src="https://www.google.com/maps/embed?..." ...></iframe>',
-              },
-            },
-            {
-              name: 'mapUrl',
-              type: 'text',
-              label: 'Посилання на Google Maps або Координати',
-              admin: {
-                condition: (data, siblingData) => siblingData.mapType === 'link',
-                placeholder: 'https://goo.gl/maps/... або 12.5, 53.5',
-              },
-            },
-          ],
-        },
         {
           label: 'Контент туру',
           fields: [
@@ -493,11 +511,10 @@ export const Tours: CollectionConfig = {
               label: 'Кількість днів',
               required: true,
             },
-
             {
               name: 'tourDates',
               type: 'array',
-              label: 'Доступні дати (для випадаючого списку)',
+              label: 'Доступні дати',
               labels: { singular: 'Дата', plural: 'Дати' },
               fields: [
                 {
@@ -529,26 +546,12 @@ export const Tours: CollectionConfig = {
           label: 'Карточки туру',
           fields: [
             {
-              name: 'uiLabels',
-              type: 'group',
-              label: 'Загальні заголовки секцій',
-              fields: [
-                {
-                  name: 'itineraryTitle',
-                  type: 'text',
-                  localized: true,
-                  label: 'Заголовок програми',
-                  defaultValue: 'Програма туру',
-                },
-              ],
-            },
-            {
               name: 'tripAdditionalInfoCard',
               type: 'group',
               label: 'У ВАРТІСТЬ ВКЛЮЧЕНО',
               fields: [
-                { name: 'title', type: 'text', localized: true },
-                { name: 'content', type: 'richText', localized: true },
+                { name: 'title', type: 'text', localized: true, label: 'Заголовок' },
+                { name: 'content', type: 'richText', localized: true, label: 'Контент' },
               ],
             },
             {
@@ -556,22 +559,77 @@ export const Tours: CollectionConfig = {
               type: 'group',
               label: 'ДОДАТКОВО',
               fields: [
-                { name: 'title', type: 'text', localized: true },
-                { name: 'content', type: 'richText', localized: true },
+                { name: 'title', type: 'text', localized: true, label: 'Заголовок' },
+                { name: 'content', type: 'richText', localized: true, label: 'Контент' },
               ],
             },
             {
-              name: 'descriptionCard',
+              name: 'optionalInfoCard',
               type: 'group',
-              label: 'Картка з кнопкою забронювати',
+              label: 'ЗА БАЖАННЯМ',
               fields: [
                 {
                   name: 'title',
                   type: 'text',
                   localized: true,
-                  defaultValue: 'Інформація про тур',
+                  label: 'Заголовок',
+                  defaultValue: 'За бажанням',
                 },
-                { name: 'content', type: 'richText', localized: true },
+                {
+                  name: 'content',
+                  type: 'richText',
+                  localized: true,
+                  label: 'Контент (список послуг)',
+                },
+              ],
+            },
+            {
+              name: 'bookingDetailsCard',
+              type: 'group',
+              label: 'КАРТКА БРОНЮВАННЯ (З розстрочкою)',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  localized: true,
+                  label: 'Головний заголовок',
+                  defaultValue: 'БРОНЬ ТУРА*',
+                },
+                {
+                  name: 'prepayment',
+                  type: 'text',
+                  localized: true,
+                  label: 'Сума авансу',
+                  admin: { placeholder: 'Аванс – 50% / Людина' },
+                },
+                {
+                  name: 'installmentTitle',
+                  type: 'text',
+                  localized: true,
+                  label: 'Заголовок блоку розстрочки',
+                  defaultValue: 'РОЗСТРОЧКА',
+                },
+                {
+                  name: 'installmentList',
+                  type: 'array',
+                  label: 'Пункти розстрочки',
+                  labels: { singular: 'Пункт', plural: 'Пункти' },
+                  fields: [
+                    {
+                      name: 'text',
+                      type: 'text',
+                      localized: true,
+                      label: 'Текст пункту',
+                    },
+                  ],
+                },
+                {
+                  name: 'note',
+                  type: 'textarea',
+                  localized: true,
+                  label: 'Примітка внизу',
+                  admin: { placeholder: '*Предоплата не повертається...' },
+                },
               ],
             },
             {
@@ -591,8 +649,26 @@ export const Tours: CollectionConfig = {
           ],
         },
         {
-          label: 'Програма',
+          label: 'Програма та Карта',
           fields: [
+            {
+              name: 'mapType',
+              type: 'select',
+              label: 'Тип карти',
+              defaultValue: 'iframe',
+              options: [
+                { label: 'Google Maps Iframe', value: 'iframe' },
+                { label: 'Посилання', value: 'link' },
+              ],
+            },
+            {
+              name: 'mapIframe',
+              type: 'textarea',
+              label: 'Код Iframe',
+              admin: {
+                condition: (data, siblingData) => siblingData.mapType === 'iframe',
+              },
+            },
             {
               name: 'itinerary',
               type: 'array',
@@ -616,16 +692,16 @@ export const Tours: CollectionConfig = {
               name: 'leaderTitle',
               type: 'text',
               localized: true,
-              label: 'Заголовок секції турлідера',
+              label: 'Заголовок секції',
               defaultValue: 'Ваш турлідер',
             },
             {
               name: 'leader',
               type: 'group',
-              label: 'Інформація про турлідера',
+              label: 'Інформація',
               fields: [
                 { name: 'name', type: 'text', localized: true, label: "Ім'я" },
-                { name: 'role', type: 'text', localized: true, label: 'Роль/Посада' },
+                { name: 'role', type: 'text', localized: true, label: 'Роль' },
                 { name: 'photo', type: 'upload', relationTo: 'media', label: 'Фото' },
                 { name: 'bio', type: 'textarea', localized: true, label: 'Біографія' },
               ],

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import styles from './TourDetailPage.module.scss'
 
-import { HeroSection } from '@/components/blocks/HeroSection/HeroSection'
+import HeroSectionTour from './HeroSectionTour/HeroSectionTour'
 import { RichText } from '@/components/blocks/ui/RichText'
 import { BookingModal } from '@/components/blocks/modal/BookingModal/BookingModal'
 import { ConsultationModal } from '@/components/blocks/modal/ConsultationModal/ConsultationModal'
@@ -14,6 +14,12 @@ import Image from 'next/image'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ItineraryAccordion } from '@/components/blocks/ui/ItineraryAccordion/ItineraryAccordion'
+import { AdditionalInfoCard } from './AdditionalCard/AdditionalInfoCard/AdditionalInfoCard'
+import ElegantBentoCard from './ElegantBentoCard/ElegantBentoCard'
+import Program from './GalleryAndProgram/GalleryAndProgram'
+import CarouselGallery from './CarouselGallery/CarouselGallery'
+import { MessageCircle } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -65,7 +71,6 @@ export default function TourDetailClient({ tour, locale }: Props) {
   const labels = {
     bookBtn: t(tour.uiTexts?.bookBtn) || 'Забронювати',
     consultBtn: t(tour.uiTexts?.consultBtn) || 'Консультація',
-    itineraryTitle: t(tour.uiLabels?.itineraryTitle),
     leaderTitle: t(tour.uiLabels?.leaderTitle) || 'Організатор туру',
     descriptionTitle: t(tour.descriptionCard?.title),
     mapTitle: locale === 'en' ? 'Travel Route' : 'Маршрут подорожі',
@@ -83,104 +88,35 @@ export default function TourDetailClient({ tour, locale }: Props) {
   return (
     <main className={styles.wrapper} ref={mainRef}>
       {/* HERO */}
-      <section className={styles.hero}>
-        <HeroSection
-          title={t(tour.name)}
-          subtitle={t(tour.location)}
-          description={t(tour.duration)}
-          backgroundImage={tour.mainImage ?? undefined}
-        />
-        <div className={styles.heroActions}>
-          <button className={styles.primaryBtn} onClick={() => setBookingOpen(true)}>
-            {labels.bookBtn}
-          </button>
-          <button className={styles.secondaryBtn} onClick={() => setConsultationOpen(true)}>
-            {labels.consultBtn}
-          </button>
-        </div>
-      </section>
+      <HeroSectionTour
+        tour={tour}
+        locale={locale}
+        onBook={() => setBookingOpen(true)}
+        onConsultation={() => setConsultationOpen(true)}
+      />
 
-      {/* === TRIP DETAILS GRID — ВОЗВРАЩЕНО ПОЛНОСТЬЮ === */}
-      <section className={`${styles.section} ${styles.detailsGridSection} animate-section`}>
-        <div className={styles.topInfoGrid}>
-          <div className={styles.columnLeft}>
-            <div className={styles.whiteCard}>
-              <span className={styles.labelCap}>ДАТИ</span>
-              <div className={styles.dateRow}>
-                <span>{t(tour.duration)}</span>
-              </div>
-            </div>
-
-            <div className={`${styles.whiteCard} ${styles.priceCard}`}>
-              <span className={styles.labelCap}>ВАРТІСТЬ</span>
-              <div className={styles.priceValue}>{tour.price}€</div>
-            </div>
-
-            <div className={styles.whiteCard}>
-              <span className={styles.labelCap}>РОЗМІР ГРУПИ</span>
-              <div className={styles.valueLarge}>{t(tour.groupSize)}</div>
-            </div>
-
-            <div className={styles.whiteCard}>
-              <span className={styles.labelCap}>БРОНЬ ТУРА*</span>
-              <p>*Предоплата не повертається</p>
-            </div>
-          </div>
-
-          <div className={styles.columnCenter}>
-            <div className={styles.whiteCardFull}>
-              <h3>У ВАРТІСТЬ ВКЛЮЧЕНО:</h3>
-              {tour.tripAdditionalInfoCard?.content && (
-                <RichText content={tour.tripAdditionalInfoCard.content} />
-              )}
-            </div>
-          </div>
-
-          <div className={styles.columnRight}>
-            <div className={styles.whiteCardFull}>
-              <h3>ДОДАТКОВО:</h3>
-              {tour.additionalInfoCard?.content && (
-                <RichText content={tour.additionalInfoCard.content} />
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+      <ElegantBentoCard tour={tour} locale={locale} />
 
       {/* === INFO + GALLERY === */}
       <section className={`${styles.section} animate-section`}>
-        <div className={styles.infoGrid}>
-          <div className={styles.stickyWrapper}>
-            <div className={styles.infoCard}>
-              <h3>{labels.descriptionTitle}</h3>
-              <RichText content={t(tour.descriptionCard?.content)} />
-            </div>
-          </div>
-
-          <div className={styles.galleryWrapper}>
-            {tour.gallery?.slice(0, 4).map((item, i) => (
-              <div key={i} className={styles.galleryCard}>
-                <Image src={getImageUrl(item.image)} alt="" width={500} height={400} />
-              </div>
-            ))}
-          </div>
-        </div>
+        <CarouselGallery images={tour.gallery?.map((item) => getImageUrl(item.image))} />
       </section>
 
       {/* === PROGRAM === */}
       <section className={`${styles.section} animate-section`}>
+        <h2 className={styles.sectionTitleSmall}>{labels.leaderTitle}</h2>
+
         <div className={styles.programLayout}>
           <div className={styles.stickyWrapper}>
             <div className={styles.consultCard}>
               <RichText content={t(tour.tripDetailsCard?.bookingConditions)} />
+              <button className={styles.orangeBtn} onClick={() => setConsultationOpen(true)}>
+                {labels.consultBtn}
+              </button>
             </div>
           </div>
 
-          <div className={styles.itineraryList}>
-            {(tour.itinerary as any[])?.map((day, idx) => (
-              <ItineraryAccordion key={idx} day={day} dayNumber={idx + 1} t={t} />
-            ))}
-          </div>
+          <Program tour={tour} locale={locale} />
         </div>
       </section>
 
