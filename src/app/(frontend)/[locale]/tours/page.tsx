@@ -37,7 +37,6 @@ export default async function ToursPage({ params }: Props) {
   })
 
   const tours = toursData.docs
-  console.log(searchBarBlockData, 'searchBarData!!!!!!!!!!!!!!')
 
   return (
     <>

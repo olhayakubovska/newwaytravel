@@ -4,22 +4,18 @@ import { useState, useEffect, useRef } from 'react'
 import styles from './TourDetailPage.module.scss'
 
 import HeroSectionTour from './HeroSectionTour/HeroSectionTour'
-import { RichText } from '@/components/blocks/ui/RichText'
 import { BookingModal } from '@/components/blocks/modal/BookingModal/BookingModal'
 import { ConsultationModal } from '@/components/blocks/modal/ConsultationModal/ConsultationModal'
 import { Locale } from '../../page'
 import { Tour } from '@/payload-types'
-import Image from 'next/image'
 
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ItineraryAccordion } from '@/components/blocks/ui/ItineraryAccordion/ItineraryAccordion'
-import { AdditionalInfoCard } from './AdditionalCard/AdditionalInfoCard/AdditionalInfoCard'
+
 import ElegantBentoCard from './ElegantBentoCard/ElegantBentoCard'
 import Program from './Program/Program'
 import CarouselGallery from './CarouselGallery/CarouselGallery'
-import { MessageCircle } from 'lucide-react'
-import { motion } from 'framer-motion'
+
 import MapAndLeaderSection from './MapAndLeaderSection/MapAndLeaderSection'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -67,25 +63,6 @@ export default function TourDetailClient({ tour, locale }: Props) {
 
   const getImageUrl = (media: any) => (typeof media === 'object' ? media?.url || '' : media || '')
 
-  const getImageAlt = (media: any) => (typeof media === 'object' ? media?.alt || '' : '')
-
-  const labels = {
-    bookBtn: t(tour.uiTexts?.bookBtn) || 'Забронювати',
-    consultBtn: t(tour.uiTexts?.consultBtn) || 'Консультація',
-    leaderTitle: 'Організатор туру',
-    descriptionTitle: 'Опис туру',
-    mapTitle: locale === 'en' ? 'Travel Route' : 'Маршрут подорожі',
-  }
-
-  const getMapSrc = (input: string) => {
-    if (!input) return ''
-    if (input.includes('<iframe')) {
-      const match = input.match(/src="([^"]+)"/)
-      return match ? match[1] : ''
-    }
-    return input
-  }
-
   return (
     <main className={styles.wrapper} ref={mainRef}>
       {/* HERO */}
@@ -98,66 +75,13 @@ export default function TourDetailClient({ tour, locale }: Props) {
 
       <ElegantBentoCard tour={tour} locale={locale} />
 
-      {/* === PROGRAM === */}
-      {/* <section className={styles.section}> */}
-      {/* <div className={styles.programLayout}> */}
-      {/* <div className={styles.stickyWrapper}>
-          <div className={styles.consultCard}>
-            <RichText content={t(tour.tripDetailsCard?.bookingConditions)} />
-            <button className={styles.orangeBtn} onClick={() => setConsultationOpen(true)}>
-              {labels.consultBtn}
-            </button>
-          </div>
-        </div> */}
-
       <Program tour={tour} locale={locale} />
-      {/* </div>ы */}
-      {/* </section> */}
 
-      {/* === INFO + GALLERY === */}
-      {/* <section className={`${styles.section} animate-section`}> */}
       <section className={styles.caruselGallerySection}>
         <CarouselGallery images={tour.gallery?.map((item) => getImageUrl(item.image))} />
       </section>
-      {/* </section> */}
 
-      {/* MAP + LEADER */}
-      {/* <section className={`${styles.section} animate-section`}> */}
-      {/* <div className={styles.infoGrid}>
-          <div>
-            <h2 className={styles.sectionTitleSmall}>{labels.mapTitle}</h2>
-            <div className={styles.infoCard} style={{ padding: 0 }}>
-              <iframe
-                src={getMapSrc((tour as any).mapIframe)}
-                width="100%"
-                height="400"
-                style={{ border: 0 }}
-                loading="lazy"
-              />
-            </div>
-          </div>
-
-          {tour.leader && (
-            <div>
-              <h2 className={styles.sectionTitleSmall}>{labels.leaderTitle}</h2>
-              <div className={styles.leaderCardBlue}>
-                {tour.leader.photo && (
-                  <Image
-                    src={getImageUrl(tour.leader.photo)}
-                    alt={getImageAlt(tour.leader.photo)}
-                    width={140}
-                    height={140}
-                  />
-                )}
-                <h3>{t(tour.leader.name)}</h3>
-                <p>{t(tour.leader.role)}</p>
-                {tour.leader.bio && <RichText content={t(tour.leader.bio)} />}
-              </div>
-            </div>
-          )}
-        </div> */}
       <MapAndLeaderSection tour={tour} locale={locale} />
-      {/* </section> */}
 
       {/* MODALS */}
       {bookingOpen && (

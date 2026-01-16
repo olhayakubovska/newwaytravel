@@ -1,12 +1,9 @@
-
-
 import React from 'react'
 import { Calendar, Users } from 'lucide-react'
 import styles from './ElegantBentoCard.module.css'
 import { RichText } from '@/components/blocks/ui/RichText'
 
 export default function ElegantBentoCard({ tour, locale }: { tour: any; locale: string }) {
-  // Функція для отримання локалізованих даних
   const t = (field: any): any => {
     if (!field) return ''
     if (typeof field === 'object' && 'root' in field) return field // для RichText
@@ -16,8 +13,7 @@ export default function ElegantBentoCard({ tour, locale }: { tour: any; locale: 
     return String(field)
   }
 
-  // Визначаємо змінні на основі вашої структури в Payload
-  const booking = tour.bookingDetailsCard // Окремий об'єкт для картки бронювання
+  const booking = tour.bookingDetailsCard
   const price = tour.price || 0
   const groupSize = t(tour.groupSize) || 'Уточнюється'
   const currentDates = t(tour.tourDates?.[0]?.dateRange) || 'Дати уточнюються'
@@ -50,7 +46,6 @@ export default function ElegantBentoCard({ tour, locale }: { tour: any; locale: 
             </div>
           </div>
 
-          {/* ОКРЕМА КАРТКА БРОНЮВАННЯ (Дизайн зі скриншоту) */}
           <div className={styles.bookingSection}>
             {/* Головний заголовок (напр. БРОНЬ ТУРА*) */}
             <p className={styles.bookingMainTitle}>{t(booking?.title) || 'БРОНЬ ТУРА*'}</p>

@@ -152,7 +152,7 @@ function AllToursContent({ initialTours, searchBarData }: AllToursProps) {
                 duration={`${tour.duration}`}
                 groupSize={t(tour.groupSize)}
                 price={`${tour.price}€`}
-                alt={t(tour.name)}
+                // alt={t(tour.name)}
               />
             )
           })

@@ -45,17 +45,16 @@
 
 .topInfoGrid {
   display: grid;
-  // Сетка: левая колонка фиксированная/узкая, остальные делят место
   grid-template-columns: 320px 1fr 1fr;
   gap: 24px;
   align-items: stretch;
 
   @media (max-width: 1100px) {
-    grid-template-columns: 1fr 1fr; // Планшет: левая колонка сверху или сбоку
+    grid-template-columns: 1fr 1fr; 
   }
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr; // Мобильные: всё в одну колонку
+    grid-template-columns: 1fr;
   }
 }
 
@@ -162,7 +161,6 @@
 
 .topInfoGrid {
   display: grid;
-  // Левая колонка фиксированная, центр и право делят остаток
   grid-template-columns: 320px 1.2fr 1fr;
   gap: 24px;
   align-items: stretch;
@@ -203,7 +201,7 @@
     transition: transform 0.25s ease;
 
     @media (max-width: 1200px) {
-      flex: 1 1 calc(50% - 16px); // По 2 в ряд на планшете
+      flex: 1 1 calc(50% - 16px);
     }
 
     &:hover {
@@ -232,9 +230,8 @@
       font-style: italic;
     }
 
-    // Особенный стиль для цены
     &.highlightCard {
-      background: #1a3354; // Темно-синий из вашей палитры
+      background: #1a3354; 
       border-color: #1a3354;
 
       .labelCap {
@@ -243,7 +240,7 @@
       .priceValue {
         font-size: 32px;
         font-weight: 900;
-        color: #f59e0b; // Золотисто-оранжевый
+        color: #f59e0b; 
       }
     }
   }
@@ -347,7 +344,6 @@
   }
 }
 
-/* Контейнер картки */
 .infoCardWrapper {
   background: #ffffff;
   border-radius: 24px;
@@ -358,7 +354,6 @@
   margin-bottom: 24px;
 }
 
-/* Шапка картки з іконкою */
 .infoCardHeader {
   display: flex;
   align-items: center;
@@ -366,9 +361,8 @@
   margin-bottom: 24px;
 }
 
-/* Квадрат під іконку */
 .iconBox {
-  background-color: #e8f7ee; /* М'який зелений фон */
+  background-color: #e8f7ee; 
   width: 48px;
   height: 48px;
   border-radius: 12px;
@@ -378,7 +372,7 @@
 }
 
 .icon {
-  color: #2d6a4f; /* Колір іконки */
+  color: #2d6a4f; 
 }
 
 .infoCardTitle {
@@ -388,7 +382,6 @@
   margin: 0;
 }
 
-/* Текст та кнопка */
 .infoCardText {
   font-size: 16px;
   line-height: 1.6;
@@ -398,7 +391,7 @@
 
 .consultBtn {
   width: 100%;
-  background-color: #f1a944; /* Ваш помаранчевий колір */
+  background-color: #f1a944;
   color: white;
   border: none;
   padding: 16px 24px;
@@ -417,10 +410,9 @@
   transform: translateY(-2px);
 }
 
-/* Адаптація під акордеон (сітка) */
 .contentGrid {
   display: grid;
-  grid-template-columns: 350px 1fr; /* Ліва колонка для карток, права для програми */
+  grid-template-columns: 350px 1fr; 
   gap: 32px;
   align-items: start;
 }
@@ -430,7 +422,3 @@
     grid-template-columns: 1fr;
   }
 }
-
-// .caruselGallerySection {
-//   background-color: #d8c9ff;
-// }

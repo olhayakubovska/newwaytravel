@@ -1,5 +1,4 @@
 import React from 'react'
-import { Star, Calendar, Clock, MapPin, Users, Plane } from 'lucide-react'
 import { motion } from 'framer-motion'
 import styles from './HeroSectionTour.module.css'
 import { Tour } from '@/payload-types'
@@ -38,16 +37,6 @@ export default function HeroSectionTour({
         <div className={styles.overlay} />
       </div>
 
-      {/* Animated Plane */}
-      {/* <motion.div
-        className={styles.animatedPlane}
-        animate={{ x: [0, 100, 0], y: [0, -20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <Plane className={styles.planeIcon} />
-      </motion.div> */}
-
-      {/* Content */}
       <div className={styles.content}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -55,7 +44,6 @@ export default function HeroSectionTour({
           transition={{ duration: 0.8 }}
           className={styles.motionDiv}
         >
-      
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -79,8 +67,6 @@ export default function HeroSectionTour({
           </motion.div>
         </motion.div>
       </div>
-
-
     </section>
   )
 }

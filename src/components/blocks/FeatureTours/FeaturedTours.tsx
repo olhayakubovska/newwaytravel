@@ -33,7 +33,6 @@ export function FeaturedTours({
   const [openDatesId, setOpenDatesId] = useState<string | null>(null)
   const [selectedDate, setSelectedDate] = useState<{ [key: string]: string }>({})
 
-  // Функция для безопасного извлечения строки из локализованного объекта
   const t = (field: any): string => {
     if (!field) return ''
     if (typeof field === 'string') return field
@@ -50,32 +49,14 @@ export function FeaturedTours({
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        {/* Хедер секції */}
-        {/* <div className={styles.header}>
+        <div className={styles.header}>
           <div className={styles.titleWrapper}>
             <h2 className={styles.title}>{t(title)}</h2>
             <div className={styles.titleUnderline} />
           </div>
+
           <Link href={`/${locale}/tours`} className={styles.allToursLink}>
             <span>{t(allToursLabel)}</span>
-            <div className={styles.iconCircle}>
-              <ArrowRight size={24} />
-            </div>
-          </Link>
-        </div> */}
-        <div className={styles.header}>
-          {/* Пустий блок для балансу сітки зліва (grid-column: 1) */}
-          <div />
-
-          {/* Заголовок по центру (grid-column: 2) */}
-          <div className={styles.titleWrapper}>
-            <h2 className={styles.title}>{t(title)}</h2>
-            <div className={styles.titleUnderline} />
-          </div>
-
-          {/* Кругла кнопка справа (grid-column: 3) */}
-          <Link href={`/${locale}/tours`} className={styles.allToursLink}>
-            <span>{t(allToursLabel)}</span> {/* Текст сховається через CSS */}
             <div className={styles.iconCircle}>
               <ArrowRight size={28} />
             </div>
@@ -102,7 +83,6 @@ export function FeaturedTours({
             return (
               <SwiperSlide key={tour.id}>
                 <motion.div className={styles.card}>
-                  {/* Верхня частина: Картинка + Опис при ховері */}
                   <Link href={`/${locale}/tours/${tour.slug}`} className={styles.imageLink}>
                     <div className={styles.imageWrapper}>
                       <img
@@ -112,14 +92,12 @@ export function FeaturedTours({
                       />
                       <div className={styles.category}>{t(tour.category)}</div>
 
-                      {/* Оверлей з описом, який з'являється при hover */}
                       <div className={styles.descriptionOverlay}>
                         <p className={styles.shortDescHover}>{t(tour.shortDescription)}</p>
                       </div>
                     </div>
                   </Link>
 
-                  {/* Контент під картинкою */}
                   <div className={styles.content}>
                     <h3 className={styles.cardTitle}>{t(tour.name)}</h3>
 
@@ -139,7 +117,6 @@ export function FeaturedTours({
                         <span>{t(tour.groupSize)}</span>
                       </div>
 
-                      {/* Селектор дат */}
                       <div className={styles.infoItem}>
                         <Calendar size={16} />
                         <div className={styles.datesWrapper}>

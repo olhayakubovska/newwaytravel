@@ -1,9 +1,6 @@
-
-
 .container {
   position: relative;
   padding: 2rem;
-  /* border-radius: 1.5rem; */
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -18,7 +15,7 @@
 .title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #3B3D83;
+  color: #3b3d83;
   margin: 0;
 }
 
@@ -50,11 +47,11 @@
 }
 
 .prevButton {
-  background-color: #3B3D83;
+  background-color: #3b3d83;
 }
 
 .nextButton {
-  background-color: #FFAB1E;
+  background-color: #ffab1e;
 }
 
 .cardsLayout {
@@ -120,7 +117,6 @@
   transition: all 0.3s ease;
 }
 
-/* Fullscreen Overlay */
 .fullscreenOverlay {
   position: fixed;
   inset: 0;
@@ -155,11 +151,15 @@
   color: white;
   border: none;
   cursor: pointer;
-  background-color: #FFAB1E;
+  background-color: #ffab1e;
 }
 
-.fullscreenNavLeft { left: 1.5rem; }
-.fullscreenNavRight { right: 1.5rem; }
+.fullscreenNavLeft {
+  left: 1.5rem;
+}
+.fullscreenNavRight {
+  right: 1.5rem;
+}
 
 .fullscreenImage {
   max-width: 90vw;

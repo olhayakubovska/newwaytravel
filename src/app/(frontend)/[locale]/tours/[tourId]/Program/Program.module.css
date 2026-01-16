@@ -1,68 +1,76 @@
+.programSection {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 80px 0;
+}
 
 .programLayoutInner {
   display: flex;
-  gap: 48px;
-    max-width: 1200px;
-  padding: 20px;
-  margin: 100px auto;
+  gap: 64px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+  align-items: flex-start;
 }
 
-@media (max-width: 1100px) {
-  .programLayoutInner {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 48px;
 }
+
+
+.mainTitle {
+  font-family: 'Montserrat', sans-serif;
+
+  color: #000000;
+  margin: 0;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3b3d83;
+  margin: 0;
+}
+
 
 .stickyWrapper {
   position: sticky;
-  top: 100px;
+  top: 120px;
   z-index: 10;
-}
-
-@media (max-width: 1100px) {
-  .stickyWrapper {
-    position: static;
-    display: flex;
-    justify-content: center;
-  }
+  flex-shrink: 0;
 }
 
 .consultCard {
-  width: 100%;
+  width: 320px;
   background: #ffffff;
   border-radius: 28px;
-  padding: 36px;
+  padding: 32px;
   border: 1px solid #e6edf3;
-  box-shadow: 0 15px 35px rgba(26, 51, 84, 0.06);
-  max-width: 300px;
-}
-
-@media (max-width: 1100px) {
-  .consultCard {
-    max-width: 420px;
-  }
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.05);
 }
 
 .consultHeader h3 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
-  color: #1a3354;
+  color: #1e293b;
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .consultContent {
-  color: #475569;
+  color: #64748b;
   line-height: 1.6;
   font-size: 15px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .orangeBtn {
   width: 100%;
-  background: #ffab1e;
+  background: #f97316;
   color: #fff;
   border: none;
   padding: 18px;
@@ -74,21 +82,17 @@
 }
 
 .orangeBtn:hover {
-  background: #e59a0f;
+  background: #ea580c;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 171, 30, 0.3);
+  box-shadow: 0 10px 20px rgba(249, 115, 22, 0.2);
 }
 
-/* Правая колонка */
+/* --- ПРАВА КОЛОНКА (Itinerary) --- */
 .itineraryColumn {
-  display: flex;
-  justify-content: center;
+  flex-grow: 1;
 }
 
-/* Акордеон */
 .accordionContainer {
-  width: 100%;
-  max-width: 760px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -103,25 +107,26 @@
 }
 
 .accordionItem:hover {
-  border-color: #ffab1e;
+  border-color: #f97316;
 }
 
 .accordionTrigger {
   padding: 24px;
   width: 100%;
+  text-decoration: none !important;
 }
 
-/* Заголовок дня */
 .dayHeader {
   display: flex;
   align-items: center;
   gap: 20px;
+  text-align: left;
 }
 
 .dayNumberCircle {
   width: 52px;
   height: 52px;
-  background: rgba(59, 61, 131, 0.07);
+  background: rgba(249, 115, 22, 0.1);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -132,24 +137,19 @@
 .dayNumberText {
   font-size: 20px;
   font-weight: 800;
-  color: #3b3d83;
-}
-
-.dayTextContainer {
-  display: flex;
-  flex-direction: column;
+  color: #f97316;
 }
 
 .dayTitle {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
-  color: #1a3354;
+  color: #1e293b;
   margin: 0 0 4px 0;
 }
 
 .dayLocation {
   font-size: 14px;
-  color: #64748b;
+  color: #94a3b8;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -159,37 +159,30 @@
 .locationIcon {
   width: 14px;
   height: 14px;
-  color: #ffab1e;
+  color: #f97316;
 }
 
-/* Контент акордеона */
 .contentWrapper {
-  padding: 0 24px 24px 92px;
-}
-
-@media (max-width: 640px) {
-  .contentWrapper {
-    padding: 0 20px 20px 20px;
-  }
+  padding: 0 24px 24px 96px;
 }
 
 .description {
   color: #475569;
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
-/* Галерея */
+/* --- ГАЛЕРЕЯ --- */
 .dayImagesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 12px;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .imageThumbWrapper {
   position: relative;
-  height: 100px;
+  aspect-ratio: 1/1;
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
@@ -199,13 +192,13 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.5s ease;
 }
 
 .imageHover {
   position: absolute;
   inset: 0;
-  background: rgba(59, 61, 131, 0.4);
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -216,22 +209,61 @@
 .imageThumbWrapper:hover .imageHover {
   opacity: 1;
 }
-
 .imageThumbWrapper:hover .daySmallImage {
   transform: scale(1.1);
 }
 
-/* Модалка */
+/* --- АДАПТИВНІСТЬ --- */
+@media (max-width: 1100px) {
+  .programLayoutInner {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .stickyWrapper {
+    position: static;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .consultCard {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .titleWrapper {
+    align-items: center;
+    text-align: center;
+  }
+
+  .contentWrapper {
+    padding: 0 20px 24px 20px;
+  }
+}
+
+/* --- МОДАЛКА СБОКУ--- */
 .imageModal {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  max-width: 90vw;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modalOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
 }
 
 .fullImage {
-  width: 100%;
+  position: relative;
+  z-index: 1001;
+  max-width: 90vw;
   max-height: 85vh;
   object-fit: contain;
-  border-radius: 16px;
+  border-radius: 12px;
 }

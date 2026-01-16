@@ -17,7 +17,6 @@ export default function MapAndLeaderSection({ tour, locale }: { tour: any; local
 
   const leader = tour?.leader
 
-  // Динамічні заголовки
   const labels = {
     mapTitle:
       t(tour.uiLabels?.mapSectionTitle) || (locale === 'en' ? 'Travel Route' : 'Маршрут подорожі'),
@@ -85,12 +84,10 @@ export default function MapAndLeaderSection({ tour, locale }: { tour: any; local
                 <h3 className={styles.leaderName}>{t(leader?.name)}</h3>
 
                 <div className={styles.badge}>
-                  {/* <Award className={styles.icon} style={{ width: '1rem', height: '1rem' }} /> */}
                   <p className={styles.roleText}>{t(leader?.role)}</p>
                 </div>
 
                 <div className={styles.bio}>
-                  {/* Використання RichText для біографії з адмінки */}
                   <RichText content={t(leader?.bio)} />
                 </div>
               </div>

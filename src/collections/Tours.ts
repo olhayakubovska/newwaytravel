@@ -283,23 +283,13 @@ export const Tours: CollectionConfig = {
           label: 'Програма та Карта',
           fields: [
             {
-              name: 'mapType',
-              type: 'select',
-              label: 'Тип карти',
-              defaultValue: 'iframe',
-              options: [
-                { label: 'Google Maps Iframe', value: 'iframe' },
-                { label: 'Посилання', value: 'link' },
-              ],
+              name: 'programTitle',
+              type: 'text',
+              localized: true,
+              label: 'Заголовок секції програми',
+              defaultValue: 'Програма',
             },
-            {
-              name: 'mapIframe',
-              type: 'textarea',
-              label: 'Код Iframe',
-              admin: {
-                condition: (data, siblingData) => siblingData.mapType === 'iframe',
-              },
-            },
+
             {
               name: 'itinerary',
               type: 'array',
@@ -319,6 +309,24 @@ export const Tours: CollectionConfig = {
         {
           label: 'Турлідер',
           fields: [
+            {
+              name: 'mapType',
+              type: 'select',
+              label: 'Тип карти',
+              defaultValue: 'iframe',
+              options: [
+                { label: 'Google Maps Iframe', value: 'iframe' },
+                { label: 'Посилання', value: 'link' },
+              ],
+            },
+            {
+              name: 'mapIframe',
+              type: 'textarea',
+              label: 'Код Iframe',
+              admin: {
+                condition: (data, siblingData) => siblingData.mapType === 'iframe',
+              },
+            },
             {
               name: 'leaderTitle',
               type: 'text',

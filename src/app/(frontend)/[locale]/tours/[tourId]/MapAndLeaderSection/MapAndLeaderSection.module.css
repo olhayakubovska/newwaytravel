@@ -1,7 +1,4 @@
-/* .section {
-  padding: 3rem 0;
-  background-color: #ffffff;
-} */
+
 
 @media (min-width: 768px) {
   .section {
@@ -62,7 +59,6 @@
 
 .leaderCard {
   border-radius: 1.5rem;
-  /* padding: 2rem; */
   color: #080808;
   shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
@@ -100,7 +96,6 @@
   gap: 0.5rem;
   margin-bottom: 1rem;
   padding: 0.5rem 1rem;
-  /* background-color: rgba(255, 171, 30, 0.2); */
   border-radius: 9999px;
 }
 
@@ -119,7 +114,7 @@
 
 
 .section {
-  max-width: 1152px; /* 6xl */
+  max-width: 1152px;
   margin: 0 auto;
   padding: 4rem 1rem;
 }
@@ -161,9 +156,9 @@
 }
 
 .leaderPhoto {
-  width: 192px; /* 48 */
+  width: 192px; 
   height: 192px;
-  border-radius: 1.5rem; /* rounded-2xl */
+  border-radius: 1.5rem;
   object-fit: cover;
   margin: 0 auto 1rem;
   box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);

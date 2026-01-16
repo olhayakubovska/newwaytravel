@@ -434,8 +434,7 @@ export interface Tour {
       [k: string]: unknown;
     } | null;
   };
-  mapType?: ('iframe' | 'link') | null;
-  mapIframe?: string | null;
+  programTitle?: string | null;
   itinerary?:
     | {
         dayTitle?: string | null;
@@ -463,6 +462,8 @@ export interface Tour {
         id?: string | null;
       }[]
     | null;
+  mapType?: ('iframe' | 'link') | null;
+  mapIframe?: string | null;
   leaderTitle?: string | null;
   leader?: {
     name?: string | null;
@@ -855,8 +856,7 @@ export interface ToursSelect<T extends boolean = true> {
         title?: T;
         bookingConditions?: T;
       };
-  mapType?: T;
-  mapIframe?: T;
+  programTitle?: T;
   itinerary?:
     | T
     | {
@@ -870,6 +870,8 @@ export interface ToursSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  mapType?: T;
+  mapIframe?: T;
   leaderTitle?: T;
   leader?:
     | T

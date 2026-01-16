@@ -223,7 +223,6 @@ $shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   svg {
     position: relative;
     z-index: 2;
-    // Оптический сдвиг: самолетик в Telegram чуть смещен вправо-вверх
     transform: translate(-1px, 0px);
   }
 
@@ -236,7 +235,7 @@ $shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     z-index: 1;
   }
 
-  &:hover {
-    background-color: darken(#24a1de, 5%);
-  }
+  // &:hover {
+  //   background-color: darken(#24a1de, 5%);
+  // }
 }
