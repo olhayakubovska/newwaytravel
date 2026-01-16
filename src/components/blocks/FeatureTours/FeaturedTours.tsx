@@ -47,12 +47,11 @@ export function FeaturedTours({
     if (!image || typeof image === 'string') return '/placeholder-tour.jpg'
     return image.url || '/placeholder-tour.jpg'
   }
-
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        {/* Хедер секции */}
-        <div className={styles.header}>
+        {/* Хедер секції */}
+        {/* <div className={styles.header}>
           <div className={styles.titleWrapper}>
             <h2 className={styles.title}>{t(title)}</h2>
             <div className={styles.titleUnderline} />
@@ -63,8 +62,25 @@ export function FeaturedTours({
               <ArrowRight size={24} />
             </div>
           </Link>
-        </div>
+        </div> */}
+        <div className={styles.header}>
+          {/* Пустий блок для балансу сітки зліва (grid-column: 1) */}
+          <div />
 
+          {/* Заголовок по центру (grid-column: 2) */}
+          <div className={styles.titleWrapper}>
+            <h2 className={styles.title}>{t(title)}</h2>
+            <div className={styles.titleUnderline} />
+          </div>
+
+          {/* Кругла кнопка справа (grid-column: 3) */}
+          <Link href={`/${locale}/tours`} className={styles.allToursLink}>
+            <span>{t(allToursLabel)}</span> {/* Текст сховається через CSS */}
+            <div className={styles.iconCircle}>
+              <ArrowRight size={28} />
+            </div>
+          </Link>
+        </div>
         <Swiper
           modules={[Pagination]}
           spaceBetween={24}
@@ -86,7 +102,7 @@ export function FeaturedTours({
             return (
               <SwiperSlide key={tour.id}>
                 <motion.div className={styles.card}>
-                  {/* Картинка */}
+                  {/* Верхня частина: Картинка + Опис при ховері */}
                   <Link href={`/${locale}/tours/${tour.slug}`} className={styles.imageLink}>
                     <div className={styles.imageWrapper}>
                       <img
@@ -94,30 +110,30 @@ export function FeaturedTours({
                         alt={t(tour.name)}
                         className={styles.image}
                       />
-                      <div className={styles.titleOverlay}>
-                        <h3 className={styles.cardTitle}>{t(tour.name)}</h3>
+                      <div className={styles.category}>{t(tour.category)}</div>
+
+                      {/* Оверлей з описом, який з'являється при hover */}
+                      <div className={styles.descriptionOverlay}>
+                        <p className={styles.shortDescHover}>{t(tour.shortDescription)}</p>
                       </div>
                     </div>
                   </Link>
 
+                  {/* Контент під картинкою */}
                   <div className={styles.content}>
-                    <div className={styles.category}>{t(tour.category)}</div>
-                    <div className={styles.subtitle}>{t(tour.subtitle)}</div>
-                    <p className={styles.shortDesc}>{t(tour.shortDescription)}</p>
+                    <h3 className={styles.cardTitle}>{t(tour.name)}</h3>
 
                     <div className={styles.infoGrid}>
                       <div className={styles.infoItem}>
                         <MapPin size={16} />
                         <span>{t(tour.location)}</span>
                       </div>
-
                       <div className={styles.infoItem}>
                         <Clock size={16} />
                         <span>
                           {t((tour as any).duration) || '—'} {locale === 'en' ? 'days' : 'дн.'}
                         </span>
                       </div>
-
                       <div className={styles.infoItem}>
                         <Users size={16} />
                         <span>{t(tour.groupSize)}</span>
@@ -146,7 +162,6 @@ export function FeaturedTours({
                               className={isDropdownOpen ? styles.rotate : ''}
                             />
                           </button>
-
                           <AnimatePresence>
                             {isDropdownOpen && (
                               <motion.div
@@ -177,13 +192,11 @@ export function FeaturedTours({
                       </div>
                     </div>
 
-                    <div className={styles.footer}>
-                      <div className={styles.priceSection}>
-                        <span className={styles.priceValue}>{tour.price}€</span>
-                        <Link href={`/${locale}/tours/${tour.slug}`} className={styles.detailsBtn}>
-                          {t(detailsLabel) || (locale === 'en' ? 'Details' : 'Деталі')}
-                        </Link>
-                      </div>
+                    <div className={styles.priceSection}>
+                      <span className={styles.priceValue}>{tour.price}€</span>
+                      <Link href={`/${locale}/tours/${tour.slug}`} className={styles.detailsBtn}>
+                        {t(detailsLabel) || (locale === 'en' ? 'Details' : 'Деталі')}
+                      </Link>
                     </div>
                   </div>
                 </motion.div>

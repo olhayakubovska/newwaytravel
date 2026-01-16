@@ -149,7 +149,7 @@ function AllToursContent({ initialTours, searchBarData }: AllToursProps) {
                 image={imageUrl}
                 title={t(tour.name)}
                 destination={t(tour.location)}
-                duration={tour.duration || ''}
+                duration={`${tour.duration}`}
                 groupSize={t(tour.groupSize)}
                 price={`${tour.price}€`}
                 alt={t(tour.name)}

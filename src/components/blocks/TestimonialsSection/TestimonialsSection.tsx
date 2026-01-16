@@ -13,15 +13,7 @@ interface TestimonialItem {
   text: string
 }
 
-export function TestimonialsSection({
-  title,
-  subtitle,
-  items,
-}: {
-  title: string
-  subtitle?: string
-  items: TestimonialItem[]
-}) {
+export function TestimonialsSection({ title, items }: { title: string; items: TestimonialItem[] }) {
   const [currentIndex, setCurrentIndex] = React.useState(0)
   const totalItems = items?.length || 0
 
@@ -46,8 +38,10 @@ export function TestimonialsSection({
           transition={{ duration: 0.6 }}
           className={styles.header}
         >
-          <h2>{title}</h2>
-          {subtitle && <p>{subtitle}</p>}
+          <div className={styles.titleWrapper}>
+            <h2 className={styles.title}>{title}</h2>
+            <div className={styles.titleUnderline} />
+          </div>
         </motion.div>
 
         <div className={styles.sliderWrapper}>

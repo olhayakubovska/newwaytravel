@@ -1,113 +1,131 @@
-/* CarouselGallery.module.css */
 
-.carouselContainer {
+
+.container {
   position: relative;
-  border-radius: 1.5rem;
-  overflow: hidden;
-  background-color: #0f172a;
+  padding: 2rem;
+  /* border-radius: 1.5rem; */
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.mainImageContainer {
-  position: relative;
-  height: 500px;
-  overflow: hidden;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
 }
 
-.mainImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  cursor: pointer;
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3B3D83;
+  margin: 0;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .navButton {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   width: 3rem;
   height: 3rem;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
-  transition: background-color 0.2s ease;
   border: none;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .navButton:hover {
-  background-color: rgba(255, 255, 255, 0.4);
-}
-
-.navButton:first-of-type {
-  left: 1rem;
-}
-
-.navButton:last-of-type {
-  right: 1rem;
-}
-
-.navIcon {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.counter {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  color: white;
-  font-size: 0.875rem;
-}
-
-.thumbnailsContainer {
-  display: flex;
-  gap: 0.5rem;
-  padding: 1rem;
-  overflow-x: auto;
-}
-
-.thumbnail {
-  flex-shrink: 0;
-  width: 5rem;
-  height: 5rem;
-  border-radius: 0.75rem;
-  overflow: hidden;
-  transition: all 0.2s ease;
-  border: none;
-  background: none;
-  cursor: pointer;
-}
-
-.activeThumbnail {
-  box-shadow: 0 0 0 2px #fbbf24;
   transform: scale(1.05);
 }
 
-.inactiveThumbnail {
-  opacity: 0.6;
+.prevButton {
+  background-color: #3B3D83;
 }
 
-.inactiveThumbnail:hover {
-  opacity: 1;
+.nextButton {
+  background-color: #FFAB1E;
 }
 
-.thumbnailImage {
+.cardsLayout {
+  position: relative;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card {
+  position: absolute;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.cardImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem;
+}
+
+.overlayText {
+  color: white;
+}
+
+.overlayText p:first-child {
+  font-size: 0.875rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.overlayText p:last-child {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.dotsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.dot {
+  height: 0.5rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Fullscreen Overlay */
 .fullscreenOverlay {
   position: fixed;
   inset: 0;
   background-color: black;
-  z-index: 50;
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,50 +136,34 @@
   top: 1.5rem;
   right: 1.5rem;
   color: white;
-  z-index: 10;
   background: none;
   border: none;
   cursor: pointer;
+  z-index: 10;
 }
 
-.closeIcon {
-  width: 2rem;
-  height: 2rem;
-}
-
-.fullscreenNavButton {
+.fullscreenNav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   width: 3.5rem;
   height: 3.5rem;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
-  transition: background-color 0.2s ease;
   border: none;
   cursor: pointer;
+  background-color: #FFAB1E;
 }
 
-.fullscreenNavButton:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.fullscreenNavButtonLeft {
-  left: 1rem;
-}
-
-.fullscreenNavButtonRight {
-  right: 1rem;
-}
-
-.fullscreenNavIcon {
-  width: 2rem;
-  height: 2rem;
-}
+.fullscreenNavLeft { left: 1.5rem; }
+.fullscreenNavRight { right: 1.5rem; }
 
 .fullscreenImage {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 1rem;
   object-fit: contain;
 }

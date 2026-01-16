@@ -1,0 +1,237 @@
+
+.programLayoutInner {
+  display: flex;
+  gap: 48px;
+    max-width: 1200px;
+  padding: 20px;
+  margin: 100px auto;
+}
+
+@media (max-width: 1100px) {
+  .programLayoutInner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.stickyWrapper {
+  position: sticky;
+  top: 100px;
+  z-index: 10;
+}
+
+@media (max-width: 1100px) {
+  .stickyWrapper {
+    position: static;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.consultCard {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 36px;
+  border: 1px solid #e6edf3;
+  box-shadow: 0 15px 35px rgba(26, 51, 84, 0.06);
+  max-width: 300px;
+}
+
+@media (max-width: 1100px) {
+  .consultCard {
+    max-width: 420px;
+  }
+}
+
+.consultHeader h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a3354;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.consultContent {
+  color: #475569;
+  line-height: 1.6;
+  font-size: 15px;
+  margin-bottom: 28px;
+}
+
+.orangeBtn {
+  width: 100%;
+  background: #ffab1e;
+  color: #fff;
+  border: none;
+  padding: 18px;
+  border-radius: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.orangeBtn:hover {
+  background: #e59a0f;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 171, 30, 0.3);
+}
+
+/* Правая колонка */
+.itineraryColumn {
+  display: flex;
+  justify-content: center;
+}
+
+/* Акордеон */
+.accordionContainer {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.accordionItem {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.accordionItem:hover {
+  border-color: #ffab1e;
+}
+
+.accordionTrigger {
+  padding: 24px;
+  width: 100%;
+}
+
+/* Заголовок дня */
+.dayHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.dayNumberCircle {
+  width: 52px;
+  height: 52px;
+  background: rgba(59, 61, 131, 0.07);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dayNumberText {
+  font-size: 20px;
+  font-weight: 800;
+  color: #3b3d83;
+}
+
+.dayTextContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.dayTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a3354;
+  margin: 0 0 4px 0;
+}
+
+.dayLocation {
+  font-size: 14px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.locationIcon {
+  width: 14px;
+  height: 14px;
+  color: #ffab1e;
+}
+
+/* Контент акордеона */
+.contentWrapper {
+  padding: 0 24px 24px 92px;
+}
+
+@media (max-width: 640px) {
+  .contentWrapper {
+    padding: 0 20px 20px 20px;
+  }
+}
+
+.description {
+  color: #475569;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* Галерея */
+.dayImagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.imageThumbWrapper {
+  position: relative;
+  height: 100px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.daySmallImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.imageHover {
+  position: absolute;
+  inset: 0;
+  background: rgba(59, 61, 131, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.imageThumbWrapper:hover .imageHover {
+  opacity: 1;
+}
+
+.imageThumbWrapper:hover .daySmallImage {
+  transform: scale(1.1);
+}
+
+/* Модалка */
+.imageModal {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  max-width: 90vw;
+}
+
+.fullImage {
+  width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 16px;
+}

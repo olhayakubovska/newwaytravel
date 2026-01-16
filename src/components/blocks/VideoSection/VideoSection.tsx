@@ -50,7 +50,10 @@ export function VideoSection({ title, videos }: { title?: any; videos?: any[] })
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        {title && <h2 className={styles.mainTitle}>{t(title)}</h2>}
+        <div className={styles.titleWrapper}>
+          {title && <h2 className={styles.mainTitle}>{t(title)}</h2>}
+          <div className={styles.titleUnderline} />
+        </div>
 
         <div className={styles.swiperContainer}>
           <button className={`${styles.navBtn} ${styles.prevBtn}`}>

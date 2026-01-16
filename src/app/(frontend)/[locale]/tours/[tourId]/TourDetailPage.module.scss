@@ -1,103 +1,4 @@
-// /* =====================================================
-//    BASE
-// ===================================================== */
-// .wrapper {
-//   background: #eef3f7;
-//   color: #1a3354;
-//   font-family: 'Inter', sans-serif;
-//   padding-bottom: 120px;
-// }
 
-// .section {
-//   max-width: 1400px;
-//   margin: 80px auto 0;
-//   padding: 0 20px;
-// }
-
-// .detailsGridSection {
-//   max-width: 1450px;
-//   margin: 60px auto 0;
-//   display: flex;
-//   justify-content: center;
-// }
-
-// /* =====================================================
-//    TITLES
-// ===================================================== */
-// .sectionTitle {
-//   font-size: 36px;
-//   font-weight: 900;
-//   text-transform: uppercase;
-//   margin-bottom: 40px;
-// }
-
-// .sectionTitleSmall {
-//   font-size: 22px;
-//   font-weight: 800;
-//   text-transform: uppercase;
-//   margin-bottom: 24px;
-// }
-
-// /* =====================================================
-//    HERO & BUTTONS
-// ===================================================== */
-// .hero { position: relative; }
-// .heroActions {
-//   position: absolute;
-//   right: 80px;
-//   bottom: 60px;
-//   display: flex;
-//   gap: 16px;
-//   z-index: 10;
-// }
-
-// .primaryBtn, .secondaryBtn, .orangeBtn {
-//   padding: 18px 36px;
-//   border-radius: 14px;
-//   font-size: 14px;
-//   font-weight: 800;
-//   text-transform: uppercase;
-//   border: none;
-//   cursor: pointer;
-//   transition: all 0.25s ease;
-// }
-
-// .primaryBtn { background: #1a3354; color: #fff; }
-// .secondaryBtn { background: #fff; color: #1a3354; border: 1.5px solid #e2e8f0; }
-// .orangeBtn { background: #f59e0b; color: #fff; width: 100%; }
-
-// /* =====================================================
-//    GRID SYSTEM
-// ==================================================== */
-// // .topInfoGrid {
-// //   display: flex;
-// //   flex-wrap: wrap;
-// //   gap: 24px;
-// //   width: 100%;
-// //   align-items: stretch;
-// // }
-
-// // .columnLeft {
-// //   flex: 0 0 320px;
-// //   display: flex;
-// //   flex-direction: column;
-// //   gap: 16px;
-// // }
-
-// // .columnCenter {
-// //   flex: 2 1 fit-content;
-// //   display: flex;
-// // }
-
-// // .columnRight {
-// //   flex: 1 1 fit-content;
-// //   display: flex;
-// //   // height: auto;
-// // }
-
-// // /* =====================================================
-// //    WHITE CARDS (Левая панель)
-// // ===================================================== */
 .whiteCard {
   background: #ffffff;
   border-radius: 20px;
@@ -145,7 +46,7 @@
 .topInfoGrid {
   display: grid;
   // Сетка: левая колонка фиксированная/узкая, остальные делят место
-  grid-template-columns: 320px 1fr 1fr; 
+  grid-template-columns: 320px 1fr 1fr;
   gap: 24px;
   align-items: stretch;
 
@@ -158,118 +59,6 @@
   }
 }
 
-// // --- ЛЕВАЯ КОЛОНКА С КАРТОЧКАМИ ---
-// .columnLeft {
-//   display: flex;
-//   flex-direction: column;
-//   gap: 16px;
-
-//   .whiteCard {
-//     background: #fff;
-//     padding: 20px;
-//     border-radius: 16px;
-//     border: 1px solid #eee;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     transition: transform 0.2s ease;
-
-//     &:hover {
-//       transform: translateY(-2px);
-//     }
-
-//     .labelCap {
-//       font-size: 11px;
-//       font-weight: 700;
-//       color: #999;
-//       text-transform: uppercase;
-//       letter-spacing: 0.05em;
-//       margin-bottom: 6px;
-//     }
-
-//     .valueLarge {
-//       font-size: 18px;
-//       font-weight: 600;
-//       color: #1a1a1a;
-//     }
-
-//     .smallNote {
-//       font-size: 12px;
-//       color: #777;
-//       margin: 4px 0 0;
-//       line-height: 1.4;
-//     }
-//   }
-
-//   // Стили для карточки с ценой
-//   .highlightCard {
-//     background: #2a52be; // Основной синий
-//     border-color: #2a52be;
-//     color: #fff;
-
-//     .labelCap {
-//       color: rgba(255, 255, 255, 0.7);
-//     }
-
-//     .priceValue {
-//       font-size: 28px;
-//       font-weight: 800;
-//       color: #fff;
-//     }
-//   }
-// }
-
-// // --- ЦЕНТРАЛЬНАЯ И ПРАВАЯ КОЛОНКИ (СПИСКИ) ---
-// .columnCenter, .columnRight {
-//   display: flex;
-//   flex-direction: column;
-//   height: 100%;
-
-//   // Внутренний компонент AdditionalInfoCard должен занимать всю высоту
-//   & > div {
-//     height: 100%;
-//     background: #fff;
-//     border-radius: 16px;
-//     border: 1px solid #eee;
-//     padding: 24px;
-    
-//     // Если внутри AdditionalInfoCard есть заголовок
-//     h4, .cardTitle {
-//       font-size: 16px;
-//       font-weight: 700;
-//       margin-bottom: 16px;
-//       text-transform: uppercase;
-//       color: #1a1a1a;
-//     }
-
-//     // Стили для списков внутри контента (RichText)
-//     ul {
-//       padding-left: 18px;
-//       margin: 0;
-      
-//       li {
-//         margin-bottom: 10px;
-//         color: #444;
-//         line-height: 1.5;
-//         font-size: 15px;
-
-//         &::marker {
-//           color: #2a52be; // Цвет буллитов
-//         }
-//       }
-//     }
-//   }
-// }
-
-// // Убираем дублирование или настраиваем вторую правую колонку, если она нужна
-// .columnRight + .columnRight {
-//   @media (max-width: 1100px) {
-//     grid-column: span 2; // На планшете растягиваем на всю ширину
-//   }
-//   @media (max-width: 768px) {
-//     grid-column: span 1;
-//   }
-// }
 
 /* =====================================================
    INFO, GALLERY, PROGRAM
@@ -287,13 +76,17 @@
   gap: 12px;
 }
 
-.galleryCard { 
-  height: 420px; 
-  overflow: hidden; 
-  background: #e5edf5; 
+.galleryCard {
+  height: 420px;
+  overflow: hidden;
+  background: #e5edf5;
   border-radius: 20px;
 }
-.galleryCard img { width: 100%; height: 100%; object-fit: cover; }
+.galleryCard img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 .programLayout {
   display: grid;
@@ -301,7 +94,11 @@
   gap: 40px;
 }
 
-.itineraryList { display: flex; flex-direction: column; gap: 16px; }
+.itineraryList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
 .stickyWrapper {
   position: sticky;
@@ -309,7 +106,8 @@
   align-self: start;
 }
 
-.infoCard, .consultCard {
+.infoCard,
+.consultCard {
   background: #fff;
   border-radius: 28px;
   padding: 40px 36px;
@@ -319,19 +117,27 @@
 
 /* RESPONSIVE */
 @media (max-width: 1100px) {
-  .topInfoGrid { flex-direction: column; }
-  .columnLeft { 
-    flex: 1; 
-    width: 100%; 
-    flex-direction: row; 
-    flex-wrap: wrap;
-    .whiteCard { flex: 1; min-width: 200px; }
+  .topInfoGrid {
+    flex-direction: column;
   }
-  .infoGrid, .programLayout { grid-template-columns: 1fr; }
-  .stickyWrapper { position: static; }
+  .columnLeft {
+    flex: 1;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .whiteCard {
+      flex: 1;
+      min-width: 200px;
+    }
+  }
+  .infoGrid,
+  .programLayout {
+    grid-template-columns: 1fr;
+  }
+  .stickyWrapper {
+    position: static;
+  }
 }
-
-
 
 /* =====================================================
    BASE & LAYOUT
@@ -354,26 +160,22 @@
   padding-bottom: 40px;
 }
 
-/* =====================================================
-   GRID SYSTEM (Trip Details)
-===================================================== */
 .topInfoGrid {
   display: grid;
   // Левая колонка фиксированная, центр и право делят остаток
-  grid-template-columns: 320px 1.2fr 1fr; 
+  grid-template-columns: 320px 1.2fr 1fr;
   gap: 24px;
   align-items: stretch;
 
   @media (max-width: 1200px) {
-    grid-template-columns: 1fr 1fr; // Планшет
+    grid-template-columns: 1fr 1fr; 
   }
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr; // Мобильные
+    grid-template-columns: 1fr; 
   }
 }
-ё
-.columnLeft {
+ё .columnLeft {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -434,8 +236,10 @@
     &.highlightCard {
       background: #1a3354; // Темно-синий из вашей палитры
       border-color: #1a3354;
-      
-      .labelCap { color: rgba(255, 255, 255, 0.6); }
+
+      .labelCap {
+        color: rgba(255, 255, 255, 0.6);
+      }
       .priceValue {
         font-size: 32px;
         font-weight: 900;
@@ -444,7 +248,6 @@
     }
   }
 }
-
 
 .infoGrid {
   display: grid;
@@ -471,14 +274,14 @@
   height: 400px;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
-    
+
     &:hover {
       transform: scale(1.05);
     }
@@ -499,7 +302,8 @@
   }
 }
 
-.infoCard, .consultCard {
+.infoCard,
+.consultCard {
   background: #ffffff;
   border-radius: 28px;
   padding: 40px;
@@ -507,10 +311,9 @@
   box-shadow: 0 20px 40px rgba(26, 51, 84, 0.1);
 }
 
-/* =====================================================
-   BUTTONS (Common)
-===================================================== */
-.primaryBtn, .secondaryBtn, .orangeBtn {
+.primaryBtn,
+.secondaryBtn,
+.orangeBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -525,20 +328,24 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.primaryBtn { 
-  background: #1a3354; 
+.primaryBtn {
+  background: #1a3354;
   color: #fff;
-  &:hover { background: #2d4a77; transform: translateY(-2px); }
+  &:hover {
+    background: #2d4a77;
+    transform: translateY(-2px);
+  }
 }
 
-.orangeBtn { 
-  background: #f59e0b; 
+.orangeBtn {
+  background: #f59e0b;
   color: #fff;
   width: 100%;
-  &:hover { background: #d97706; box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3); }
+  &:hover {
+    background: #d97706;
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+  }
 }
-
-
 
 /* Контейнер картки */
 .infoCardWrapper {
@@ -546,7 +353,7 @@
   border-radius: 24px;
   padding: 32px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  border: 1px solid #f0fdf4; /* Світло-зелений відтінок як на скрині */
+  border: 1px solid #f0fdf4;
   height: fit-content;
   margin-bottom: 24px;
 }
@@ -600,7 +407,9 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .consultBtn:hover {
@@ -621,3 +430,7 @@
     grid-template-columns: 1fr;
   }
 }
+
+// .caruselGallerySection {
+//   background-color: #d8c9ff;
+// }

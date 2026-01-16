@@ -9,11 +9,11 @@ export const TestimonialsBlock: Block = {
       label: 'Testimonials',
       defaultValue: 'Відгуки наших туристів',
     },
-    {
-      name: 'subtitle',
-      type: 'text',
-      label: 'Підзаголовок',
-    },
+    // {
+    //   name: 'subtitle',
+    //   type: 'text',
+    //   label: 'Підзаголовок',
+    // },
     {
       name: 'items',
       type: 'array',

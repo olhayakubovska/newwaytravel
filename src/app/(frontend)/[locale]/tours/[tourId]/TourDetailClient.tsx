@@ -16,10 +16,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ItineraryAccordion } from '@/components/blocks/ui/ItineraryAccordion/ItineraryAccordion'
 import { AdditionalInfoCard } from './AdditionalCard/AdditionalInfoCard/AdditionalInfoCard'
 import ElegantBentoCard from './ElegantBentoCard/ElegantBentoCard'
-import Program from './GalleryAndProgram/GalleryAndProgram'
+import Program from './Program/Program'
 import CarouselGallery from './CarouselGallery/CarouselGallery'
 import { MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
+import MapAndLeaderSection from './MapAndLeaderSection/MapAndLeaderSection'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -71,8 +72,8 @@ export default function TourDetailClient({ tour, locale }: Props) {
   const labels = {
     bookBtn: t(tour.uiTexts?.bookBtn) || 'Забронювати',
     consultBtn: t(tour.uiTexts?.consultBtn) || 'Консультація',
-    leaderTitle: t(tour.uiLabels?.leaderTitle) || 'Організатор туру',
-    descriptionTitle: t(tour.descriptionCard?.title),
+    leaderTitle: 'Організатор туру',
+    descriptionTitle: 'Опис туру',
     mapTitle: locale === 'en' ? 'Travel Route' : 'Маршрут подорожі',
   }
 
@@ -97,32 +98,32 @@ export default function TourDetailClient({ tour, locale }: Props) {
 
       <ElegantBentoCard tour={tour} locale={locale} />
 
+      {/* === PROGRAM === */}
+      {/* <section className={styles.section}> */}
+      {/* <div className={styles.programLayout}> */}
+      {/* <div className={styles.stickyWrapper}>
+          <div className={styles.consultCard}>
+            <RichText content={t(tour.tripDetailsCard?.bookingConditions)} />
+            <button className={styles.orangeBtn} onClick={() => setConsultationOpen(true)}>
+              {labels.consultBtn}
+            </button>
+          </div>
+        </div> */}
+
+      <Program tour={tour} locale={locale} />
+      {/* </div>ы */}
+      {/* </section> */}
+
       {/* === INFO + GALLERY === */}
-      <section className={`${styles.section} animate-section`}>
+      {/* <section className={`${styles.section} animate-section`}> */}
+      <section className={styles.caruselGallerySection}>
         <CarouselGallery images={tour.gallery?.map((item) => getImageUrl(item.image))} />
       </section>
-
-      {/* === PROGRAM === */}
-      <section className={`${styles.section} animate-section`}>
-        <h2 className={styles.sectionTitleSmall}>{labels.leaderTitle}</h2>
-
-        <div className={styles.programLayout}>
-          <div className={styles.stickyWrapper}>
-            <div className={styles.consultCard}>
-              <RichText content={t(tour.tripDetailsCard?.bookingConditions)} />
-              <button className={styles.orangeBtn} onClick={() => setConsultationOpen(true)}>
-                {labels.consultBtn}
-              </button>
-            </div>
-          </div>
-
-          <Program tour={tour} locale={locale} />
-        </div>
-      </section>
+      {/* </section> */}
 
       {/* MAP + LEADER */}
-      <section className={`${styles.section} animate-section`}>
-        <div className={styles.infoGrid}>
+      {/* <section className={`${styles.section} animate-section`}> */}
+      {/* <div className={styles.infoGrid}>
           <div>
             <h2 className={styles.sectionTitleSmall}>{labels.mapTitle}</h2>
             <div className={styles.infoCard} style={{ padding: 0 }}>
@@ -154,8 +155,9 @@ export default function TourDetailClient({ tour, locale }: Props) {
               </div>
             </div>
           )}
-        </div>
-      </section>
+        </div> */}
+      <MapAndLeaderSection tour={tour} locale={locale} />
+      {/* </section> */}
 
       {/* MODALS */}
       {bookingOpen && (

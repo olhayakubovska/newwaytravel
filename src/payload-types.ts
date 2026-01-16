@@ -251,7 +251,6 @@ export interface Page {
           }
         | {
             title?: string | null;
-            subtitle?: string | null;
             items?:
               | {
                   name: string;
@@ -334,7 +333,6 @@ export interface Tour {
   };
   location?: string | null;
   category?: string | null;
-  subtitle?: string | null;
   shortDescription?: string | null;
   duration: number;
   tourDates?:
@@ -734,7 +732,6 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               title?: T;
-              subtitle?: T;
               items?:
                 | T
                 | {
@@ -803,7 +800,6 @@ export interface ToursSelect<T extends boolean = true> {
       };
   location?: T;
   category?: T;
-  subtitle?: T;
   shortDescription?: T;
   duration?: T;
   tourDates?:
